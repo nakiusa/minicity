@@ -1,0 +1,6 @@
+MiniCity.xcodeproj/
+simtest
+.DS_Store
+*.png
+scenegen
+sheetgen
