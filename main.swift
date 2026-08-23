@@ -104,6 +104,54 @@ for i in 0..<4 { sprawl.apply(.coalPlant, atX: 50, y: 60 + i * 5) }
 sprawl.census()
 for _ in 1...1200 { sprawl.tick() }
 
+// --- 高層タワーが実際に立つか。同じ区画の並びに、街路のあいだの公園と、
+// --- 住宅・商業ぜんたいに行き渡る警察・消防を足した都市を回す。
+// --- 公害と犯罪を削りきったときだけ L10 に届く、という想定を確かめる。
+let serviced = Simulation(seed: 1, generateTerrain: false)
+serviced.funds = 3_000_000
+for y in 4...78 {
+    serviced.apply(.road, atX: spineX, y: y)
+    serviced.apply(.powerLine, atX: spineX, y: y)
+}
+func servicedDistrict(_ tool: Tool, roadRows: [Int]) {
+    for roadY in roadRows {
+        for x in left...roadRight { serviced.apply(.road, atX: x, y: roadY) }
+        var cx = left + 2
+        while cx + 1 <= zoneRight {
+            serviced.apply(tool, atX: cx, y: roadY - 2)
+            serviced.apply(tool, atX: cx, y: roadY + 2)
+            cx += 3
+        }
+    }
+}
+servicedDistrict(.residential, roadRows: [8, 16, 24, 32])
+servicedDistrict(.commercial, roadRows: [44, 52])
+servicedDistrict(.industrial, roadRows: [64, 72])
+for y in 4...78 { serviced.apply(.powerLine, atX: feederX, y: y) }
+for x in (spineX + 1)...(feederX - 1) { serviced.apply(.powerLine, atX: x, y: 58) }
+for i in 0..<4 { serviced.apply(.coalPlant, atX: 50, y: 60 + i * 5) }
+for y in [12, 20, 28, 36, 40, 48, 56] {
+    for x in left...zoneRight { serviced.apply(.park, atX: x, y: y) }
+}
+for y in stride(from: 6, through: 54, by: 8) { serviced.apply(.police, atX: 50, y: y) }
+for y in stride(from: 10, through: 54, by: 8) { serviced.apply(.fire, atX: 50, y: y) }
+serviced.census()
+for _ in 1...1200 { serviced.tick() }
+
+func servicedHistogram(_ kind: ZoneKind) -> String {
+    var counts = Array(repeating: 0, count: Zone.maxLevel + 1)
+    for z in serviced.map.zones where z.alive && z.kind == kind { counts[Int(z.level)] += 1 }
+    return counts.enumerated().map { "L\($0.offset):\($0.element)" }.joined(separator: " ")
+}
+print("")
+print("== 公園と警察・消防を厚く配置した都市 ==")
+print("人口 \(serviced.residents), 最大地価 \(serviced.landValue.maximum), 最大犯罪 \(serviced.crime.maximum)")
+print("住宅の内訳 \(servicedHistogram(.residential))")
+print("商業の内訳 \(servicedHistogram(.commercial))")
+print("工業の内訳 \(servicedHistogram(.industrial))")
+let topLevel = serviced.map.zones.filter { $0.alive && $0.kind.grows }.map { Int($0.level) }.max() ?? 0
+print("到達した最高レベル: L\(topLevel)\(topLevel >= Zone.maxLevel ? "（最上段）" : "")")
+
 print("")
 print("== 都市計画の比較（同じ年数・同じ区画数） ==")
 print("  分けて建てた都市: 人口 \(sim.residents), 最大公害 \(sim.pollution.maximum), 最大地価 \(sim.landValue.maximum)")
