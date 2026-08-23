@@ -6,6 +6,18 @@ options:
   createIntermediateGroups: true
   generateEmptyDirectories: false
 
+schemes:
+  MiniCity:
+    build:
+      targets:
+        MiniCity: all
+    run:
+      config: Debug
+    profile:
+      config: Release
+    archive:
+      config: Release
+
 targets:
   MiniCity:
     type: application
@@ -16,17 +28,20 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.shuyafukai.minicity
         PRODUCT_NAME: MiniCity
-        MARKETING_VERSION: "0.1"
+        MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: MiniCity
+        # 暗号化を使っていないことを宣言しておく。
+        # 入れておかないと、提出のたびに輸出コンプライアンスを手で答えることになる。
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIStatusBarHidden: YES
         INFOPLIST_KEY_UIRequiresFullScreen: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
         SWIFT_VERSION: "5.0"
         TARGETED_DEVICE_FAMILY: "1,2"
-        CODE_SIGNING_REQUIRED: NO
-        CODE_SIGNING_ALLOWED: NO
-        CODE_SIGN_IDENTITY: ""
+        DEVELOPMENT_TEAM: B54UXU8NGQ
+        CODE_SIGN_STYLE: Automatic
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_USER_SCRIPT_SANDBOXING: NO

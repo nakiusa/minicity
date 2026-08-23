@@ -4,3 +4,6 @@ simtest
 *.png
 scenegen
 sheetgen
+
+# アイコンはコードから生成しているが、ビルドに要るので追跡する。
+!MiniCity/Resources/Assets.xcassets/**/*.png

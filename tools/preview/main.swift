@@ -18,7 +18,9 @@ func writePNG(_ canvas: PixelCanvas, zoom: Int, to path: String) {
         }
     }
     let space = CGColorSpaceCreateDeviceRGB()
-    let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+    // アルファチャンネルを持たせない。App Store はアルファ付きのアイコンを弾くし、
+    // ここで書き出す絵はどれも全面が不透明なので、持たせる意味もない。
+    let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue)
     let provider = CGDataProvider(data: Data(bytes) as CFData)!
     let image = CGImage(width: width, height: height, bitsPerComponent: 8, bitsPerPixel: 32,
                         bytesPerRow: width * 4, space: space, bitmapInfo: info,
@@ -38,6 +40,57 @@ func blit(_ dst: inout PixelCanvas, _ src: PixelCanvas, x: Int, y: Int) {
             if color.a > 0 { dst.set(x + sx, y + sy, color) }
         }
     }
+}
+
+/// アプリアイコン。ゲームと同じ絵を使って、街の一区画を切り取った構図にする。
+/// 128px で組んで8倍に引き伸ばすので、ドットの目がそのまま残る。
+/// アプリアイコン。128px で組んで8倍に引き伸ばすので、ドットの目がそのまま残る。
+///
+/// ゲーム画面は真上から見た土の色をしているが、アイコンでそれをやると
+/// 背景の土が「茶色い空」に見えてしまう。ここだけは地表を捨てて、
+/// 空を背にしたスカイラインにする。建物そのものはゲームと同じ絵をそのまま使う。
+func iconCanvas() -> PixelCanvas {
+    let w = 128, h = 128
+    var c = PixelCanvas(width: w, height: h)
+
+    // 空。上ほど濃く、地平に近づくほど明るくする。
+    let horizon = 96
+    for y in 0..<horizon {
+        let t = Double(y) / Double(horizon)
+        let color = RGBA(Int(30 + 62 * t), Int(52 + 86 * t), Int(104 + 92 * t))
+        c.rect(0, y, w, 1, color)
+    }
+
+    // 地面。舗装を敷いて、その手前に道路を1本通す。
+    c.rect(0, horizon, w, h - horizon, Palette.pavement)
+    // speckle はキャンバス全体に散らすので、ここでは使えない（空に土が降る）。
+    var grit = SplitMix64(seed: 5)
+    for _ in 0..<90 {
+        c.set(Int.random(in: 0..<w, using: &grit),
+              Int.random(in: horizon..<h, using: &grit), Palette.pavementDark)
+    }
+    c.hLine(0, horizon, w, Palette.pavementDark)
+    c.rect(0, 112, w, 12, Palette.asphalt)
+    c.hLine(0, 112, w, Palette.asphaltDark)
+    for x in stride(from: 2, to: w, by: 8) {
+        c.rect(x, 117, 4, 1, Palette.roadLine)
+    }
+
+    // 3本のタワー。中央を最も高くして、左右を低くする。
+    // 区画の枠を出さずスプライトだけを置くので、輪郭がそのままシルエットになる。
+    let overhang = TileArt.towerCanvasHeight - TileArt.zoneSize
+    let foot = 112
+    for (x, level) in [(-8, 7), (40, 10), (86, 8)] {
+        blit(&c, TileArt.towerSprite(kind: .commercial, level: level, variant: 0),
+             x: x, y: foot - TileArt.zoneSize - overhang)
+    }
+
+    return c
+}
+
+if CommandLine.arguments.count > 2, CommandLine.arguments[1] == "--icon" {
+    writePNG(iconCanvas(), zoom: 8, to: CommandLine.arguments[2])
+    exit(0)
 }
 
 // レベルの見本。1から10まで横に並べて、段が上がるごとに背がどれだけ伸びるかを見る。

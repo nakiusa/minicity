@@ -131,6 +131,16 @@ swiftc -O -o simtest MiniCity/Model/*.swift MiniCity/Sim/*.swift main.swift && .
 swiftc -O -o scenegen MiniCity/Model/Tile.swift MiniCity/Model/TerrainGenerator.swift MiniCity/Model/CityMap.swift MiniCity/Render/PixelCanvas.swift MiniCity/Render/TileArt.swift tools/preview/main.swift && ./scenegen street.png && open street.png
 ```
 
+アプリアイコンも同じ道具で書き出す。ゲームで使っているタワーのスプライトを
+そのまま3本並べ、夜空と舗装だけを足した構図にしてある。
+
+```bash
+./scenegen --icon MiniCity/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png
+```
+
+書き出す PNG はアルファチャンネルを持たない（`CGImageAlphaInfo.noneSkipLast`）。
+App Store はアルファ付きのアイコンを弾くため。
+
 建物は斜投影で描く。奥行きは右上へ45度、つまり奥へ1マス行くごとに右へ1・上へ1ずらす。
 これで**手前の壁・上面・右の側面**の3面が見えるので、平面ではなく塊として立つ。
 面ごとに明るさを変え（上面が最も明るく、側面が最も暗い）、稜線を暗色で締める。
@@ -208,6 +218,20 @@ swiftc -O -o scenegen MiniCity/Model/Tile.swift MiniCity/Model/TerrainGenerator.
 
 別に「交通量」オーバーレイもあり、そちらは区域ぜんたいの混みぐあいを色の濃淡で見せる。
 車のマークは道路そのものの実況、オーバーレイは俯瞰の統計、という役割分担になっている。
+
+## 配布
+
+App Store に出すための設定は `project.yml` に入っている。署名は自動（`CODE_SIGN_STYLE: Automatic`、
+チームは `B54UXU8NGQ`）、アイコンは `ASSETCATALOG_COMPILER_APPICON_NAME` で解決する。
+暗号化を使っていないことは `INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO` で宣言してある。
+
+```bash
+cd /Users/shuyafukai/pj/minicity && xcodegen generate && xcodebuild -project MiniCity.xcodeproj -scheme MiniCity -sdk iphoneos -destination 'generic/platform=iOS' archive -archivePath build/MiniCity.xcarchive
+```
+
+`TARGETED_DEVICE_FAMILY` が `"1,2"` なので iPhone と iPad の両方に出る。
+iPad でも動くことは確認済みだが、そのぶん App Store Connect には
+iPad のスクリーンショットも要る。iPhone だけにするなら `"1"` に落とす。
 
 ## まだ入れていないもの
 
