@@ -7,3 +7,6 @@ sheetgen
 
 # アイコンはコードから生成しているが、ビルドに要るので追跡する。
 !MiniCity/Resources/Assets.xcassets/**/*.png
+
+# スクリーンショットは提出のたびに撮り直すので追跡しない。
+screenshots/

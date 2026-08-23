@@ -233,6 +233,31 @@ cd /Users/shuyafukai/pj/minicity && xcodegen generate && xcodebuild -project Min
 iPad でも動くことは確認済みだが、そのぶん App Store Connect には
 iPad のスクリーンショットも要る。iPhone だけにするなら `"1"` に落とす。
 
+## スクリーンショットの撮りかた
+
+ストアに載せる絵のために手で街を建てると何百回もタップすることになるので、
+同じ計算をヘッドレスでやって、アプリが読むセーブデータとして書き出す。
+
+```bash
+swiftc -O -o savegen MiniCity/Model/*.swift MiniCity/Sim/*.swift tools/savegen/main.swift && ./savegen city.save 7
+```
+
+書き出したものをシミュレータの `Documents/city.save` に置くと、その都市から始まる。
+
+```bash
+xcrun simctl install <UDID> MiniCity.app
+cp city.save "$(xcrun simctl get_app_container <UDID> com.shuyafukai.minicity data)/Documents/city.save"
+```
+
+初回に出る操作説明は `hasSeenHelp` で抑えられる。
+
+```bash
+plutil -replace hasSeenHelp -bool YES "$(xcrun simctl get_app_container <UDID> com.shuyafukai.minicity data)/Library/Preferences/com.shuyafukai.minicity.plist"
+```
+
+提出に要る寸法は 6.5 インチ（1284x2778）で、iPhone 12 Pro Max のシミュレータがちょうどその大きさになる。
+`TARGETED_DEVICE_FAMILY` に iPad を残しているあいだは、13 インチ（2064x2752）のぶんも要る。
+
 ## まだ入れていないもの
 
 災害（火災・竜巻・地震）、シナリオ、鉄道と空港・港、原子力発電所、
