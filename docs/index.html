@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ミニシティ｜サポート</title>
+    <meta name="description" content="ドット絵で育てる箱庭の街づくりゲーム「ミニシティ」のサポートページ。" />
+    <meta name="robots" content="index" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --text: #1a1a1a;
+        --muted: #555;
+        --accent: #2f6bb0;
+        --line: #e6e6e6;
+        --card: #f6f7f9;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0a0a0a;
+          --text: #f0f0f0;
+          --muted: #b0b0b0;
+          --accent: #7db0e8;
+          --line: #2a2a2a;
+          --card: #151719;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 40px 20px 80px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+        line-height: 1.85;
+      }
+      main { max-width: 680px; margin: 0 auto; }
+      .eyebrow {
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        margin: 0 0 8px;
+      }
+      h1 { font-size: 1.9rem; margin: 0 0 6px; }
+      .lead { color: var(--muted); margin: 0 0 36px; }
+      h2 { font-size: 1.2rem; margin: 36px 0 10px; }
+      h3 { font-size: 1rem; margin: 24px 0 4px; }
+      p, li { color: var(--text); }
+      a { color: var(--accent); }
+      ul, ol { padding-left: 1.2em; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 4px 20px 16px;
+        margin: 16px 0;
+      }
+      hr { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
+      footer { color: var(--muted); font-size: 0.85rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">MINICITY</p>
+      <h1>ミニシティ</h1>
+      <p class="lead">ドット絵で育てる箱庭の街づくり。サポートページです。</p>
+
+      <h2>はじめかた</h2>
+      <ol>
+        <li>発電所を1つ置く</li>
+        <li>道路を引き、その脇に住宅区と工業区を並べる</li>
+        <li>送電線で発電所と区画をつなぐ（区画どうしは電気を通すので、線を引くのは最初の一本だけで足ります）</li>
+        <li>時間を進める。人が入れば商業の需要が立ち上がります</li>
+      </ol>
+
+      <h2>操作</h2>
+      <ul>
+        <li><strong>移動</strong>：この道具を選ぶと、1本指のドラッグで地図が動きます</li>
+        <li><strong>拡大縮小</strong>：右下のつまみを上下になぞる。⊕ ⊖ を押せば1段ずつ動きます</li>
+        <li><strong>調べる</strong>：軽く叩くと、そのマスの土地価値や公害を読めます</li>
+        <li><strong>建設</strong>：1本指でマスを塗ります。道路と送電線はなぞって引けます</li>
+        <li><strong>2本指</strong>：どの道具でも地図を動かせます。つまめば拡大縮小</li>
+      </ul>
+
+      <h2>よくある質問</h2>
+
+      <div class="card">
+        <h3>区画に稲妻やバツの印が出ます</h3>
+        <p>
+          稲妻は電気が届いていない印、バツは道路に面していない印です。
+          送電線をつなぐか、区画の外周のどこかが道路に接するように敷き直してください。
+          発電所1つでまかなえる区画の数には上限があるので、街が広がったら発電所を足す必要があります。
+        </p>
+
+        <h3>人口が増えなくなりました</h3>
+        <p>
+          需要は職と住のつり合いから決まるので、街が育つと自然に釣り合って止まります。
+          そこから先へ伸ばすには、土地の値打ちを上げることになります。
+          公園を敷いて公害を吸わせる、警察署で犯罪を抑える、工業区を住宅から離す、といった手が効きます。
+        </p>
+
+        <h3>住宅がいつまでも小さいままです</h3>
+        <p>
+          工場や発電所の煙が近いと、土地の値打ちが下がって住宅が育ちません。
+          公害は「公害」の表示に切り替えると色の濃淡で見えます。
+          煙の出どころを離すか、あいだに公園を挟んでください。
+        </p>
+
+        <h3>最初からやり直したい</h3>
+        <p>
+          画面上部の資金額を押すと予算画面が開きます。一番下の「新しい都市をはじめる」から、
+          地形ごと作り直せます。元には戻せないので確認をはさみます。
+        </p>
+
+        <h3>データは保存されますか</h3>
+        <p>
+          自動保存されます。アプリを閉じても続きから再開できます。
+          保存先は端末内だけで、外部に送信されることはありません。
+        </p>
+      </div>
+
+      <h2>お問い合わせ</h2>
+      <p>
+        不具合の報告やご要望は、以下までご連絡ください。<br />
+        <a href="mailto:icoca.de.suica@gmail.com">icoca.de.suica@gmail.com</a>
+      </p>
+      <p>
+        端末の機種と iOS のバージョン、どの操作で起きたかを添えていただけると助かります。
+      </p>
+
+      <h2>プライバシー</h2>
+      <p>
+        本アプリはネットワーク通信を行わず、いかなる情報も収集しません。<br />
+        <a href="privacy.html">プライバシーポリシー</a>
+      </p>
+
+      <hr />
+      <footer>© 2026 ミニシティ</footer>
+    </main>
+  </body>
+</html>

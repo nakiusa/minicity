@@ -59,11 +59,11 @@ App Store Connect にコピペして使う。
 
 ## サポートURL
 
-（未定。下の「まだ用意していないもの」を参照）
+https://fukashiimo.github.io/minicity/
 
 ## プライバシーポリシーURL
 
-（未定。全アプリで必須）
+https://fukashiimo.github.io/minicity/privacy.html
 
 ## その他の設定
 
@@ -78,13 +78,8 @@ App Store Connect にコピペして使う。
 
 初版のため入力不要。
 
-## まだ用意していないもの
+## ページの置き場所
 
-サポートURLとプライバシーポリシーURLは、どちらも入力必須。
-らくじたくは GitHub Pages に置いてある。
-
-- https://fukashiimo.github.io/rakujitaku/
-- https://fukashiimo.github.io/rakujitaku/privacy.html
-
-ミニシティにはまだリポジトリのリモートすらないので、同じ形にするなら
-GitHub に push して Pages を有効にし、サポートページとプライバシーポリシーを置く。
+サポートページとプライバシーポリシーは `docs/` に置いて、GitHub Pages で配信する。
+らくじたくはリポジトリ直下から配信しているが、こちらは Swift のプロジェクトなので
+`docs/` に分けた（Pages のソースは main ブランチの /docs）。
