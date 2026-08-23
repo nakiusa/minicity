@@ -262,6 +262,18 @@ plutil -replace hasSeenHelp -bool YES "$(xcrun simctl get_app_container <UDID> c
 提出に要る寸法は 6.5 インチ（1284x2778）で、iPhone 12 Pro Max のシミュレータがちょうどその大きさになる。
 いまの手元の Xcode には iPhone 11 Pro Max も XS Max も入っていないので、この機種で代える。
 
+撮った生のスクリーンショットは、そのままでは並べても違いが伝わらない。
+街の俯瞰は、寄っても引いてもオーバーレイを掛けても、スワイプする人には同じ絵に見える。
+1枚ずつ見出しを載せて、何を見せているかを言う。
+
+```bash
+swiftc -O -o shotframe tools/shotframe/main.swift
+./shotframe raw/city.png screenshots/01.png "区画を敷けば、街は育つ" "電気と道路が届いた区画から、人が住みはじめる"
+```
+
+選ぶ4枚は、街の俯瞰、オーバーレイ、マップ選択、予算画面。
+画面の作りが違うものを選ぶ。同じ都市を寄り引きしただけの2枚は入れない。
+
 撮った PNG はアルファチャンネルを落としてから出す。App Store Connect は
 アイコンだけでなくスクリーンショットもアルファ付きを弾く。
 `sips` にはアルファを外す指定がないので、CoreGraphics で
