@@ -229,9 +229,9 @@ App Store に出すための設定は `project.yml` に入っている。署名�
 cd /Users/shuyafukai/pj/minicity && xcodegen generate && xcodebuild -project MiniCity.xcodeproj -scheme MiniCity -sdk iphoneos -destination 'generic/platform=iOS' archive -archivePath build/MiniCity.xcarchive
 ```
 
-`TARGETED_DEVICE_FAMILY` が `"1,2"` なので iPhone と iPad の両方に出る。
-iPad でも動くことは確認済みだが、そのぶん App Store Connect には
-iPad のスクリーンショットも要る。iPhone だけにするなら `"1"` に落とす。
+`TARGETED_DEVICE_FAMILY` は `"1"`、つまり iPhone 専用にしてある。
+iPad でも問題なく動くことは確認したが、対応を宣言すると App Store Connect に
+iPad のスクリーンショットも要るので、いまは出していない。出すなら `"1,2"` に戻す。
 
 ## スクリーンショットの撮りかた
 
@@ -256,7 +256,12 @@ plutil -replace hasSeenHelp -bool YES "$(xcrun simctl get_app_container <UDID> c
 ```
 
 提出に要る寸法は 6.5 インチ（1284x2778）で、iPhone 12 Pro Max のシミュレータがちょうどその大きさになる。
-`TARGETED_DEVICE_FAMILY` に iPad を残しているあいだは、13 インチ（2064x2752）のぶんも要る。
+いまの手元の Xcode には iPhone 11 Pro Max も XS Max も入っていないので、この機種で代える。
+
+撮った PNG はアルファチャンネルを落としてから出す。App Store Connect は
+アイコンだけでなくスクリーンショットもアルファ付きを弾く。
+`sips` にはアルファを外す指定がないので、CoreGraphics で
+`noneSkipLast` として書き直す必要がある。
 
 ## まだ入れていないもの
 

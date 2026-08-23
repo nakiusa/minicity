@@ -40,7 +40,9 @@ targets:
         INFOPLIST_KEY_UIRequiresFullScreen: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
         SWIFT_VERSION: "5.0"
-        TARGETED_DEVICE_FAMILY: "1,2"
+        # iPhone 専用。iPad でも動くが、対応を宣言すると App Store Connect に
+        # iPad のスクリーンショットも要るので、いまは出さない。
+        TARGETED_DEVICE_FAMILY: "1"
         DEVELOPMENT_TEAM: B54UXU8NGQ
         CODE_SIGN_STYLE: Automatic
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
