@@ -28,7 +28,9 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.shuyafukai.minicity
         PRODUCT_NAME: MiniCity
-        MARKETING_VERSION: "1.0.0"
+        # App Store Connect 側のバージョン表記と一致させる。
+        # ASC はこの文字列でビルドを紐付けるので、"1.0" と "1.0.0" は別物になる。
+        MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ミニシティ
