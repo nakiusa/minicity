@@ -100,7 +100,7 @@ struct HelpOverlay: View {
         ZStack {
             Color.black.opacity(0.78).ignoresSafeArea()
             VStack(alignment: .leading, spacing: 14) {
-                Text("MiniCity")
+                Text("ミニシティ")
                     .font(.system(size: 26, weight: .heavy, design: .rounded))
 
                 VStack(alignment: .leading, spacing: 7) {
