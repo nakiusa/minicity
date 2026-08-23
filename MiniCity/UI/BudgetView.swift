@@ -101,7 +101,7 @@ struct BudgetView: View {
                         Text("新しい都市をはじめる")
                     }
                 } footer: {
-                    Text("地形を選び直して、最初の1901年に戻ります。")
+                    Text("地形を選び直して、最初の1900年に戻ります。")
                 }
             }
             .navigationTitle("予算")
