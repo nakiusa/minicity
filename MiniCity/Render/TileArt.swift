@@ -356,59 +356,32 @@ enum TileArt {
     }
 
     /// 切妻屋根の家。奥へ向かって棟が伸びる形にして、妻側を手前に向ける。
+    /// 見下ろした切妻屋根の家。棟を境に、屋根を奥と手前の2面に分ける。
+    /// `box` と同じく奥行きは真上へ伸ばす。
     private static func house(_ c: inout PixelCanvas,
                               x: Int, baseY: Int, w: Int, depth: Int, height: Int,
                               wall: RGBA, roof: RGBA) {
-        let eaveY = baseY - height
-        let gable = max(3, w / 3)
-        let ridgeY = eaveY - gable
+        let facadeTop = baseY - height
+        let roofTop = facadeTop - depth
+        let ridge = roofTop + depth / 2
 
-        for i in 1...max(1, depth) {
-            c.hLine(x + i + 2, baseY - i + 2, w, Palette.shadow)
-        }
-        c.rect(x + 2, baseY, w + depth, 2, Palette.shadow)
-
-        // 奥へ伸びる屋根。右斜面は暗く、左斜面は明るく。
-        for i in 1...depth {
-            let top = ridgeY - i
-            c.hLine(x + i, top, w / 2, roof.shaded(1.15))
-            c.hLine(x + i + w / 2, top, w - w / 2, roof.shaded(0.72))
-            c.hLine(x + i, top + gable, w, roof.shaded(0.72))
-        }
-        // 右の側面（壁）。
-        for i in 1...depth {
-            c.vLine(x + w + i - 1, eaveY - i, height, wall.shaded(0.62))
+        for i in 1...2 {
+            c.hLine(x + i + 1, baseY + i, w, Palette.shadow)
         }
 
-        // 手前の妻壁と切妻の三角。
-        c.rect(x, eaveY, w, height, wall)
-        for row in 0..<gable {
-            let inset = (gable - 1 - row) * w / (gable * 2)
-            c.rect(x + inset, ridgeY + row, w - inset * 2, 1, roof)
-        }
+        // 屋根。奥の斜面を暗く、手前の斜面を明るくして、棟の位置を見せる。
+        c.rect(x, roofTop, w, ridge - roofTop, roof.shaded(0.76))
+        c.rect(x, ridge, w, facadeTop - ridge, roof.shaded(1.08))
+        c.hLine(x, ridge, w, roof.shaded(1.3))
 
-        // 輪郭。
-        c.vLine(x, eaveY, height, outline)
-        c.hLine(x, baseY - 1, w, outline)
-        c.hLine(x, eaveY, w, outline)
-        for row in 0..<gable {
-            let inset = (gable - 1 - row) * w / (gable * 2)
-            c.set(x + inset, ridgeY + row, outline)
-            c.set(x + w - 1 - inset, ridgeY + row, outline)
-        }
-        for i in 1...depth {
-            c.set(x + i + w / 2, ridgeY - i, outline)
-            c.set(x + w + i - 1, eaveY - i, outline)
-            c.set(x + w + i - 1, baseY - i - 1, outline)
-        }
+        // 手前の壁。
+        c.rect(x, facadeTop, w, height, wall)
+        c.hLine(x, facadeTop, w, wall.shaded(0.72))
 
-        // 窓とドア。
-        c.rect(x + 2, eaveY + 2, 2, 2, Palette.window)
-        if w >= 11 { c.rect(x + w - 5, eaveY + 2, 2, 2, Palette.window) }
-        c.rect(x + w / 2 - 1, baseY - 4, 3, 3, roof.shaded(0.5))
+        c.frame(x, roofTop, w, depth + height, outline)
+        c.hLine(x, facadeTop - 1, w, outline)
     }
 
-    /// 円筒のタンク。上面を楕円にして、胴に縦の陰影を入れる。
     private static func tank(_ c: inout PixelCanvas, cx: Int, baseY: Int, r: Int, height: Int) {
         let lid = max(2, r / 2)
         c.rect(cx - r + 3, baseY - 1, r * 2, 2, Palette.shadow)
@@ -782,12 +755,12 @@ enum TileArt {
             // 低層。空き地の残り具合と棟数で、集落の育ち方を見せる。
             let w: Int, depth: Int, height: Int, rows: [(Int, [Int])]
             switch (level, variant) {
-            case (1, 0): (w, depth, height, rows) = (12, 4, 4, [(26, [5]), (46, [24])])
-            case (1, _): (w, depth, height, rows) = (12, 4, 4, [(24, [21]), (46, [6])])
-            case (2, 0): (w, depth, height, rows) = (12, 5, 5, [(24, [3, 19]), (46, [10, 26])])
-            case (2, _): (w, depth, height, rows) = (12, 5, 5, [(23, [6, 22]), (46, [2, 18])])
-            case (3, 0): (w, depth, height, rows) = (10, 4, 6, [(17, [2, 13, 24, 34]), (32, [7, 18, 29]), (47, [13, 24])])
-            default:     (w, depth, height, rows) = (10, 4, 6, [(17, [4, 15, 26, 34]), (32, [2, 13, 24, 34]), (47, [9, 20])])
+            case (1, 0): (w, depth, height, rows) = (15, 11, 4, [(26, [5]), (46, [24])])
+            case (1, _): (w, depth, height, rows) = (15, 11, 4, [(24, [21]), (46, [6])])
+            case (2, 0): (w, depth, height, rows) = (15, 11, 4, [(24, [3, 19]), (46, [10, 26])])
+            case (2, _): (w, depth, height, rows) = (15, 11, 4, [(23, [6, 22]), (46, [2, 18])])
+            case (3, 0): (w, depth, height, rows) = (11, 10, 4, [(17, [2, 13, 24, 34]), (32, [7, 18, 29]), (47, [13, 24])])
+            default:     (w, depth, height, rows) = (11, 10, 4, [(17, [4, 15, 26, 34]), (32, [2, 13, 24, 34]), (47, [9, 20])])
             }
             var i = 0
             for (baseY, xs) in rows {
@@ -994,95 +967,79 @@ enum TileArt {
     static func industrial(level: Int, variant: Int) -> PixelCanvas {
         var rng = SplitMix64(seed: UInt64(level &* 300 &+ variant &+ 1300))
         var c = gravelGround(UInt64(variant &* 13 &+ 4))
+        let shift = variant % 2 == 0 ? 0 : 1
+
+        /// 主棟。区画の下半分から中ほどまでを埋める。
+        /// 煙突とタンクは主棟のあとに描く。先に描くと、広げた屋根に覆われて消える。
+        func plant(w: Int, depth: Int, height: Int, wall: RGBA) -> (roofY: Int, top: Int) {
+            let x = 2 + shift
+            let baseY = 45
+            box(&c, x: x, baseY: baseY, w: w, depth: depth, height: height,
+                wall: wall, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+            let top = baseY - height - depth
+            return (top + depth / 2, top)
+        }
 
         switch level {
         case 1:
-            let x = variant == 0 ? 5 : 18
-            box(&c, x: x, baseY: 38, w: 20, depth: 5, height: 5,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
+            _ = plant(w: 26, depth: 14, height: 5, wall: Palette.wallWarm)
 
         case 2:
-            tank(&c, cx: 37, baseY: 26, r: 6, height: 6)
-            box(&c, x: 3, baseY: 26, w: 22, depth: 5, height: 6,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
-            box(&c, x: 24, baseY: 46, w: 17, depth: 5, height: 6,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
+            let p = plant(w: 30, depth: 18, height: 6, wall: Palette.wallWarm)
+            tank(&c, cx: 40, baseY: 45, r: 6, height: 6)
+            smokestack(&c, x: 7, baseY: p.roofY + 4, w: 4, height: 9)
 
         case 3:
-            tank(&c, cx: 38, baseY: 25, r: 7, height: 7)
-            box(&c, x: 2, baseY: 26, w: 26, depth: 6, height: 7,
-                wall: Palette.concrete, roof: Palette.roofGrey,
-                windows: Palette.window, rng: &rng)
-            tank(&c, cx: 37, baseY: 47, r: 7, height: 7)
-            box(&c, x: 3, baseY: 47, w: 21, depth: 5, height: 7,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
+            let p = plant(w: 31, depth: 20, height: 6, wall: Palette.concrete)
+            tank(&c, cx: 40, baseY: 45, r: 7, height: 7)
+            tank(&c, cx: 40, baseY: 26, r: 6, height: 6)
+            smokestack(&c, x: 6, baseY: p.roofY + 5, w: 4, height: 11)
 
         case 4:
-            smokestack(&c, x: 9, baseY: 30, w: 5, height: 13)
-            tank(&c, cx: 39, baseY: 30, r: 7, height: 7)
-            box(&c, x: 2, baseY: 32, w: 27, depth: 7, height: 8,
-                wall: Palette.concrete, roof: Palette.roofGrey,
-                windows: Palette.window, rng: &rng)
-            box(&c, x: 31, baseY: 47, w: 11, depth: 5, height: 6,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
-            c.rect(2, 45, 28, 2, Palette.steel)
+            let p = plant(w: 31, depth: 22, height: 7, wall: Palette.concrete)
+            tank(&c, cx: 40, baseY: 45, r: 7, height: 7)
+            tank(&c, cx: 40, baseY: 27, r: 6, height: 6)
+            smokestack(&c, x: 6, baseY: p.roofY + 6, w: 5, height: 14)
+            smokestack(&c, x: 15, baseY: p.roofY + 6, w: 4, height: 11)
 
         case 5:
-            smokestack(&c, x: 6, baseY: 33, w: 5, height: 15)
-            smokestack(&c, x: 16, baseY: 33, w: 5, height: 13)
-            tank(&c, cx: 39, baseY: 32, r: 7, height: 8)
-            box(&c, x: 1, baseY: 36, w: 29, depth: 7, height: 8,
-                wall: Palette.concrete, roof: Palette.roofGrey,
-                windows: Palette.window, rng: &rng)
-            box(&c, x: 32, baseY: 47, w: 10, depth: 5, height: 6,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
-            c.rect(1, 44, 30, 2, Palette.steel)
+            let p = plant(w: 32, depth: 24, height: 7, wall: Palette.concrete)
+            tank(&c, cx: 40, baseY: 45, r: 7, height: 8)
+            tank(&c, cx: 40, baseY: 26, r: 6, height: 7)
+            smokestack(&c, x: 5, baseY: p.roofY + 7, w: 5, height: 16)
+            smokestack(&c, x: 14, baseY: p.roofY + 7, w: 5, height: 13)
+            smokestack(&c, x: 23, baseY: p.roofY + 7, w: 4, height: 15)
 
         case 6:
-            smokestack(&c, x: 5, baseY: 36, w: 5, height: 18)
-            smokestack(&c, x: 14, baseY: 36, w: 5, height: 15)
-            smokestack(&c, x: 23, baseY: 36, w: 4, height: 17)
-            tank(&c, cx: 39, baseY: 34, r: 8, height: 9)
-            box(&c, x: 1, baseY: 39, w: 30, depth: 8, height: 10,
-                wall: Palette.concrete, roof: Palette.roofGrey,
-                windows: Palette.window, rng: &rng)
-            box(&c, x: 33, baseY: 47, w: 9, depth: 5, height: 6,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
-            c.rect(1, 45, 32, 3, Palette.steel)
+            let p = plant(w: 32, depth: 26, height: 8, wall: Palette.concrete)
+            tank(&c, cx: 40, baseY: 45, r: 7, height: 8)
+            tank(&c, cx: 40, baseY: 26, r: 7, height: 8)
+            for (i, x) in [4, 12, 20, 27].enumerated() {
+                smokestack(&c, x: x, baseY: p.roofY + 8, w: 4, height: 15 + (i % 2) * 4)
+            }
 
         default:
-            // L7 以降は複合プラント。煙突とタンクが増え、最上位では炎（フレア）が立つ。
-            let stackCount = min(5, level)
-            let stackBaseY = 37
-            let spanW = 26
-            let spacing = stackCount > 1 ? spanW / (stackCount - 1) : 0
+            // L7 以降は複合プラント。煙突が増え、最上位ではフレア（燃焼ガスの炎）が立つ。
+            let p = plant(w: 32, depth: 27, height: 8 + (level - 7), wall: Palette.concrete)
+            tank(&c, cx: 40, baseY: 45, r: 7, height: 8)
+            tank(&c, cx: 40, baseY: 27, r: 7, height: 8 + (level - 7))
+            let stackCount = min(5, level - 2)
+            let stackBaseY = p.roofY + 9
             for i in 0..<stackCount {
-                let x = 3 + i * spacing
-                let h = 16 + (i % 2 == 0 ? 6 : 0) + (level - 7) * 2
+                let x = 3 + i * 6
+                let h = 15 + (i % 2 == 0 ? 5 : 0) + (level - 7) * 2
                 smokestack(&c, x: x, baseY: stackBaseY, w: 4, height: h)
+                if level >= 9 && i == 0 {
+                    let topY = stackBaseY - h - 3
+                    c.disc(x + 2, topY, 3, Palette.beaconIndustrial)
+                    c.disc(x + 2, topY - 2, 2, RGBA(255, 224, 140))
+                }
             }
-            if level >= 9 {
-                // いちばん奥の煙突にフレア（燃焼ガスの炎）を立てる。
-                let flareX = 3
-                let flareTopY = stackBaseY - (16 + 6 + (level - 7) * 2) - 3
-                c.disc(flareX + 2, flareTopY, 3, Palette.beaconIndustrial)
-                c.disc(flareX + 2, flareTopY - 2, 2, RGBA(255, 224, 140))
-            }
-            tank(&c, cx: 40, baseY: 33, r: 8, height: 9 + (level - 7))
-            if level >= 8 { tank(&c, cx: 40, baseY: 47, r: 7, height: 8 + (level - 8)) }
-            box(&c, x: 1, baseY: 39, w: 30, depth: 8, height: 10 + (level - 7),
-                wall: Palette.concrete, roof: Palette.roofGrey,
-                windows: Palette.window, rng: &rng)
-            box(&c, x: level >= 8 ? 1 : 32, baseY: 47, w: level >= 8 ? 20 : 10,
-                depth: level >= 8 ? 6 : 5, height: 7,
-                wall: Palette.wallWarm, roof: Palette.roofGrey, rng: &rng)
-            c.rect(1, 45, 32, 3, Palette.steel)
         }
+
         zoneBorder(&c, Palette.zoneILine)
         return c
     }
-
-    // MARK: - 施設
 
     static func coalPlant() -> PixelCanvas {
         var rng = SplitMix64(seed: 5150)
