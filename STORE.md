@@ -62,11 +62,11 @@ App Store Connect にコピペして使う。
 
 ## サポートURL
 
-https://fukashiimo.github.io/minicity/
+https://nakiusa.github.io/minicity/
 
 ## プライバシーポリシーURL
 
-https://fukashiimo.github.io/minicity/privacy.html
+https://nakiusa.github.io/minicity/privacy.html
 
 ## その他の設定
 
