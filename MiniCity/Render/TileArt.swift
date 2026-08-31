@@ -286,10 +286,15 @@ enum TileArt {
 
     static let outline = RGBA(30, 28, 34)
 
-    /// 斜投影の箱。手前の壁・上面・右の側面の3面を描く。
-    /// 奥行きは右上へ 45 度で伸ばす（1マス奥へ行くごとに右へ1、上へ1）。
+    /// 見下ろした箱。屋根（上面）と手前の壁の2面を描く。
     ///
-    /// `x`, `baseY` は手前の壁の左下の角。`height` は壁の高さ、`depth` は奥行き。
+    /// 奥行きは真上へ伸ばす。以前は右上へ 45 度に振っていたが、あの投影だと
+    /// 屋根が奥へ行くほど右へずれるので、`x + w + depth` が 48 を超えられない。
+    /// 区画は 48x48 なので、縦を埋めようとすると横が痩せ、どう置いても
+    /// 建物のまわりに地面が大きく残ってしまう。真上へ伸ばせばその制約が外れ、
+    /// 屋根を区画いっぱいに広げられる。
+    ///
+    /// `x`, `baseY` は手前の壁の左下の角。`height` は壁の高さ、`depth` は屋根の奥行き。
     private static func box(_ c: inout PixelCanvas,
                             x: Int, baseY: Int, w: Int, depth: Int, height: Int,
                             wall: RGBA, roof: RGBA,
@@ -297,47 +302,47 @@ enum TileArt {
                             shadow: Int? = nil,
                             rng: inout SplitMix64) {
         let facadeTop = baseY - height
-        let side = wall.shaded(0.62)
+        let roofTop = facadeTop - depth
 
-        // 影。奥行きと同じ向きに、地面へ落ちる形で置く。
-        // 既定では奥行きぶんだけ伸ばすが、高い建物はそれでは足りない。
-        // 53px の塔が 4px の影しか落とさないと、質量が感じられず浮いて見える。
-        // 呼び出し側から長さを指定できるようにしてある。
-        let shadowLength = max(1, shadow ?? depth)
+        // 影。右下へ落とす。長さは呼び出し側から指定できる（高い建物は長く）。
+        let shadowLength = max(1, shadow ?? 2)
         for i in 1...shadowLength {
-            c.hLine(x + i + 2, baseY - i + 2, w, Palette.shadow)
+            c.hLine(x + i + 1, baseY + i, w, Palette.shadow)
         }
-        c.rect(x + 2, baseY, w + depth, 2, Palette.shadow)
 
-        // 右の側面。奥へ行くほど上がる。
-        if depth > 0 {
-            for i in 1...depth {
-                c.vLine(x + w + i - 1, facadeTop - i, height, side)
+        // 屋根。奥へ行くほどわずかに暗くして、平らな面が続いていることを示す。
+        for i in 0..<depth {
+            let t = 1.0 - Double(depth - i) * 0.012
+            c.hLine(x, roofTop + i, w, roof.shaded(t))
+        }
+
+        // 屋根が広いときは、設備の小さな塊を散らす。
+        // 真上から見た大きな屋根が無地のままだと、建物ではなく板に見える。
+        if depth >= 10, w >= 12 {
+            let count = max(2, (w * depth) / 150)
+            for _ in 0..<count {
+                let bw = Int.random(in: 3...6, using: &rng)
+                let bh = Int.random(in: 2...4, using: &rng)
+                let bx = Int.random(in: (x + 2)...(x + w - bw - 2), using: &rng)
+                let by = Int.random(in: (roofTop + 2)...(facadeTop - bh - 2), using: &rng)
+                c.rect(bx, by, bw, bh, roof.shaded(1.12))
+                c.hLine(bx, by + bh, bw, roof.shaded(0.82))
             }
-            // 上面。
-            for i in 1...depth {
-                c.hLine(x + i, facadeTop - i, w, roof.shaded(1.0 + Double(i) * 0.02))
-            }
+            // 屋根の縁を一周させて、面の輪郭を締める。
+            c.frame(x + 1, roofTop + 1, w - 2, depth - 1, roof.shaded(0.9))
         }
 
         // 手前の壁。
         c.rect(x, facadeTop, w, height, wall)
+        // 壁の上端に軒の影を1本入れて、屋根と壁の折れ目をはっきりさせる。
+        c.hLine(x, facadeTop, w, wall.shaded(0.72))
 
-        // 輪郭。稜線を落とすと面の向きがはっきりする。
-        c.vLine(x, facadeTop, height, outline)
-        c.hLine(x, baseY - 1, w, outline)
-        c.hLine(x, facadeTop, w, outline)
-        if depth > 0 {
-            for i in 1...depth {
-                c.set(x + i, facadeTop - i, outline)              // 上面の左の稜線
-                c.set(x + w + i - 1, facadeTop - i, outline)      // 壁と側面の境の上
-                c.set(x + w + i - 1, baseY - i - 1, outline)      // 側面の下の稜線
-            }
-            c.vLine(x + w + depth - 1, facadeTop - depth, height, outline)
-            c.hLine(x + depth, facadeTop - depth, w, outline)
-        }
+        // 輪郭。
+        c.frame(x, roofTop, w, depth + height, outline)
+        c.hLine(x, facadeTop - 1, w, outline)
 
         guard let win = windows else { return }
+        // 窓は手前の壁に並べる。壁が薄いときは1段だけ。
         var wy = facadeTop + 2
         while wy + 2 <= baseY - 2 {
             var wx = x + 2
@@ -590,9 +595,10 @@ enum TileArt {
         let towerHeights: [Int] = [0, 0, 0, 0, 0, 0, 14, 24, 34, 44, 53]
         let towerHeight = towerHeights[min(max(level, 0), towerHeights.count - 1)]
 
-        // 土台。街区いっぱいに広く、背は低いまま据え置く。
-        let podiumW = 34, podiumH = 8, podiumDepth = 8
-        let podiumX = 2
+        // 土台。区画いっぱいに広く、背は低いまま据え置く。
+        // 屋根を真上へ伸ばす投影にしたので、幅と奥行きの両方を大きく取れる。
+        let podiumW = 40, podiumH = 7, podiumDepth = 26
+        let podiumX = 4
         let podiumFacadeTop = baseY - podiumH
 
         /// 地面に落ちる影の長さ。塔まで含めた高さで伸ばす。
@@ -601,7 +607,7 @@ enum TileArt {
         /// ただし影は右上へ伸びるので、伸ばしすぎるとスプライトの右端（48px）で
         /// 断ち切られて、不自然な縦の切り口が出る。枠に収まる長さで頭打ちにする。
         func groundShadow(x: Int, w: Int, height: Int, depth: Int) -> Int {
-            min(depth + height / 4, max(1, zoneSize - x - w - 2))
+            min(2 + height / 5, max(1, zoneSize - x - w))
         }
 
         /// 低く広い土台を建てる。単塔・板状・セットバックはこの上に載る。
@@ -615,27 +621,25 @@ enum TileArt {
 
         /// 土台の屋根の上に箱を1つ置く。
         ///
-        /// 屋根は右上へ 45 度に伸びる平行四辺形なので、奥へ inset だけ入れた場所は、
-        /// 手前の壁の面から見て右へ inset・上へ inset ずれる。x と y に同じ inset を
-        /// 使うのが肝で、ここが食い違うと足元が屋根の面から外れて宙に浮く。
-        ///
-        /// `offsetX` は土台の手前の壁の面で測った、左端からのずれ。
+        /// 屋根は真上へ伸びるので、奥へ inset だけ入れた場所は、
+        /// 手前の壁の面から見て「上へ inset」だけずれる。横にはずれない。
+        /// `offsetX` は土台の左端からのずれ。
         func onPodium(offsetX: Int, w: Int, depth: Int, height: Int,
                       wall: RGBA) -> (cx: Int, topY: Int, x: Int, baseY: Int) {
-            let inset = max(1, (podiumDepth - depth) / 2)
-            let x = podiumX + offsetX + inset
+            let inset = max(2, (podiumDepth - depth) / 2)
+            let x = podiumX + offsetX
             let base = podiumFacadeTop - inset
             // 屋根の上に落ちる影は、屋根からはみ出さない長さに抑える。
             box(&c, x: x, baseY: base, w: w, depth: depth, height: height,
                 wall: wall, roof: roof, windows: Palette.window,
-                shadow: min(depth + height / 6, podiumDepth - inset), rng: &rng)
-            return (x + depth + w / 2, base - height - depth, x, base)
+                shadow: min(2 + height / 6, max(1, podiumDepth - inset - depth)), rng: &rng)
+            return (x + w / 2, base - height - depth, x, base)
         }
 
         switch towerForm(level: level, variant: variant) {
         case .single:
             drawPodium()
-            let w = 14, depth = 4
+            let w = 20, depth = 12
             let t = onPodium(offsetX: (podiumW - w) / 2, w: w, depth: depth,
                              height: towerHeight, wall: mainWall)
             if level >= 7 {
@@ -648,7 +652,7 @@ enum TileArt {
         case .slab:
             drawPodium()
             // 幅を取って奥行きを薄くする。塔というより壁のような塊になる。
-            let w = 24, depth = 3
+            let w = 34, depth = 8
             let t = onPodium(offsetX: (podiumW - w) / 2, w: w, depth: depth,
                              height: towerHeight * 4 / 5, wall: mainWall)
             // 板の面を縦線で割って、のっぺりさせない。
@@ -664,11 +668,11 @@ enum TileArt {
             // 1つの低層部を2本で共有する建物は現実にはほとんどなく、
             // 載せると「大きな箱の上に塔が2本刺さっている」ようにしか見えない。
             // 土台のぶんの高さは塔の側に足して、他の形と背丈をそろえる。
-            let w = 12, depth = 5, gap = 6
+            let w = 15, depth = 14, gap = 6
             let tallH = towerHeight + podiumH
             let shortH = tallH * 7 / 10
             let span = w * 2 + gap
-            let leftX = (zoneSize - (span + depth)) / 2
+            let leftX = (zoneSize - span) / 2
 
             // 奥から手前ではなく、左から右の順に描く。奥行きが右上へ伸びるので、
             // 右の棟があとに来ないと重なりの前後が逆になる。
@@ -682,7 +686,7 @@ enum TileArt {
                 shadow: groundShadow(x: rightX, w: w, height: tallH, depth: depth), rng: &rng)
 
             let tallTopY = baseY - tallH - depth
-            let tallCX = rightX + depth + w / 2
+            let tallCX = rightX + w / 2
             spire(&c, cx: tallCX, topY: tallTopY, height: level >= 9 ? 6 : 4, blink: Palette.beacon)
             if level >= 9 {
                 c.vLine(rightX, baseY - tallH + 3, tallH - 6, Palette.towerAccent)
@@ -696,13 +700,13 @@ enum TileArt {
             var heights: [Int] = []
             var depths: [Int] = []
             if stages == 3 {
-                widths = [22, 15, 9]
+                widths = [32, 22, 13]
                 heights = [towerHeight * 9 / 20, towerHeight * 7 / 20, towerHeight * 4 / 20]
-                depths = [6, 4, 2]
+                depths = [18, 12, 7]
             } else {
-                widths = [20, 13]
+                widths = [30, 19]
                 heights = [towerHeight * 3 / 5, towerHeight * 2 / 5]
-                depths = [6, 4]
+                depths = [18, 11]
             }
             // 1段目は土台の屋根の上に置き、2段目からは前の段の屋根の上に積む。
             let first = onPodium(offsetX: (podiumW - widths[0]) / 2, w: widths[0],
@@ -715,13 +719,13 @@ enum TileArt {
             var topY = first.topY
             for i in 1..<stages {
                 let w = widths[i], h = heights[i], d = depths[i]
-                let inset = max(1, (prevDepth - d) / 2)
-                frontX += (prevW - w) / 2 + inset
+                let inset = max(2, (prevDepth - d) / 2)
+                frontX += (prevW - w) / 2
                 frontBaseY -= inset
                 box(&c, x: frontX, baseY: frontBaseY, w: w, depth: d, height: h,
                     wall: mainWall, roof: roof, windows: Palette.window,
-                    shadow: min(d + h / 6, prevDepth - inset), rng: &rng)
-                topCX = frontX + d + w / 2
+                    shadow: max(1, 2 + h / 6), rng: &rng)
+                topCX = frontX + w / 2
                 topY = frontBaseY - h - d
                 frontBaseY -= h
                 prevW = w
@@ -801,53 +805,25 @@ enum TileArt {
             }
 
         case 4:
-            // 低層の集合住宅。ここから箱になる。
-            let rows = variant == 0 ? [(24, [1, 24]), (47, [12])] : [(23, [3, 25]), (47, [8])]
-            var i = 0
-            for (baseY, xs) in rows {
-                for x in xs {
-                    box(&c, x: x, baseY: baseY, w: 18, depth: 6, height: 7,
-                        wall: i % 2 == 0 ? walls.main : walls.sub,
-                        roof: Palette.roofBrown, windows: Palette.window, rng: &rng)
-                    i += 1
-                }
-            }
+            // 低層の集合住宅。ここから1棟が区画をほぼ埋める。
+            // 屋根を大きく取って、見下ろした絵として読ませる。
+            let inset = variant % 2 == 0 ? 3 : 4
+            box(&c, x: inset, baseY: 45, w: 48 - inset * 2, depth: 24, height: 6,
+                wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
 
         case 5:
-            // 中層。倍近い高さになる。
-            if variant == 0 {
-                box(&c, x: 25, baseY: 28, w: 15, depth: 7, height: 9,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 1, baseY: 47, w: 17, depth: 7, height: 11,
-                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 22, baseY: 47, w: 17, depth: 7, height: 10,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-            } else {
-                box(&c, x: 2, baseY: 27, w: 16, depth: 7, height: 8,
-                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 1, baseY: 47, w: 18, depth: 7, height: 10,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 23, baseY: 47, w: 17, depth: 7, height: 12,
-                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-            }
+            // 中層。壁を高くして、屋根はそのまま広く保つ。
+            let inset = variant % 2 == 0 ? 2 : 3
+            box(&c, x: inset, baseY: 45, w: 48 - inset * 2, depth: 25, height: 10,
+                wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+            c.hLine(inset + 2, 45 - 10 - 25 + 4, 48 - inset * 2 - 4, walls.sub.shaded(0.9))
 
         case 6:
-            // 高層。区画いっぱいまで伸ばす。ここまでは棟を分けた集合体。
-            if variant == 0 {
-                box(&c, x: 30, baseY: 26, w: 11, depth: 6, height: 7,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 1, baseY: 47, w: 18, depth: 8, height: 16,
-                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 22, baseY: 47, w: 17, depth: 8, height: 13,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-            } else {
-                box(&c, x: 2, baseY: 25, w: 12, depth: 6, height: 7,
-                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 1, baseY: 47, w: 17, depth: 8, height: 13,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 21, baseY: 47, w: 18, depth: 8, height: 17,
-                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-            }
+            // 高層の手前。棟を2つに割って、片方を高くする。
+            box(&c, x: 2, baseY: 45, w: 26, depth: 24, height: 13,
+                wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+            box(&c, x: 29, baseY: 45, w: 17, depth: 18, height: 9,
+                wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
 
         default:
             // L7 以降は棟の集合ではなく、段を重ねた1本のタワーが主役になる。
@@ -947,39 +923,22 @@ enum TileArt {
             for y in stride(from: 32, to: 46, by: 4) { c.hLine(28, y, 16, Palette.pavementDark) }
 
         case 4:
-            box(&c, x: 24, baseY: 27, w: 17, depth: 7, height: 8,
-                wall: Palette.wall, roof: Palette.roofBlue, windows: Palette.window, rng: &rng)
-            box(&c, x: 2, baseY: 47, w: 19, depth: 7, height: 10,
+            // 中規模の店舗。1棟が区画をほぼ埋める。
+            let inset = variant % 2 == 0 ? 3 : 4
+            box(&c, x: inset, baseY: 45, w: 48 - inset * 2, depth: 24, height: 7,
                 wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-            box(&c, x: 24, baseY: 47, w: 17, depth: 7, height: 8,
-                wall: Palette.wallWarm, roof: Palette.roofRed, windows: Palette.window, rng: &rng)
 
         case 5:
-            box(&c, x: 27, baseY: 30, w: 14, depth: 7, height: 9,
-                wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-            box(&c, x: 1, baseY: 47, w: 18, depth: 8, height: 13,
-                wall: walls.main, roof: walls.sub, windows: Palette.window, rng: &rng)
-            box(&c, x: 22, baseY: 47, w: 17, depth: 8, height: 11,
-                wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+            let inset = variant % 2 == 0 ? 2 : 3
+            box(&c, x: inset, baseY: 45, w: 48 - inset * 2, depth: 25, height: 11,
+                wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+            c.hLine(inset + 2, 45 - 11 - 25 + 4, 48 - inset * 2 - 4, walls.sub.shaded(0.9))
 
         case 6:
-            if variant == 0 {
-                box(&c, x: 29, baseY: 30, w: 12, depth: 6, height: 8,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 1, baseY: 47, w: 18, depth: 8, height: 17,
-                    wall: walls.main, roof: walls.sub, windows: Palette.window, rng: &rng)
-                c.vLine(9, 0, 3, Palette.steel)
-                box(&c, x: 22, baseY: 47, w: 17, depth: 8, height: 14,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-            } else {
-                box(&c, x: 2, baseY: 28, w: 13, depth: 6, height: 8,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 1, baseY: 47, w: 17, depth: 8, height: 14,
-                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
-                box(&c, x: 21, baseY: 47, w: 18, depth: 8, height: 18,
-                    wall: walls.main, roof: walls.sub, windows: Palette.window, rng: &rng)
-                c.vLine(29, 0, 3, Palette.steel)
-            }
+            box(&c, x: 2, baseY: 45, w: 27, depth: 24, height: 14,
+                wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+            box(&c, x: 30, baseY: 45, w: 16, depth: 18, height: 10,
+                wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
 
         default:
             // L7 以降はオフィスタワー1本が主役。ガラス張りで、住宅より少しとがった印象にする。
