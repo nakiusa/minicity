@@ -428,29 +428,37 @@ enum TileArt {
                                      widths: [Int], heights: [Int], depths: [Int],
                                      wall: RGBA, roof: RGBA, windows: RGBA?,
                                      rng: inout SplitMix64) -> (cx: Int, topY: Int) {
-        // 屋根は右上へ `depth` だけ斜めに伸びる。上の段はその奥の縁の上に
-        // 乗っている必要があるので、段を重ねるたびに原点を右へ `depth` だけ送る。
+        // 屋根は右上へ 45 度に伸びる平行四辺形なので、その上に次の段を載せるには、
+        // 奥へ入れた量ぶんだけ原点を右へ・上へ同時に送る必要がある。
+        // x と y に同じ値を使うのが肝で、ここが食い違うと上の段が屋根の面から
+        // 外れて浮いて見える（以前は x を depth / 2、y を depth / 3 でずらしていた）。
+        //
         // 各段の depth を独立に持たせているのは、上の段まで同じ奥行きを使うと
         // 高さの合計が 48px の枠をすぐ超えてしまうため（上の段ほど奥行きを浅くする）。
         var frontX = x
+        // その段の手前の壁の下端。2段目からは、前の段の屋根の手前の縁を指す。
         var frontBaseY = baseY
         var prevW = widths[0]
+        var prevDepth = depths[0]
         var topCenterX = x + widths[0] / 2
         var topY = baseY
 
         for i in 0..<widths.count {
             let w = widths[i], h = heights[i], depth = depths[i]
             if i > 0 {
-                frontX += max(0, (prevW - w) / 2) + max(2, depth / 2)
+                // 前の段の footprint の中で、奥行き方向にも幅方向にも中央へ寄せる。
+                let inset = max(1, (prevDepth - depth) / 2)
+                frontX += (prevW - w) / 2 + inset
+                frontBaseY -= inset
             }
             box(&c, x: frontX, baseY: frontBaseY, w: w, depth: depth, height: h,
                 wall: wall, roof: roof, windows: windows, rng: &rng)
-            let roofTopY = frontBaseY - h - depth
             topCenterX = frontX + depth + w / 2
-            topY = roofTopY
-            // 次の段は、この段の屋根の頂点よりわずかに低い位置から生やして継ぎ目を隠す。
-            frontBaseY = roofTopY + max(2, depth / 3)
+            topY = frontBaseY - h - depth
+            // 次の段のために、この段の屋根の手前の縁の高さを持ち越す。
+            frontBaseY -= h
             prevW = w
+            prevDepth = depth
         }
         return (topCenterX, topY)
     }
@@ -533,21 +541,26 @@ enum TileArt {
         let towerHeight = towerHeights[min(max(level, 0), towerHeights.count - 1)]
 
         // 土台。街区いっぱいに広く、背は低いまま据え置く。
-        let podiumW = 34, podiumH = 8, podiumDepth = 7
+        let podiumW = 34, podiumH = 8, podiumDepth = 8
         let podiumX = 2
 
         // 土台をまず建てる。
         box(&c, x: podiumX, baseY: baseY, w: podiumW, depth: podiumDepth, height: podiumH,
             wall: podiumWall, roof: roof, windows: Palette.window, rng: &rng)
 
-        // 塔。土台の屋根の頂点よりわずかに低い位置から、幅を絞って生やす。
-        // `steppedTower` と同じ「奥行きぶん原点をずらす」計算をここでも使う
-        // （色を土台と変えたいので、あえて2段呼び出しではなく手で1段だけ描く）。
+        // 塔は土台の屋根の上に載せる。屋根は右上へ 45 度に伸びる平行四辺形なので、
+        // 奥へ inset だけ入れた場所は、手前の壁の面から見て右へ inset・上へ inset ずれる。
+        // x と y に同じ inset を使うのが肝で、ここが食い違うと塔の足元が屋根の面から
+        // 外れて宙に浮く（以前は y を podiumDepth / 3、x を towerDepth / 2 で
+        // ずらしていたため、載っているように見えなかった）。
+        //
+        // 塔の奥行きも土台に収める。塔のほうが深いと、背面が土台の奥の縁を突き抜ける。
         let towerW = level >= 9 ? 17 : 14
-        let towerDepth = 6
-        let podiumRoofTopY = baseY - podiumH - podiumDepth
-        let towerBaseY = podiumRoofTopY + max(2, podiumDepth / 3)
-        let towerX = podiumX + max(0, (podiumW - towerW) / 2) + max(2, towerDepth / 2)
+        let towerDepth = 4
+        let towerInset = (podiumDepth - towerDepth) / 2
+        let podiumFacadeTop = baseY - podiumH
+        let towerX = podiumX + (podiumW - towerW) / 2 + towerInset
+        let towerBaseY = podiumFacadeTop - towerInset
 
         box(&c, x: towerX, baseY: towerBaseY, w: towerW, depth: towerDepth, height: towerHeight,
             wall: mainWall, roof: roof, windows: Palette.window, rng: &rng)
