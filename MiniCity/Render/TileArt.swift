@@ -266,12 +266,17 @@ enum TileArt {
                             x: Int, baseY: Int, w: Int, depth: Int, height: Int,
                             wall: RGBA, roof: RGBA,
                             windows: RGBA? = nil, windowStep: Int = 4,
+                            shadow: Int? = nil,
                             rng: inout SplitMix64) {
         let facadeTop = baseY - height
         let side = wall.shaded(0.62)
 
         // 影。奥行きと同じ向きに、地面へ落ちる形で置く。
-        for i in 1...max(1, depth) {
+        // 既定では奥行きぶんだけ伸ばすが、高い建物はそれでは足りない。
+        // 53px の塔が 4px の影しか落とさないと、質量が感じられず浮いて見える。
+        // 呼び出し側から長さを指定できるようにしてある。
+        let shadowLength = max(1, shadow ?? depth)
+        for i in 1...shadowLength {
             c.hLine(x + i + 2, baseY - i + 2, w, Palette.shadow)
         }
         c.rect(x + 2, baseY, w + depth, 2, Palette.shadow)
@@ -505,14 +510,36 @@ enum TileArt {
         return c
     }
 
-    /// 上に伸びる高層タワー1枚。背景は透明で、足元（`towerCanvasHeight-1` の行）が
-    /// 区画の地面に接する。
-    ///
-    /// 「箱を2段重ねる」のではなく、丸の内の高層ビルのように**低く広い土台の上に
-    /// 細い塔が1本立つ**構図にする。土台の高さはレベルが上がってもほとんど
-    /// 変えず、伸びるのは塔の側だけ。幅の近い箱を積むと継ぎ目が「重なった別の建物」
-    /// に見えてしまうため、土台と塔の幅の差をはっきり付けて塔が土台から
-    /// 生えているのだと分かるようにしてある。
+    /// 高層の区画の形。レベルが同じでも variant で別の形になるようにして、
+    /// 街が塔の繰り返しにならないようにしている。
+    private enum TowerForm {
+        /// 1本の塔。土台の中央から素直に伸びる。
+        case single
+        /// 2本の塔を並べる。1本ずつ高さを変えて、片方を主役にする。
+        case twin
+        /// 段を重ねて上ほど細くする。足元が広いので、いちばん重く見える。
+        case setback
+        /// 板状。幅を取って奥行きを薄くした、団地のような塊。
+        case slab
+    }
+
+    /// レベルと variant から形を決める。同じレベルでも2つの形が出るようにして、
+    /// 街を引きで見たときに輪郭が単調にならないようにしてある。
+    private static func towerForm(level: Int, variant: Int) -> TowerForm {
+        switch (level, variant) {
+        case (6, 0): return .slab
+        case (6, _): return .single
+        case (7, 0): return .single
+        case (7, _): return .slab
+        case (8, 0): return .setback
+        case (8, _): return .twin
+        case (9, 0): return .twin
+        case (9, _): return .setback
+        case (_, 0): return .setback
+        default:     return .twin
+        }
+    }
+
     static func towerSprite(kind: ZoneKind, level: Int, variant: Int) -> PixelCanvas {
         var c = PixelCanvas(width: zoneSize, height: towerCanvasHeight)
         let seed = UInt64(Int(kind.rawValue) * 1000 + level * 10 + variant + 77)
@@ -533,47 +560,121 @@ enum TileArt {
         // 塔の高さ。ここがレベルごとに大きく伸びる部分。土台は含まない。
         //
         // 区画の敷地は縦48px（3マスぶん）。塔をそのまま伸ばすと隣のマスの
-        // 中身に容赦なく覆いかぶさってしまう（かつては L10 で 58px ＝ 3.6マスぶんも
-        // はみ出していた）。ここでは、敷地の外へ出るぶん（＝はみ出し量）が
-        // 最大でも 1.5マス（24px）に収まるよう、L6〜7 は敷地の中に収め、
-        // L8 以降だけ少しずつ隣へ顔を出す設計にしてある。
+        // 中身に容赦なく覆いかぶさってしまう。敷地の外へ出るぶんが最大でも
+        // 1.5マス（24px）に収まるよう、L6〜7 は敷地の中に収め、
+        // L8 以降だけ少しずつ隣へ顔を出す。
         let towerHeights: [Int] = [0, 0, 0, 0, 0, 0, 14, 24, 34, 44, 53]
         let towerHeight = towerHeights[min(max(level, 0), towerHeights.count - 1)]
 
         // 土台。街区いっぱいに広く、背は低いまま据え置く。
         let podiumW = 34, podiumH = 8, podiumDepth = 8
         let podiumX = 2
-
-        // 土台をまず建てる。
-        box(&c, x: podiumX, baseY: baseY, w: podiumW, depth: podiumDepth, height: podiumH,
-            wall: podiumWall, roof: roof, windows: Palette.window, rng: &rng)
-
-        // 塔は土台の屋根の上に載せる。屋根は右上へ 45 度に伸びる平行四辺形なので、
-        // 奥へ inset だけ入れた場所は、手前の壁の面から見て右へ inset・上へ inset ずれる。
-        // x と y に同じ inset を使うのが肝で、ここが食い違うと塔の足元が屋根の面から
-        // 外れて宙に浮く（以前は y を podiumDepth / 3、x を towerDepth / 2 で
-        // ずらしていたため、載っているように見えなかった）。
-        //
-        // 塔の奥行きも土台に収める。塔のほうが深いと、背面が土台の奥の縁を突き抜ける。
-        let towerW = level >= 9 ? 17 : 14
-        let towerDepth = 4
-        let towerInset = (podiumDepth - towerDepth) / 2
         let podiumFacadeTop = baseY - podiumH
-        let towerX = podiumX + (podiumW - towerW) / 2 + towerInset
-        let towerBaseY = podiumFacadeTop - towerInset
 
-        box(&c, x: towerX, baseY: towerBaseY, w: towerW, depth: towerDepth, height: towerHeight,
-            wall: mainWall, roof: roof, windows: Palette.window, rng: &rng)
+        // 土台の影は、塔まで含めた建物ぜんたいの高さで伸ばす。
+        // 地面に落ちるこの影が、塊がそこに立っていることを一番わかりやすく示す。
+        //
+        // ただし影は右上へ伸びるので、伸ばしすぎるとスプライトの右端（48px）で
+        // 断ち切られて、不自然な縦の切り口が出る。枠に収まる長さで頭打ちにする。
+        let groundShadowLimit = zoneSize - podiumX - podiumW - 2
+        box(&c, x: podiumX, baseY: baseY, w: podiumW, depth: podiumDepth, height: podiumH,
+            wall: podiumWall, roof: roof, windows: Palette.window,
+            shadow: min(podiumDepth + towerHeight / 4, groundShadowLimit), rng: &rng)
 
-        let towerTopY = towerBaseY - towerHeight - towerDepth
-        let towerTopCX = towerX + towerDepth + towerW / 2
-
-        if level >= 7 {
-            spire(&c, cx: towerTopCX, topY: towerTopY, height: level >= 9 ? 8 : 5, blink: Palette.beacon)
+        /// 土台の屋根の上に箱を1つ置く。
+        ///
+        /// 屋根は右上へ 45 度に伸びる平行四辺形なので、奥へ inset だけ入れた場所は、
+        /// 手前の壁の面から見て右へ inset・上へ inset ずれる。x と y に同じ inset を
+        /// 使うのが肝で、ここが食い違うと足元が屋根の面から外れて宙に浮く。
+        ///
+        /// `offsetX` は土台の手前の壁の面で測った、左端からのずれ。
+        func onPodium(offsetX: Int, w: Int, depth: Int, height: Int,
+                      wall: RGBA) -> (cx: Int, topY: Int, x: Int, baseY: Int) {
+            let inset = max(1, (podiumDepth - depth) / 2)
+            let x = podiumX + offsetX + inset
+            let base = podiumFacadeTop - inset
+            // 屋根の上に落ちる影は、屋根からはみ出さない長さに抑える。
+            box(&c, x: x, baseY: base, w: w, depth: depth, height: height,
+                wall: wall, roof: roof, windows: Palette.window,
+                shadow: min(depth + height / 6, podiumDepth - inset), rng: &rng)
+            return (x + depth + w / 2, base - height - depth, x, base)
         }
-        if level >= 8 {
-            // 塔の左端に縦のガラスライン。丸の内らしいカーテンウォールの継ぎ目。
-            c.vLine(towerX, towerBaseY - towerHeight + 3, towerHeight - 6, Palette.towerAccent)
+
+        switch towerForm(level: level, variant: variant) {
+        case .single:
+            let w = 14, depth = 4
+            let t = onPodium(offsetX: (podiumW - w) / 2, w: w, depth: depth,
+                             height: towerHeight, wall: mainWall)
+            if level >= 7 {
+                spire(&c, cx: t.cx, topY: t.topY, height: level >= 9 ? 8 : 5, blink: Palette.beacon)
+            }
+            if level >= 8 {
+                c.vLine(t.x, t.baseY - towerHeight + 3, towerHeight - 6, Palette.towerAccent)
+            }
+
+        case .slab:
+            // 幅を取って奥行きを薄くする。塔というより壁のような塊になる。
+            let w = 24, depth = 3
+            let t = onPodium(offsetX: (podiumW - w) / 2, w: w, depth: depth,
+                             height: towerHeight * 4 / 5, wall: mainWall)
+            // 板の面を縦線で割って、のっぺりさせない。
+            let h = towerHeight * 4 / 5
+            c.vLine(t.x + w / 3, t.baseY - h + 2, h - 4, Palette.towerAccent)
+            c.vLine(t.x + w * 2 / 3, t.baseY - h + 2, h - 4, Palette.towerAccent)
+            if level >= 9 {
+                spire(&c, cx: t.cx, topY: t.topY, height: 4, blink: Palette.beacon)
+            }
+
+        case .twin:
+            // 2本。高さを変えて、低いほうを手前の左に置く。
+            let w = 11, depth = 4, gap = 5
+            let span = w * 2 + gap
+            let left = (podiumW - span) / 2
+            let shortH = towerHeight * 7 / 10
+            _ = onPodium(offsetX: left, w: w, depth: depth, height: shortH, wall: mainWall.shaded(0.92))
+            let tall = onPodium(offsetX: left + w + gap, w: w, depth: depth,
+                                height: towerHeight, wall: mainWall)
+            spire(&c, cx: tall.cx, topY: tall.topY, height: level >= 9 ? 6 : 4, blink: Palette.beacon)
+
+        case .setback:
+            // 段を重ねて上ほど細くする。各段の footprint は下の段の内側に収める。
+            let stages = level >= 10 ? 3 : 2
+            var widths: [Int] = []
+            var heights: [Int] = []
+            var depths: [Int] = []
+            if stages == 3 {
+                widths = [22, 15, 9]
+                heights = [towerHeight * 9 / 20, towerHeight * 7 / 20, towerHeight * 4 / 20]
+                depths = [6, 4, 2]
+            } else {
+                widths = [20, 13]
+                heights = [towerHeight * 3 / 5, towerHeight * 2 / 5]
+                depths = [6, 4]
+            }
+            // 1段目は土台の屋根の上に置き、2段目からは前の段の屋根の上に積む。
+            let first = onPodium(offsetX: (podiumW - widths[0]) / 2, w: widths[0],
+                                 depth: depths[0], height: heights[0], wall: mainWall)
+            var frontX = first.x
+            var frontBaseY = first.baseY - heights[0]
+            var prevW = widths[0]
+            var prevDepth = depths[0]
+            var topCX = first.cx
+            var topY = first.topY
+            for i in 1..<stages {
+                let w = widths[i], h = heights[i], d = depths[i]
+                let inset = max(1, (prevDepth - d) / 2)
+                frontX += (prevW - w) / 2 + inset
+                frontBaseY -= inset
+                box(&c, x: frontX, baseY: frontBaseY, w: w, depth: d, height: h,
+                    wall: mainWall, roof: roof, windows: Palette.window,
+                    shadow: min(d + h / 6, prevDepth - inset), rng: &rng)
+                topCX = frontX + d + w / 2
+                topY = frontBaseY - h - d
+                frontBaseY -= h
+                prevW = w
+                prevDepth = d
+            }
+            spire(&c, cx: topCX, topY: topY, height: level >= 9 ? 6 : 4, blink: Palette.beacon)
         }
 
         return c
