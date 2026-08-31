@@ -571,15 +571,23 @@ enum TileArt {
         let podiumX = 2
         let podiumFacadeTop = baseY - podiumH
 
-        // 土台の影は、塔まで含めた建物ぜんたいの高さで伸ばす。
-        // 地面に落ちるこの影が、塊がそこに立っていることを一番わかりやすく示す。
-        //
-        // ただし影は右上へ伸びるので、伸ばしすぎるとスプライトの右端（48px）で
-        // 断ち切られて、不自然な縦の切り口が出る。枠に収まる長さで頭打ちにする。
-        let groundShadowLimit = zoneSize - podiumX - podiumW - 2
-        box(&c, x: podiumX, baseY: baseY, w: podiumW, depth: podiumDepth, height: podiumH,
-            wall: podiumWall, roof: roof, windows: Palette.window,
-            shadow: min(podiumDepth + towerHeight / 4, groundShadowLimit), rng: &rng)
+        /// 地面に落ちる影の長さ。塔まで含めた高さで伸ばす。
+        /// この影が、塊がそこに立っていることを一番わかりやすく示す。
+        ///
+        /// ただし影は右上へ伸びるので、伸ばしすぎるとスプライトの右端（48px）で
+        /// 断ち切られて、不自然な縦の切り口が出る。枠に収まる長さで頭打ちにする。
+        func groundShadow(x: Int, w: Int, height: Int, depth: Int) -> Int {
+            min(depth + height / 4, max(1, zoneSize - x - w - 2))
+        }
+
+        /// 低く広い土台を建てる。単塔・板状・セットバックはこの上に載る。
+        func drawPodium() {
+            box(&c, x: podiumX, baseY: baseY, w: podiumW, depth: podiumDepth, height: podiumH,
+                wall: podiumWall, roof: roof, windows: Palette.window,
+                shadow: groundShadow(x: podiumX, w: podiumW,
+                                     height: podiumH + towerHeight, depth: podiumDepth),
+                rng: &rng)
+        }
 
         /// 土台の屋根の上に箱を1つ置く。
         ///
@@ -602,6 +610,7 @@ enum TileArt {
 
         switch towerForm(level: level, variant: variant) {
         case .single:
+            drawPodium()
             let w = 14, depth = 4
             let t = onPodium(offsetX: (podiumW - w) / 2, w: w, depth: depth,
                              height: towerHeight, wall: mainWall)
@@ -613,6 +622,7 @@ enum TileArt {
             }
 
         case .slab:
+            drawPodium()
             // 幅を取って奥行きを薄くする。塔というより壁のような塊になる。
             let w = 24, depth = 3
             let t = onPodium(offsetX: (podiumW - w) / 2, w: w, depth: depth,
@@ -626,17 +636,36 @@ enum TileArt {
             }
 
         case .twin:
-            // 2本。高さを変えて、低いほうを手前の左に置く。
-            let w = 11, depth = 4, gap = 5
+            // 2本を地面から直接立てる。土台は置かない。
+            // 1つの低層部を2本で共有する建物は現実にはほとんどなく、
+            // 載せると「大きな箱の上に塔が2本刺さっている」ようにしか見えない。
+            // 土台のぶんの高さは塔の側に足して、他の形と背丈をそろえる。
+            let w = 12, depth = 5, gap = 6
+            let tallH = towerHeight + podiumH
+            let shortH = tallH * 7 / 10
             let span = w * 2 + gap
-            let left = (podiumW - span) / 2
-            let shortH = towerHeight * 7 / 10
-            _ = onPodium(offsetX: left, w: w, depth: depth, height: shortH, wall: mainWall.shaded(0.92))
-            let tall = onPodium(offsetX: left + w + gap, w: w, depth: depth,
-                                height: towerHeight, wall: mainWall)
-            spire(&c, cx: tall.cx, topY: tall.topY, height: level >= 9 ? 6 : 4, blink: Palette.beacon)
+            let leftX = (zoneSize - (span + depth)) / 2
+
+            // 奥から手前ではなく、左から右の順に描く。奥行きが右上へ伸びるので、
+            // 右の棟があとに来ないと重なりの前後が逆になる。
+            box(&c, x: leftX, baseY: baseY, w: w, depth: depth, height: shortH,
+                wall: mainWall.shaded(0.92), roof: roof, windows: Palette.window,
+                shadow: groundShadow(x: leftX, w: w, height: shortH, depth: depth), rng: &rng)
+
+            let rightX = leftX + w + gap
+            box(&c, x: rightX, baseY: baseY, w: w, depth: depth, height: tallH,
+                wall: mainWall, roof: roof, windows: Palette.window,
+                shadow: groundShadow(x: rightX, w: w, height: tallH, depth: depth), rng: &rng)
+
+            let tallTopY = baseY - tallH - depth
+            let tallCX = rightX + depth + w / 2
+            spire(&c, cx: tallCX, topY: tallTopY, height: level >= 9 ? 6 : 4, blink: Palette.beacon)
+            if level >= 9 {
+                c.vLine(rightX, baseY - tallH + 3, tallH - 6, Palette.towerAccent)
+            }
 
         case .setback:
+            drawPodium()
             // 段を重ねて上ほど細くする。各段の footprint は下の段の内側に収める。
             let stages = level >= 10 ? 3 : 2
             var widths: [Int] = []
