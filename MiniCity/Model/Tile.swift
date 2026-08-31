@@ -81,6 +81,11 @@ struct Zone: Codable {
     /// 段を細かくしてあるのは、育ったことが見た目でわかるようにするため。
     static let maxLevel = 10
 
+    /// 区画ごとの見た目の種類。描画側の `TileCatalog.buildingVariants` と揃える。
+    /// モデル側にも持たせてあるのは、セーブデータに入る値の範囲を決めるのが
+    /// ここだからで、描画を読み込まないヘッドレスの検証でも同じ値になる。
+    static let variantCount = 4
+
     /// このゾーンが抱える住民または雇用の数。
     var capacity: Int {
         guard level > 0 else { return 0 }

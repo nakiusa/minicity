@@ -12,7 +12,9 @@ final class TileCatalog {
     static let landVariants = 4
     static let waterVariants = 3
     static let forestVariants = 3
-    static let buildingVariants = 2
+    /// 区画ごとの見た目の種類。形は2通り、壁の色は4通りなので、
+    /// 組み合わせは 8 通りになる。増やすとテクスチャの生成数も比例して増える。
+    static let buildingVariants = 4
 
     init() {
         var all: [SKTileGroup] = []

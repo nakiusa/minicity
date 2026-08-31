@@ -31,6 +31,10 @@ enum Palette {
 
     static let wall = RGBA(208, 200, 182)
     static let wallWarm = RGBA(196, 176, 152)
+    // 街区ごとに壁の色を散らすための追加。2色だけだと、同じレベルの街区が
+    // 並んだときに色までそろってしまい、引きで見て単調になる。
+    static let wallCool = RGBA(184, 190, 198)
+    static let wallClay = RGBA(198, 166, 148)
     static let concrete = RGBA(176, 174, 168)
     static let brick = RGBA(150, 100, 78)
     static let roofRed = RGBA(162, 66, 54)
@@ -39,6 +43,8 @@ enum Palette {
     static let roofGrey = RGBA(106, 106, 112)
     static let glass = RGBA(92, 138, 178)
     static let glassDark = RGBA(66, 104, 140)
+    static let glassTeal = RGBA(74, 148, 152)
+    static let glassSlate = RGBA(110, 124, 172)
     static let window = RGBA(128, 182, 214)
     static let windowLit = RGBA(236, 216, 142)
     static let steel = RGBA(120, 118, 112)
@@ -256,6 +262,28 @@ enum TileArt {
     }
 
     /// 建物の輪郭。面の境目をこれで締めると、地面から立ち上がって見える。
+    /// 区画ごとの壁の色。variant で 4 通りに散らす。
+    /// `main` を主な壁に、`sub` を副えの棟や土台に使う。
+    ///
+    /// 色を2色に絞ると、同じレベルの街区が並んだときに輪郭だけでなく色まで
+    /// そろってしまい、引きで見たときに壁のように見える。
+    static func wallPair(kind: ZoneKind, variant: Int) -> (main: RGBA, sub: RGBA) {
+        if kind == .commercial {
+            switch variant % 4 {
+            case 0: return (Palette.glass, Palette.glassDark)
+            case 1: return (Palette.glassDark, Palette.glass)
+            case 2: return (Palette.glassTeal, Palette.glassDark)
+            default: return (Palette.glassSlate, Palette.glass)
+            }
+        }
+        switch variant % 4 {
+        case 0: return (Palette.wall, Palette.wallWarm)
+        case 1: return (Palette.wallWarm, Palette.wall)
+        case 2: return (Palette.wallCool, Palette.wallWarm)
+        default: return (Palette.wallClay, Palette.wall)
+        }
+    }
+
     static let outline = RGBA(30, 28, 34)
 
     /// 斜投影の箱。手前の壁・上面・右の側面の3面を描く。
@@ -526,7 +554,9 @@ enum TileArt {
     /// レベルと variant から形を決める。同じレベルでも2つの形が出るようにして、
     /// 街を引きで見たときに輪郭が単調にならないようにしてある。
     private static func towerForm(level: Int, variant: Int) -> TowerForm {
-        switch (level, variant) {
+        // 形は2通りで足りるので variant の偶奇で選ぶ。色は variant そのもので
+        // 4通りに散らすので、形と色の組み合わせは 8 通りになる。
+        switch (level, variant % 2) {
         case (6, 0): return .slab
         case (6, _): return .single
         case (7, 0): return .single
@@ -546,15 +576,9 @@ enum TileArt {
         var rng = SplitMix64(seed: seed)
         let baseY = towerCanvasHeight - 1
 
-        let mainWall: RGBA, podiumWall: RGBA
-        switch kind {
-        case .commercial:
-            mainWall = variant == 0 ? Palette.glass : Palette.glassDark
-            podiumWall = variant == 0 ? Palette.glassDark : Palette.glass
-        default:
-            mainWall = variant == 0 ? Palette.wall : Palette.wallWarm
-            podiumWall = variant == 0 ? Palette.wallWarm : Palette.wall
-        }
+        let walls = wallPair(kind: kind, variant: variant)
+        let mainWall = walls.main
+        let podiumWall = walls.sub
         let roof = Palette.roofGrey
 
         // 塔の高さ。ここがレベルごとに大きく伸びる部分。土台は含まない。
@@ -747,6 +771,7 @@ enum TileArt {
         var rng = SplitMix64(seed: UInt64(level &* 100 &+ variant &+ 500))
         var c = grassGround(UInt64(variant &* 7 &+ 1))
         let roofs = [Palette.roofRed, Palette.roofBrown, Palette.roofBlue]
+        let walls = wallPair(kind: .residential, variant: variant)
 
         switch level {
         case 1...3:
@@ -764,7 +789,7 @@ enum TileArt {
             for (baseY, xs) in rows {
                 for x in xs {
                     house(&c, x: x, baseY: baseY, w: w, depth: depth, height: height,
-                          wall: i % 2 == 0 ? Palette.wall : Palette.wallWarm,
+                          wall: i % 2 == 0 ? walls.main : walls.sub,
                           roof: roofs[i % roofs.count])
                     i += 1
                 }
@@ -782,7 +807,7 @@ enum TileArt {
             for (baseY, xs) in rows {
                 for x in xs {
                     box(&c, x: x, baseY: baseY, w: 18, depth: 6, height: 7,
-                        wall: i % 2 == 0 ? Palette.wall : Palette.wallWarm,
+                        wall: i % 2 == 0 ? walls.main : walls.sub,
                         roof: Palette.roofBrown, windows: Palette.window, rng: &rng)
                     i += 1
                 }
@@ -792,43 +817,43 @@ enum TileArt {
             // 中層。倍近い高さになる。
             if variant == 0 {
                 box(&c, x: 25, baseY: 28, w: 15, depth: 7, height: 9,
-                    wall: Palette.wallWarm, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 1, baseY: 47, w: 17, depth: 7, height: 11,
-                    wall: Palette.wall, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 22, baseY: 47, w: 17, depth: 7, height: 10,
-                    wall: Palette.wallWarm, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
             } else {
                 box(&c, x: 2, baseY: 27, w: 16, depth: 7, height: 8,
-                    wall: Palette.wall, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 1, baseY: 47, w: 18, depth: 7, height: 10,
-                    wall: Palette.wallWarm, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 23, baseY: 47, w: 17, depth: 7, height: 12,
-                    wall: Palette.wall, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
             }
 
         case 6:
             // 高層。区画いっぱいまで伸ばす。ここまでは棟を分けた集合体。
             if variant == 0 {
                 box(&c, x: 30, baseY: 26, w: 11, depth: 6, height: 7,
-                    wall: Palette.wallWarm, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 1, baseY: 47, w: 18, depth: 8, height: 16,
-                    wall: Palette.wall, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 22, baseY: 47, w: 17, depth: 8, height: 13,
-                    wall: Palette.wallWarm, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
             } else {
                 box(&c, x: 2, baseY: 25, w: 12, depth: 6, height: 7,
-                    wall: Palette.wall, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 1, baseY: 47, w: 17, depth: 8, height: 13,
-                    wall: Palette.wallWarm, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 21, baseY: 47, w: 18, depth: 8, height: 17,
-                    wall: Palette.wall, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
             }
 
         default:
             // L7 以降は棟の集合ではなく、段を重ねた1本のタワーが主役になる。
             // 段ごとに絞り込むことで、壁を伸ばしすぎずに「本当に高い」ことを見せる。
-            let mainWall = variant == 0 ? Palette.wall : Palette.wallWarm
-            let sideWall = variant == 0 ? Palette.wallWarm : Palette.wall
+            let mainWall = variant == 0 ? walls.main : walls.sub
+            let sideWall = variant == 0 ? walls.sub : walls.main
 
             switch level {
             case 7:
@@ -879,6 +904,7 @@ enum TileArt {
     static func commercial(level: Int, variant: Int) -> PixelCanvas {
         var rng = SplitMix64(seed: UInt64(level &* 200 &+ variant &+ 900))
         var c = pavementGround(UInt64(variant &* 11 &+ 2))
+        let walls = wallPair(kind: .commercial, variant: variant)
 
         /// 入口の日よけ。低層の店にだけ付ける。
         func awning(_ x: Int, _ baseY: Int, _ w: Int) {
@@ -924,41 +950,41 @@ enum TileArt {
             box(&c, x: 24, baseY: 27, w: 17, depth: 7, height: 8,
                 wall: Palette.wall, roof: Palette.roofBlue, windows: Palette.window, rng: &rng)
             box(&c, x: 2, baseY: 47, w: 19, depth: 7, height: 10,
-                wall: Palette.glass, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                wall: walls.main, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
             box(&c, x: 24, baseY: 47, w: 17, depth: 7, height: 8,
                 wall: Palette.wallWarm, roof: Palette.roofRed, windows: Palette.window, rng: &rng)
 
         case 5:
             box(&c, x: 27, baseY: 30, w: 14, depth: 7, height: 9,
-                wall: Palette.glassDark, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
             box(&c, x: 1, baseY: 47, w: 18, depth: 8, height: 13,
-                wall: Palette.glass, roof: Palette.glassDark, windows: Palette.window, rng: &rng)
+                wall: walls.main, roof: walls.sub, windows: Palette.window, rng: &rng)
             box(&c, x: 22, baseY: 47, w: 17, depth: 8, height: 11,
-                wall: Palette.glassDark, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
 
         case 6:
             if variant == 0 {
                 box(&c, x: 29, baseY: 30, w: 12, depth: 6, height: 8,
-                    wall: Palette.glassDark, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 1, baseY: 47, w: 18, depth: 8, height: 17,
-                    wall: Palette.glass, roof: Palette.glassDark, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: walls.sub, windows: Palette.window, rng: &rng)
                 c.vLine(9, 0, 3, Palette.steel)
                 box(&c, x: 22, baseY: 47, w: 17, depth: 8, height: 14,
-                    wall: Palette.glassDark, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
             } else {
                 box(&c, x: 2, baseY: 28, w: 13, depth: 6, height: 8,
-                    wall: Palette.glassDark, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 1, baseY: 47, w: 17, depth: 8, height: 14,
-                    wall: Palette.glassDark, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
+                    wall: walls.sub, roof: Palette.roofGrey, windows: Palette.window, rng: &rng)
                 box(&c, x: 21, baseY: 47, w: 18, depth: 8, height: 18,
-                    wall: Palette.glass, roof: Palette.glassDark, windows: Palette.window, rng: &rng)
+                    wall: walls.main, roof: walls.sub, windows: Palette.window, rng: &rng)
                 c.vLine(29, 0, 3, Palette.steel)
             }
 
         default:
             // L7 以降はオフィスタワー1本が主役。ガラス張りで、住宅より少しとがった印象にする。
-            let mainWall = variant == 0 ? Palette.glass : Palette.glassDark
-            let sideWall = variant == 0 ? Palette.glassDark : Palette.glass
+            let mainWall = variant == 0 ? walls.main : walls.sub
+            let sideWall = variant == 0 ? walls.sub : walls.main
 
             switch level {
             case 7:

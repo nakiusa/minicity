@@ -97,8 +97,9 @@ final class CityMap {
     func addZone(kind: ZoneKind, ox: Int, oy: Int) -> Int32 {
         let id = Int32(zones.count)
         // 見た目のばらつきは置いた場所から決める。同じ都市を読み直しても絵が変わらない。
+        // 4 通りに散らして、隣り合った同じレベルの区画が同じ絵にならないようにする。
         zones.append(Zone(kind: kind, ox: Int16(ox), oy: Int16(oy),
-                          variant: UInt8((ox &* 7 &+ oy &* 13) & 1)))
+                          variant: UInt8(abs(ox &* 7 &+ oy &* 13) % Zone.variantCount)))
         for dy in 0..<3 {
             for dx in 0..<3 {
                 mutateTile(ox + dx, oy + dy) { t in
