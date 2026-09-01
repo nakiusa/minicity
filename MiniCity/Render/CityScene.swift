@@ -627,22 +627,18 @@ final class CityScene: SKScene {
             return
         }
 
-        // 1マスの道具は、はっきり動き出した時点で最初のマスを確定し、以後はなぞって続ける。
-        if let pending = pendingPlacement {
+        // 1マスの道具は、はっきり動き出した時点からなぞりとして扱う。
+        if pendingPlacement != nil {
             guard dragDistance > 6 else {
                 _ = aim(at: touch)
                 return
             }
-            if previewsDrag {
-                previewTiles.append(pending)
-                refreshPreview()
-            } else {
-                onPaint?(pending.0, pending.1)
-            }
-            lastPaintedTile = pending
+            // 指を置いた場所（ずらす前の位置）は線に含めない。
+            // なぞり始めると狙いが指の上へ移るので、その1マスだけ線から
+            // 外れた場所に取り残されてしまう。
             pendingPlacement = nil
-            // ここからはなぞりとして扱い、狙いを指の上へずらす。
             isDragging = true
+            lastPaintedTile = nil
         }
         paint(at: touch)
     }
@@ -754,6 +750,13 @@ final class CityScene: SKScene {
         if let last, last == tile { return }
         lastPaintedTile = tile
         if previewsDrag {
+            // すでに引いたマスへ戻ったら、そこから先を取り消す。
+            // 行きすぎたときに、指を離さずその場で引き直せる。
+            if let index = previewTiles.firstIndex(where: { $0 == tile }) {
+                previewTiles.removeSubrange((index + 1)...)
+                refreshPreview()
+                return
+            }
             // 指が速いと touch の間隔が飛び、そのままではマスが抜けて線が途切れる。
             // 前に置いたマスとのあいだを直線で埋める。
             for step in tilesBetween(last, tile) where !previewTiles.contains(where: { $0 == step }) {
