@@ -101,6 +101,7 @@ final class CityScene: SKScene {
             addChild(cam)
             camera = cam
             cam.setScale(CityScene.defaultScale)
+            updateHighlightSize()
             cam.position = .zero
         }
         fullRefresh()
@@ -155,11 +156,26 @@ final class CityScene: SKScene {
         addChild(highlight)
     }
 
+    /// 照準の形を作り直す。
+    ///
+    /// マスと同じ大きさの枠だけだと、指の腹に完全に隠れて、どこを塗ろうとしているのか
+    /// 見えない。枠の四方へ腕を伸ばして、指の外から狙っているマスを指させる。
+    /// 腕の長さは画面上で一定になるよう、拡大率を掛けて決める（指の幅はいつも同じなので）。
     private func updateHighlightSize() {
         guard highlight != nil else { return }
         let side = CityScene.tileSide * CGFloat(footprint)
-        highlight.path = CGPath(rect: CGRect(x: -side / 2, y: -side / 2, width: side, height: side),
-                                transform: nil)
+        let half = side / 2
+        // 指の腹はおよそ 44pt。その外へ出るだけの長さを確保する。
+        let arm = max(side * 0.7, 30 * cam.xScale)
+
+        let path = CGMutablePath()
+        path.addRect(CGRect(x: -half, y: -half, width: side, height: side))
+        for (dx, dy) in [(0.0, 1.0), (0.0, -1.0), (1.0, 0.0), (-1.0, 0.0)] {
+            let sx = half * CGFloat(dx), sy = half * CGFloat(dy)
+            path.move(to: CGPoint(x: sx, y: sy))
+            path.addLine(to: CGPoint(x: sx + arm * CGFloat(dx), y: sy + arm * CGFloat(dy)))
+        }
+        highlight.path = path
     }
 
     // MARK: - 描き直し
@@ -406,6 +422,7 @@ final class CityScene: SKScene {
     func applyZoom(level: CGFloat) {
         cam.removeAllActions()
         cam.setScale(CityScene.scale(forLevel: level))
+        updateHighlightSize()
         clampCamera()
     }
 
@@ -425,6 +442,7 @@ final class CityScene: SKScene {
         cam.removeAllActions()
         let next = min(max(cam.xScale / factor, CityScene.minScale), CityScene.maxScale)
         cam.setScale(next)
+        updateHighlightSize()
         clampCamera()
         onZoomChanged?(next)
     }
@@ -465,6 +483,7 @@ final class CityScene: SKScene {
     func resetCamera() {
         cam.removeAllActions()
         cam.setScale(CityScene.defaultScale)
+        updateHighlightSize()
         centerOnCity()
         onZoomChanged?(CityScene.defaultScale)
     }
@@ -563,6 +582,7 @@ final class CityScene: SKScene {
             let factor = pow(2, dy / 160)
             let next = min(max(zoomDragStartScale / factor, CityScene.minScale), CityScene.maxScale)
             cam.setScale(next)
+            updateHighlightSize()
             clampCamera()
             onZoomChanged?(next)
             return
