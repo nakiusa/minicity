@@ -45,6 +45,7 @@ final class GameState: ObservableObject {
         didSet {
             scene?.footprint = tool.footprint
             scene?.dragMovesCamera = tool.movesCamera
+            scene?.previewsDrag = tool.isDraggable
         }
     }
     @Published var speed: GameSpeed = .normal {

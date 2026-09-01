@@ -82,6 +82,15 @@ final class CityScene: SKScene {
     /// 3x3 の建物は指を離すまで確定しない。実機では2本指の1本目が先に着くので、
     /// 触れた瞬間に建ててしまうと、ピンチを始めただけで発電所が建つ。
     private var pendingPlacement: (Int, Int)?
+
+    /// なぞって置く道具か。道路・送電線・撤去・公園がこれにあたる。
+    /// これらは指を離すまで確定させず、半透明の予告だけを見せる。
+    var previewsDrag = false
+    /// 予告として溜めているマス。指を離した時点でまとめて適用する。
+    private var previewTiles: [(Int, Int)] = []
+    private var previewNode: SKNode!
+    /// なぞり始めたか。始まってからは、狙う位置を指の少し上へずらす。
+    private var isDragging = false
     private var zoomDragStartScale: CGFloat = 1
     private var zoomDragStartY: CGFloat = 0
 
@@ -154,6 +163,10 @@ final class CityScene: SKScene {
         highlight.zPosition = 20
         highlight.isHidden = true
         addChild(highlight)
+
+        previewNode = SKNode()
+        previewNode.zPosition = 19
+        addChild(previewNode)
     }
 
     /// 照準の形を作り直す。
@@ -540,6 +553,8 @@ final class CityScene: SKScene {
         if (event?.allTouches?.count ?? 1) > 1 {
             drawingTouch = nil
             pendingPlacement = nil
+            previewTiles.removeAll()
+            previewNode.removeAllChildren()
             highlight.isHidden = true
             return
         }
@@ -548,6 +563,9 @@ final class CityScene: SKScene {
         lastPaintedTile = nil
         dragDistance = 0
         isZoomDragging = false
+        isDragging = false
+        previewTiles.removeAll()
+        previewNode.removeAllChildren()
 
         // 直前のタップとほぼ同じ場所をすぐに触り直したら、2回目は拡大縮小のつまみになる。
         if dragMovesCamera, let view {
@@ -604,6 +622,7 @@ final class CityScene: SKScene {
 
         // 3x3 の建物は位置を選び直せるよう、離すまで動かし続ける。
         if footprint > 1 {
+            if dragDistance > 6 { isDragging = true }
             pendingPlacement = aim(at: touch)
             return
         }
@@ -611,12 +630,19 @@ final class CityScene: SKScene {
         // 1マスの道具は、はっきり動き出した時点で最初のマスを確定し、以後はなぞって続ける。
         if let pending = pendingPlacement {
             guard dragDistance > 6 else {
-                aim(at: touch)
+                _ = aim(at: touch)
                 return
             }
-            onPaint?(pending.0, pending.1)
+            if previewsDrag {
+                previewTiles.append(pending)
+                refreshPreview()
+            } else {
+                onPaint?(pending.0, pending.1)
+            }
             lastPaintedTile = pending
             pendingPlacement = nil
+            // ここからはなぞりとして扱い、狙いを指の上へずらす。
+            isDragging = true
         }
         paint(at: touch)
     }
@@ -641,12 +667,19 @@ final class CityScene: SKScene {
             onPaint?(tile.0, tile.1)
             pendingPlacement = nil
         }
+        // なぞって溜めた予告を、ここでまとめて敷く。
+        // 指を離すまで確定しないので、間違えたら離す前に引き直せる。
+        commitPreview()
         drawingTouch = nil
+        isDragging = false
         highlight.isHidden = true
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         drawingTouch = nil
+        isDragging = false
+        previewTiles.removeAll()
+        previewNode.removeAllChildren()
         pendingPlacement = nil
         isZoomDragging = false
         lastTapTime = 0
@@ -655,16 +688,80 @@ final class CityScene: SKScene {
 
     /// 触れている場所にカーソルを合わせるだけ。まだ何も建てない。
     @discardableResult
+    /// 触っている場所から狙うマスを決める。
+    ///
+    /// なぞっている間は、指の少し上を狙う。真下のマスは指の腹に隠れて見えないため。
+    /// タップ（単発の設置）はずらさない。押した場所と違うところに建つと驚くので、
+    /// ずらすのは「なぞっている」とはっきりした後だけにしてある。
     private func aim(at touch: UITouch) -> (Int, Int)? {
-        guard let tile = tileCoordinate(at: touch.location(in: self)) else { return nil }
+        var point = touch.location(in: self)
+        if isDragging {
+            point.y += CityScene.aimLift * cam.yScale
+        }
+        guard let tile = tileCoordinate(at: point) else { return nil }
         showHighlight(at: tile)
         return tile
     }
 
+    /// 指の腹はおよそ 44pt。その外へ狙いを出すためのずらし幅（画面上の点数）。
+    private static let aimLift: CGFloat = 34
+
+    /// 予告のマスを描き直す。
+    private func refreshPreview() {
+        previewNode.removeAllChildren()
+        let side = CityScene.tileSide
+        for (x, y) in previewTiles {
+            let mark = SKShapeNode(rectOf: CGSize(width: side, height: side))
+            mark.position = point(forTile: x, y)
+            mark.fillColor = SKColor(white: 1, alpha: 0.35)
+            mark.strokeColor = SKColor(white: 1, alpha: 0.6)
+            mark.lineWidth = 1
+            previewNode.addChild(mark)
+        }
+    }
+
+    /// 溜めた予告をまとめて適用する。
+    private func commitPreview() {
+        let tiles = previewTiles
+        previewTiles.removeAll()
+        previewNode.removeAllChildren()
+        for (x, y) in tiles { onPaint?(x, y) }
+    }
+
+    /// 2つのマスのあいだを直線で埋める（始点は含まない）。
+    /// `from` が nil なら `to` だけを返す。
+    private func tilesBetween(_ from: (Int, Int)?, _ to: (Int, Int)) -> [(Int, Int)] {
+        guard let from else { return [to] }
+        var x0 = from.0, y0 = from.1
+        let x1 = to.0, y1 = to.1
+        let dx = abs(x1 - x0), dy = -abs(y1 - y0)
+        let sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1
+        var err = dx + dy
+        var out: [(Int, Int)] = []
+        while x0 != x1 || y0 != y1 {
+            let e2 = 2 * err
+            if e2 >= dy { err += dy; x0 += sx }
+            if e2 <= dx { err += dx; y0 += sy }
+            out.append((x0, y0))
+            if out.count > 256 { break }
+        }
+        return out
+    }
+
     private func paint(at touch: UITouch) {
+        let last = lastPaintedTile
         guard let tile = aim(at: touch) else { return }
-        if let last = lastPaintedTile, last == tile { return }
+        if let last, last == tile { return }
         lastPaintedTile = tile
+        if previewsDrag {
+            // 指が速いと touch の間隔が飛び、そのままではマスが抜けて線が途切れる。
+            // 前に置いたマスとのあいだを直線で埋める。
+            for step in tilesBetween(last, tile) where !previewTiles.contains(where: { $0 == step }) {
+                previewTiles.append(step)
+            }
+            refreshPreview()
+            return
+        }
         onPaint?(tile.0, tile.1)
     }
 }

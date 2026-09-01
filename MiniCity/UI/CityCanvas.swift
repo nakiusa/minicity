@@ -19,6 +19,7 @@ struct CityCanvas: UIViewRepresentable {
         scene.sim = game.sim
         scene.footprint = game.tool.footprint
         scene.dragMovesCamera = game.tool.movesCamera
+        scene.previewsDrag = game.tool.isDraggable
         scene.overlayMode = game.overlay
         scene.onPaint = { [weak game] x, y in
             game?.paint(x: x, y: y)
