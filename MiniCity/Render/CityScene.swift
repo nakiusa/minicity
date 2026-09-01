@@ -89,8 +89,7 @@ final class CityScene: SKScene {
     /// 予告として溜めているマス。指を離した時点でまとめて適用する。
     private var previewTiles: [(Int, Int)] = []
     private var previewNode: SKNode!
-    /// なぞり始めたか。始まってからは、狙う位置を指の少し上へずらす。
-    private var isDragging = false
+    private var tether: SKShapeNode!
     private var zoomDragStartScale: CGFloat = 1
     private var zoomDragStartY: CGFloat = 0
 
@@ -162,11 +161,21 @@ final class CityScene: SKScene {
         highlight.fillColor = SKColor(white: 1, alpha: 0.12)
         highlight.zPosition = 20
         highlight.isHidden = true
+        tether?.isHidden = true
         addChild(highlight)
 
         previewNode = SKNode()
         previewNode.zPosition = 19
         addChild(previewNode)
+
+        // 指と狙っているマスを結ぶ矢印。狙いを指の上へずらしてあるので、
+        // どの指がどのマスに対応しているのかを、これで結んで見せる。
+        tether = SKShapeNode()
+        tether.strokeColor = SKColor(white: 1, alpha: 0.75)
+        tether.lineWidth = 1.5
+        tether.zPosition = 20
+        tether.isHidden = true
+        addChild(tether)
     }
 
     /// 照準の形を作り直す。
@@ -556,6 +565,7 @@ final class CityScene: SKScene {
             previewTiles.removeAll()
             previewNode.removeAllChildren()
             highlight.isHidden = true
+        tether?.isHidden = true
             return
         }
         guard let touch = touches.first else { return }
@@ -563,7 +573,6 @@ final class CityScene: SKScene {
         lastPaintedTile = nil
         dragDistance = 0
         isZoomDragging = false
-        isDragging = false
         previewTiles.removeAll()
         previewNode.removeAllChildren()
 
@@ -622,7 +631,6 @@ final class CityScene: SKScene {
 
         // 3x3 の建物は位置を選び直せるよう、離すまで動かし続ける。
         if footprint > 1 {
-            if dragDistance > 6 { isDragging = true }
             pendingPlacement = aim(at: touch)
             return
         }
@@ -637,7 +645,6 @@ final class CityScene: SKScene {
             // なぞり始めると狙いが指の上へ移るので、その1マスだけ線から
             // 外れた場所に取り残されてしまう。
             pendingPlacement = nil
-            isDragging = true
             lastPaintedTile = nil
         }
         paint(at: touch)
@@ -667,19 +674,19 @@ final class CityScene: SKScene {
         // 指を離すまで確定しないので、間違えたら離す前に引き直せる。
         commitPreview()
         drawingTouch = nil
-        isDragging = false
         highlight.isHidden = true
+        tether?.isHidden = true
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         drawingTouch = nil
-        isDragging = false
         previewTiles.removeAll()
         previewNode.removeAllChildren()
         pendingPlacement = nil
         isZoomDragging = false
         lastTapTime = 0
         highlight.isHidden = true
+        tether?.isHidden = true
     }
 
     /// 触れている場所にカーソルを合わせるだけ。まだ何も建てない。
@@ -690,13 +697,46 @@ final class CityScene: SKScene {
     /// タップ（単発の設置）はずらさない。押した場所と違うところに建つと驚くので、
     /// ずらすのは「なぞっている」とはっきりした後だけにしてある。
     private func aim(at touch: UITouch) -> (Int, Int)? {
-        var point = touch.location(in: self)
-        if isDragging {
-            point.y += CityScene.aimLift * cam.yScale
+        let raw = touch.location(in: self)
+        var aimed = raw
+        // 建てる道具は、触れた瞬間から指の少し上を狙う。真下のマスは指の腹に
+        // 隠れて見えないため。ずらす量を触っている間ずっと同じにしておくと、
+        // なぞり始めても狙いが飛ばない。
+        //
+        // 「調べる」と「移動」はずらさない。こちらは照準を出さないので、
+        // ずらすと何を読んだのか分からなくなる。
+        if !dragMovesCamera {
+            aimed.y += CityScene.aimLift * cam.yScale
         }
-        guard let tile = tileCoordinate(at: point) else { return nil }
+        guard let tile = tileCoordinate(at: aimed) else { return nil }
         showHighlight(at: tile)
+        updateTether(from: raw, to: tile)
         return tile
+    }
+
+    /// 指から狙っているマスへ矢印を引く。
+    private func updateTether(from: CGPoint, to tile: (Int, Int)) {
+        guard tether != nil, !dragMovesCamera else {
+            tether?.isHidden = true
+            return
+        }
+        let center = point(forTile: tile.0, tile.1)
+        let half = CityScene.tileSide * CGFloat(footprint) / 2
+        let end = CGPoint(x: center.x, y: center.y - half)
+        // 指がマスに重なるほど近いときは、矢印を出さない（かえって邪魔になる）。
+        guard end.y - from.y > 4 * cam.yScale else {
+            tether.isHidden = true
+            return
+        }
+        let path = CGMutablePath()
+        path.move(to: from)
+        path.addLine(to: end)
+        let head = 4 * cam.yScale
+        path.move(to: CGPoint(x: end.x - head, y: end.y - head))
+        path.addLine(to: end)
+        path.addLine(to: CGPoint(x: end.x + head, y: end.y - head))
+        tether.path = path
+        tether.isHidden = false
     }
 
     /// 指の腹はおよそ 44pt。その外へ狙いを出すためのずらし幅（画面上の点数）。
