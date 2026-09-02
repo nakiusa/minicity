@@ -27,6 +27,9 @@ struct CityCanvas: UIViewRepresentable {
         scene.onZoomChanged = { [weak game] scale in
             game?.syncZoom(scale: scale)
         }
+        scene.onPreviewChanged = { [weak game] count in
+            game?.pendingTiles = count
+        }
         view.presentScene(scene)
         game.scene = scene
         context.coordinator.scene = scene

@@ -57,6 +57,10 @@ struct ContentView: View {
                         .panel()
                 }
 
+                if game.pendingTiles > 0 {
+                    ConfirmBar(game: game)
+                }
+
                 if let message = game.message {
                     Text(message)
                         .font(.system(size: 12, weight: .semibold))
@@ -72,6 +76,7 @@ struct ContentView: View {
             .padding(.horizontal, 10)
             .padding(.bottom, 6)
             .animation(.easeInOut(duration: 0.15), value: game.message)
+            .animation(.easeInOut(duration: 0.15), value: game.pendingTiles)
 
             if showHelp {
                 HelpOverlay(isPresented: $showHelp, hasSeenHelp: $hasSeenHelp)
@@ -88,6 +93,44 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { game.save() }
         }
+    }
+}
+
+/// なぞった線を敷くかどうかを決めるバー。
+/// なぞった時点では敷かず、ここで押して初めて確定する。
+struct ConfirmBar: View {
+    @ObservedObject var game: GameState
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Text("\(game.pendingTiles)マスに\(game.tool.title)")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.white)
+
+            Spacer(minLength: 8)
+
+            Button("やめる") { game.cancelPending() }
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.8))
+                .buttonStyle(.plain)
+
+            Button {
+                game.commitPending()
+            } label: {
+                Text("決定")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 7)
+                    .background(Capsule().fill(Color.white))
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
+            .fill(Color.black.opacity(0.78)))
+        .transition(.move(edge: .bottom).combined(with: .opacity))
     }
 }
 

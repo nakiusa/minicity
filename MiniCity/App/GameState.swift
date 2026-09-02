@@ -46,6 +46,8 @@ final class GameState: ObservableObject {
             scene?.footprint = tool.footprint
             scene?.dragMovesCamera = tool.movesCamera
             scene?.previewsDrag = tool.isDraggable
+            // 道具を持ち替えたら、確定待ちの線は捨てる。
+            scene?.cancelPreview()
         }
     }
     @Published var speed: GameSpeed = .normal {
@@ -118,6 +120,19 @@ final class GameState: ObservableObject {
     }
 
     // MARK: - 建設
+
+    /// 指を離したあと、確定を待っているマスの数。0 なら待ちがない。
+    @Published var pendingTiles = 0
+
+    /// なぞった線をまとめて敷く。
+    func commitPending() {
+        scene?.commitPreview()
+    }
+
+    /// なぞった線を捨てる。
+    func cancelPending() {
+        scene?.cancelPreview()
+    }
 
     func paint(x: Int, y: Int) {
         switch tool {
