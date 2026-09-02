@@ -30,8 +30,10 @@ targets:
         PRODUCT_NAME: MiniCity
         # App Store Connect 側のバージョン表記と一致させる。
         # ASC はこの文字列でビルドを紐付けるので、"1.0" と "1.0.0" は別物になる。
-        MARKETING_VERSION: "1.0"
-        CURRENT_PROJECT_VERSION: "1"
+        MARKETING_VERSION: "1.1.0"
+        # ビルド番号は、同じアプリで一度使うと再利用できない。
+        # 送り直すたびに上げる。
+        CURRENT_PROJECT_VERSION: "2"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ミニシティ
         # 暗号化を使っていないことを宣言しておく。

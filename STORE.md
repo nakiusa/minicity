@@ -77,9 +77,13 @@ https://nakiusa.github.io/minicity/privacy.html
 - 配信地域：全世界（掲載文は日本語のみ）
 - Appプライバシー：「データを収集しない（Data Not Collected）」
 
-## このバージョンの最新情報（1.0）
+## このバージョンの最新情報（1.1.0）
 
 初版のため入力不要。
+
+App Store Connect 側のバージョン番号も 1.1.0 に揃える。
+ASC は CFBundleShortVersionString でビルドを版に紐付けるので、
+ここが食い違うとアップロードしたビルドが「ビルドを選択」に出てこない。
 
 ## ページの置き場所
 
