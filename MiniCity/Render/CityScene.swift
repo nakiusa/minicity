@@ -195,6 +195,15 @@ final class CityScene: SKScene {
 
     func fullRefresh() {
         guard let sim else { return }
+        // 渋滞の車は roadTiles をたどって描き足すだけで、消すのは
+        // 「道路でなくなったマス」を見つけたときに限られる。都市を作り直すと
+        // その手がかり（roadTiles と trafficLevels）ごと入れ替わるので、
+        // 先に前の都市の車を消しておかないと、新しい地形の上に残ってしまう。
+        for i in trafficLevels.keys {
+            trafficLayer?.setTileGroup(nil,
+                                       forColumn: i % CityMap.width,
+                                       row: CityMap.height - 1 - i / CityMap.width)
+        }
         roadTiles.removeAll(keepingCapacity: true)
         trafficLevels.removeAll(keepingCapacity: true)
         // 都市を作り直すとゾーン番号も振り直されるので、タワーは一度すべて捨てる。
