@@ -82,13 +82,25 @@ struct ContentView: View {
                 HelpOverlay(isPresented: $showHelp, hasSeenHelp: $hasSeenHelp)
             }
         }
+        .fullScreenCover(isPresented: .constant(game.needsMapSelection)) {
+            // はじめて遊ぶときだけ、地形を選んでから始める。
+            // いきなり知らない地形に放り出されると、何を見ているのか分からない。
+            MapSelectView(onSelect: { seed in
+                game.finishMapSelection(seed: seed)
+            }, allowsCancel: false)
+        }
         .sheet(isPresented: $showBudget) {
             BudgetView(game: game)
         }
         .statusBarHidden()
         .preferredColorScheme(.dark)
         .onAppear {
-            if !hasSeenHelp { showHelp = true }
+            if !hasSeenHelp && !game.needsMapSelection { showHelp = true }
+        }
+        .onChange(of: game.needsMapSelection) { _, needs in
+            // 地形を選び終えてから操作説明を出す。
+            // 選択画面と重なると、どちらも読めない。
+            if !needs && !hasSeenHelp { showHelp = true }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { game.save() }

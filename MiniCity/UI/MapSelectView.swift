@@ -4,6 +4,8 @@ import SwiftUI
 /// `GameState` には触れず、選んだ種（シード）を `onSelect` で返すだけにしてある。
 struct MapSelectView: View {
     let onSelect: (UInt64) -> Void
+    /// はじめて遊ぶときは、戻る先がないのでキャンセルを出さない。
+    var allowsCancel = true
     @Environment(\.dismiss) private var dismiss
 
     @State private var candidates: [UInt64] = []
@@ -50,8 +52,10 @@ struct MapSelectView: View {
                         Image(systemName: "arrow.clockwise")
                     }
                 }
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("キャンセル") { dismiss() }
+                if allowsCancel {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("キャンセル") { dismiss() }
+                    }
                 }
             }
             .onAppear {

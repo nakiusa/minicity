@@ -80,13 +80,25 @@ final class GameState: ObservableObject {
     private var clock: Timer?
     private var messageClearWork: DispatchWorkItem?
 
+    /// はじめて遊ぶとき（保存された都市がないとき）に立てる。
+    /// いきなり知らない地形で始まらないよう、最初にマップを選ばせる。
+    @Published private(set) var needsMapSelection = false
+
     init() {
         if let save = CityStore.load() {
             sim = Simulation(save: save)
         } else {
+            // 選ぶまでのあいだ画面に出しておく地形。選べばそのまま作り直す。
             sim = Simulation()
+            needsMapSelection = true
         }
         restartClock()
+    }
+
+    /// 起動時のマップ選択を終える。
+    func finishMapSelection(seed: UInt64) {
+        needsMapSelection = false
+        newCity(seed: seed)
     }
 
     func save() {

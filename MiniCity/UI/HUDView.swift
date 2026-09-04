@@ -39,18 +39,31 @@ struct TopBar: View {
                         .foregroundStyle(.secondary)
                 }
 
+                // 予算画面への入口。ただの数字に見えると押せることに気付けないので、
+                // 枠と山括弧を付けてボタンだと分かるようにしてある。
                 Button {
                     showBudget = true
                 } label: {
-                    VStack(alignment: .trailing, spacing: 1) {
-                        Text("¥\(sim.funds)")
-                            .font(.system(size: 15, weight: .bold, design: .rounded))
-                            .monospacedDigit()
-                            .foregroundStyle(sim.funds < 0 ? Color.red : Color.green)
-                        Text("税率 \(sim.taxRate)%")
-                            .font(.system(size: 10, design: .rounded))
-                            .foregroundStyle(.secondary)
+                    HStack(spacing: 5) {
+                        VStack(alignment: .trailing, spacing: 1) {
+                            Text("¥\(sim.funds)")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .monospacedDigit()
+                                .foregroundStyle(sim.funds < 0 ? Color.red : Color.green)
+                            Text("税率 \(sim.taxRate)%")
+                                .font(.system(size: 10, design: .rounded))
+                                .foregroundStyle(.secondary)
+                        }
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(.white.opacity(0.55))
                     }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .fill(Color.white.opacity(0.14))
+                    )
                 }
                 .buttonStyle(.plain)
 
