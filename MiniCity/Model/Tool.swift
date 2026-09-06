@@ -6,6 +6,7 @@ enum Tool: String, CaseIterable, Identifiable {
     case inspect
     case bulldozer
     case road
+    case avenue
     case powerLine
     case park
     case residential
@@ -23,6 +24,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .inspect: return "調べる"
         case .bulldozer: return "撤去"
         case .road: return "道路"
+        case .avenue: return "大通り"
         case .powerLine: return "送電線"
         case .park: return "公園"
         case .residential: return "住宅区"
@@ -40,6 +42,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .inspect: return "magnifyingglass"
         case .bulldozer: return "hammer.fill"
         case .road: return "road.lanes"
+        case .avenue: return "road.lanes.curved.right"
         case .powerLine: return "bolt.fill"
         case .park: return "tree.fill"
         case .residential: return "house.fill"
@@ -55,7 +58,8 @@ enum Tool: String, CaseIterable, Identifiable {
         switch self {
         case .pan, .inspect: return 0
         case .bulldozer: return 1
-        case .road: return 10
+        case .road: return 25
+        case .avenue: return 90
         case .powerLine: return 5
         case .park: return 10
         case .residential, .commercial, .industrial: return 100
@@ -67,7 +71,8 @@ enum Tool: String, CaseIterable, Identifiable {
     /// 水面に架ける場合の割増。橋と海底ケーブルは高い。
     var waterCost: Int? {
         switch self {
-        case .road: return 50
+        case .road: return 120
+        case .avenue: return 320
         case .powerLine: return 25
         default: return nil
         }
@@ -87,7 +92,7 @@ enum Tool: String, CaseIterable, Identifiable {
     /// なぞって連続で置ける道具か。
     var isDraggable: Bool {
         switch self {
-        case .road, .powerLine, .bulldozer, .park: return true
+        case .road, .avenue, .powerLine, .bulldozer, .park: return true
         default: return false
         }
     }
@@ -123,7 +128,9 @@ extension Simulation {
         case .bulldozer:
             return bulldoze(x, y)
         case .road:
-            return buildRoad(x, y)
+            return buildRoad(x, y, avenue: false)
+        case .avenue:
+            return buildRoad(x, y, avenue: true)
         case .powerLine:
             return buildWire(x, y)
         case .park:
@@ -155,6 +162,7 @@ extension Simulation {
         } else {
             map.mutateTile(x, y) { tile in
                 tile.wire = false
+                tile.isAvenue = false
                 if tile.structure != .none {
                     tile.structure = tile.terrain == .water ? .none : .rubble
                 } else if tile.terrain == .forest {
@@ -166,19 +174,23 @@ extension Simulation {
         return .built(cost: 1)
     }
 
-    private func buildRoad(_ x: Int, _ y: Int) -> BuildResult {
+    /// 道路を敷く。`avenue` が真なら大通りにする。
+    /// すでに道路があるマスに別の等級を指定したときは、敷き直しとして扱う。
+    private func buildRoad(_ x: Int, _ y: Int, avenue: Bool) -> BuildResult {
         guard map.inBounds(x, y) else { return .nothingToDo }
         let t = map.tile(x, y)
-        guard t.structure != .road else { return .nothingToDo }
+        guard t.structure != .road || t.isAvenue != avenue else { return .nothingToDo }
         guard !t.hasZone else { return .blocked("区画の上には敷けません") }
         guard t.structure != .park else { return .blocked("先に公園を撤去してください") }
 
-        let cost = t.terrain == .water ? (Tool.road.waterCost ?? 50) : Tool.road.cost
+        let tool: Tool = avenue ? .avenue : .road
+        let cost = t.terrain == .water ? (tool.waterCost ?? tool.cost) : tool.cost
         guard charge(cost) else { return .insufficientFunds(needed: cost) }
 
         map.mutateTile(x, y) { tile in
             if tile.terrain == .forest { tile.terrain = .dirt }
             tile.structure = .road
+            tile.isAvenue = avenue
         }
         refreshNeighbors(x, y)
         return .built(cost: cost)

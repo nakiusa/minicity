@@ -70,6 +70,7 @@ final class TileCatalog {
 
         for mask in 0..<16 {
             register("road.\(mask)", TileArt.road(mask: mask))
+            register("avenue.\(mask)", TileArt.avenue(mask: mask))
             register("wire.\(mask)", TileArt.wire(mask: mask))
             for level in 1...2 {
                 let frames = (0..<TileArt.trafficFrameCount).map {
@@ -143,7 +144,8 @@ final class TileCatalog {
             return "z.\(z.kind.rawValue).\(level).\(variant).\(tile.sub)"
         }
         switch tile.structure {
-        case .road: return "road.\(map.roadMask(x, y))"
+        case .road:
+            return "\(tile.isAvenue ? "avenue" : "road").\(map.roadMask(x, y))"
         case .park: return "park"
         case .rubble: return "rubble"
         case .none, .zone: return nil

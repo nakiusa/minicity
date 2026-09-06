@@ -188,6 +188,61 @@ enum TileArt {
     /// タイル内をループして流れる走行アニメーションの1コマ。
     /// `frame` を `0..<frameCount` で進めた絵を並べれば、SpriteKit のタイルアニメーションで
     /// マス内を車が流れるように見せられる（マスをまたいだ移動はさせない）。
+    /// 大通り。道路より幅を取り、中央分離帯に街路樹を植える。
+    /// 引きで見たときに、普通の道路と一目で見分けられることを優先している。
+    static func avenue(mask: Int) -> PixelCanvas {
+        var c = PixelCanvas(width: tileSize, height: tileSize)
+        let n = mask & 1, e = mask & 2, s = mask & 4, w = mask & 8
+
+        // 舗装。道路が幅8に対して、こちらは幅12を取る。
+        c.rect(2, 2, 12, 12, Palette.asphalt)
+        if n != 0 { c.rect(2, 0, 12, 3, Palette.asphalt) }
+        if s != 0 { c.rect(2, 13, 12, 3, Palette.asphalt) }
+        if e != 0 { c.rect(13, 2, 3, 12, Palette.asphalt) }
+        if w != 0 { c.rect(0, 2, 3, 12, Palette.asphalt) }
+        if mask == 0 { c.rect(0, 2, 16, 12, Palette.asphalt) }
+
+        let horizontal = (e != 0 || w != 0 || mask == 0)
+        let vertical = (n != 0 || s != 0)
+        if horizontal {
+            let x0 = (w != 0 || mask == 0) ? 0 : 2
+            let x1 = (e != 0 || mask == 0) ? 16 : 14
+            c.hLine(x0, 2, x1 - x0, Palette.asphaltDark)
+            c.hLine(x0, 13, x1 - x0, Palette.asphaltDark)
+        }
+        if vertical {
+            let y0 = (n != 0) ? 0 : 2
+            let y1 = (s != 0) ? 16 : 14
+            c.vLine(2, y0, y1 - y0, Palette.asphaltDark)
+            c.vLine(13, y0, y1 - y0, Palette.asphaltDark)
+        }
+        if horizontal && vertical {
+            c.rect(3, 3, 10, 10, Palette.asphalt)
+        }
+
+        // 中央分離帯。直線のときだけ緑の帯を通し、街路樹を点々と置く。
+        let straightEW = (e != 0 && w != 0 && n == 0 && s == 0) || mask == 0
+        let straightNS = (n != 0 && s != 0 && e == 0 && w == 0)
+        if straightEW {
+            c.rect(0, 7, 16, 2, Palette.lawn)
+            c.hLine(0, 9, 16, Palette.lawnDark)
+            for x in stride(from: 2, to: 16, by: 7) { c.rect(x, 6, 2, 3, Palette.forest) }
+            for x in stride(from: 0, to: 16, by: 4) {
+                c.rect(x, 4, 2, 1, Palette.roadLine)
+                c.rect(x, 11, 2, 1, Palette.roadLine)
+            }
+        } else if straightNS {
+            c.rect(7, 0, 2, 16, Palette.lawn)
+            c.vLine(9, 0, 16, Palette.lawnDark)
+            for y in stride(from: 2, to: 16, by: 7) { c.rect(6, y, 3, 2, Palette.forest) }
+            for y in stride(from: 0, to: 16, by: 4) {
+                c.rect(4, y, 1, 2, Palette.roadLine)
+                c.rect(11, y, 1, 2, Palette.roadLine)
+            }
+        }
+        return c
+    }
+
     static let trafficFrameCount = 2
 
     static func trafficCars(mask: Int, level: Int, frame: Int = 0) -> PixelCanvas {

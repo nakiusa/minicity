@@ -53,6 +53,29 @@ struct Tile: Codable {
     var traffic: UInt8 = 0
     var powered: Bool = false
     var zoneID: Int32 = -1
+    /// 道路の等級。大通りなら true。`structure` は道路のままにしてあるので、
+    /// 接続・通勤・道路に面しているかの判定は等級を意識しなくてよい。
+    var isAvenue: Bool = false
+
+    init() {}
+
+    init(terrain: Terrain) {
+        self.terrain = terrain
+    }
+
+    /// 保存済みの都市を読めるよう、欠けている項目は既定値で補う。
+    /// 項目を足すたびに古いセーブが読めなくなると、遊んでいる人の都市が消える。
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        terrain = try c.decodeIfPresent(Terrain.self, forKey: .terrain) ?? .dirt
+        structure = try c.decodeIfPresent(Structure.self, forKey: .structure) ?? .none
+        wire = try c.decodeIfPresent(Bool.self, forKey: .wire) ?? false
+        sub = try c.decodeIfPresent(UInt8.self, forKey: .sub) ?? 0
+        traffic = try c.decodeIfPresent(UInt8.self, forKey: .traffic) ?? 0
+        powered = try c.decodeIfPresent(Bool.self, forKey: .powered) ?? false
+        zoneID = try c.decodeIfPresent(Int32.self, forKey: .zoneID) ?? -1
+        isAvenue = try c.decodeIfPresent(Bool.self, forKey: .isAvenue) ?? false
+    }
 
     var hasZone: Bool { zoneID >= 0 }
 

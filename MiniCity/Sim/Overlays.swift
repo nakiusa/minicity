@@ -98,10 +98,12 @@ extension Simulation {
         // 水辺と緑は、それだけで土地の値打ちになる。公園は植えた森と同じ扱いだが、
         // 自分で選んで置いた場所なので、野放しの森より少しだけ効かせる。
         var amenity = CoarseMap()
+        // 大通りに面していることそのものの値打ち。表通りは地価を押し上げる。
+        var frontage = CoarseMap()
         let s = CoarseMap.scale
         for cy in 0..<CoarseMap.height {
             for cx in 0..<CoarseMap.width {
-                var water = 0, forest = 0, park = 0
+                var water = 0, forest = 0, park = 0, avenue = 0
                 for dy in 0..<s {
                     for dx in 0..<s {
                         let t = map.tile(cx * s + dx, cy * s + dy)
@@ -111,12 +113,16 @@ extension Simulation {
                         case .dirt: break
                         }
                         if t.structure == .park { park += 1 }
+                        if t.structure == .road, t.isAvenue { avenue += 1 }
                     }
                 }
                 amenity[cx, cy] = water * 5 + forest * 4 + park * 5
+                frontage[cx, cy] = avenue * 12
             }
         }
         amenity.blur()
+        // 隣の街区までは表通りの効き目が届く。
+        frontage.blur()
 
         let maxDistance = 45.0
         for cy in 0..<CoarseMap.height {
@@ -138,6 +144,7 @@ extension Simulation {
                 // L10 まで行くには、さらに公園と警察で公害と犯罪を削る必要がある。
                 var v = 35.0 + centerBonus + Double(amenity[cx, cy])
                 v += min(140.0, Double(density[cx, cy]) / 4.0)
+                v += min(45.0, Double(frontage[cx, cy]))
                 v -= Double(pollution[cx, cy]) / 3.0
                 v -= Double(crime[cx, cy]) / 4.0
                 v += Double(fireCover[cx, cy]) / 8.0

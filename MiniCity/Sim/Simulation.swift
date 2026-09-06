@@ -36,6 +36,7 @@ final class Simulation {
     private(set) var jobsCommercial = 0
     private(set) var jobsIndustrial = 0
     private(set) var roadCount = 0
+    private(set) var avenueCount = 0
     private(set) var wireCount = 0
     private(set) var zoneCounts: [ZoneKind: Int] = [:]
     private(set) var unpoweredZones = 0
@@ -152,12 +153,16 @@ final class Simulation {
             centerY = sumY / weight
         }
 
-        var roads = 0, wires = 0
+        var roads = 0, avenues = 0, wires = 0
         for t in map.tiles {
-            if t.structure == .road { roads += 1 }
+            if t.structure == .road {
+                roads += 1
+                if t.isAvenue { avenues += 1 }
+            }
             if t.wire { wires += 1 }
         }
         roadCount = roads
+        avenueCount = avenues
         wireCount = wires
     }
 
@@ -281,7 +286,9 @@ final class Simulation {
 
     var projectedIncome: Int { incomeFromResidents + incomeFromBusiness }
 
-    var roadUpkeep: Int { roadCount * 2 }
+    /// 道路の維持費。街が広がるほど効いてくるよう、1マスあたりを重くしてある。
+    /// 大通りは通しただけで地価を押し上げるので、そのぶん維持費も高い。
+    var roadUpkeep: Int { (roadCount - avenueCount) * 6 + avenueCount * 20 }
     var plantUpkeep: Int { (zoneCounts[.coalPlant] ?? 0) * 100 }
     var policeUpkeep: Int { (zoneCounts[.police] ?? 0) * 180 }
     var fireUpkeep: Int { (zoneCounts[.fire] ?? 0) * 180 }
