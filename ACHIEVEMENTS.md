@@ -1,11 +1,20 @@
 # Game Center の実績一覧
 
-App Store Connect の「Game Center → 実績」に、この34件を登録する。
-**ID はアプリ側（`MiniCity/Model/Achievement.swift`）と一致していなければ
-送信が失敗する。** 一度公開したら変えない。
+App Store Connect の「Game Center → 実績」に登録する。
+**実績IDはアプリ側と一致していなければ送信が黙って失敗する。** 一度公開したら変えない。
 
-点数は合計がちょうど 1,000 になるよう割り振ってある（Game Center の上限）。
-難しいものほど重い。
+この表は `tools/gcachievements --list` が `MiniCity/Model/Achievement.swift` から
+生成する。実績を足したら作り直す。手で書き足さない。
+
+一括で登録するなら、同じ道具に鍵を渡す。
+
+```bash
+export ASC_KEY_ID=XXXXXXXXXX
+export ASC_ISSUER_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+export ASC_KEY_PATH=~/Downloads/AuthKey_XXXXXXXXXX.p8
+./gcachievements            # 何をするかだけ出す
+./gcachievements --apply    # 実際に登録する
+```
 
 | ID | 分類 | 表示名 | 説明 | 点数 |
 | --- | --- | --- | --- | --- |
@@ -44,21 +53,5 @@ App Store Connect の「Game Center → 実績」に、この34件を登録す�
 | `year.2000` | 時代 | 世紀を越えて | 2000 年まで街を保つ | 20 |
 | `year.2100` | 時代 | 次の百年 | 2100 年まで街を保つ | 30 |
 
-合計 1000 点（34 件）
+合計 1000 点（34 件）。Game Center の上限は 1,000 点。
 
-## 登録のしかた
-
-1. Developer Portal の App ID（`com.shuyafukai.minicity`）で、Capabilities の Game Center を有効にする
-2. App Store Connect でアプリを開き、「Game Center」を有効にする
-3. 「実績」から1件ずつ追加する。**実績ID**に上の `ID` をそのまま入れる
-4. 「参照名」は管理用なので表示名と同じでよい
-5. 各実績に日本語のローカライズを追加し、表示名と説明を入れる
-6. 実績の画像は任意。設定しなければ既定の絵になる
-
-アプリ側の権利は `MiniCity/MiniCity.entitlements` で付けてある。
-
-## 送るしくみ
-
-実績の正は端末に持っている記録で、Game Center はその写しにしてある。
-サインインしていなくても、通信できなくても、集めた実績は端末の中で完結する。
-サインインした時点で、それまでに取ったぶんをまとめて送る。

@@ -355,8 +355,22 @@ Game Center はローカルの記録の写しにしてある（`App/GameCenter.s
 サインインしていなくても、通信できなくても、集めた実績は端末の中で完結する。
 サインインした時点で、それまでに取ったぶんをまとめて送る。
 
-App Store Connect に登録する34件の一覧と点数は `ACHIEVEMENTS.md` にある。
-この表はソースから作っているので、実績を足したら生成し直す。
+配点も `Achievement.swift` に持たせてある。出どころを1つにしておかないと、
+IDの打ち間違いひとつで送信が黙って失敗する。
+
+```bash
+swiftc -O -o gcachievements MiniCity/Model/*.swift MiniCity/Sim/*.swift tools/gcachievements/main.swift
+./gcachievements --list > ACHIEVEMENTS.md
+```
+
+同じ道具に鍵を渡せば、App Store Connect へ一括登録もできる。
+すでにあるものは飛ばすので、実績を足したあとに何度でも流せる。
+
+```bash
+export ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_PATH=...
+./gcachievements            # 何をするかだけ出す
+./gcachievements --apply    # 実際に登録する
+```
 
 ## まだ入れていないもの
 
