@@ -128,7 +128,24 @@ final class GameState: ObservableObject {
         scene?.refreshTraffic()
         scene?.refreshTowers()
         if overlay != .none { scene?.refreshOverlay() }
+        checkAchievements()
         revision &+= 1
+    }
+
+    // MARK: - 実績
+
+    /// 直前に取った実績。取った瞬間だけ画面に出す。
+    @Published var justEarned: Achievement?
+    /// 一覧の見出しに出す「取った数」。
+    @Published var earnedCount = AchievementStore.shared.earnedCount
+
+    private func checkAchievements() {
+        let newly = AchievementStore.shared.claimNewlyEarned(in: sim)
+        guard let first = newly.first else { return }
+        earnedCount = AchievementStore.shared.earnedCount
+        justEarned = first
+        // 同時にいくつも取ったときは、残りは一覧で見てもらう。
+        show("実績「\(first.title)」を達成")
     }
 
     // MARK: - 建設
@@ -174,6 +191,7 @@ final class GameState: ObservableObject {
         scene?.refreshMarkers()
         scene?.refreshTowers()
         if overlay != .none { scene?.refreshOverlay() }
+        checkAchievements()
         revision &+= 1
     }
 

@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var game = GameState()
     @State private var showBudget = false
+    @State private var showAchievements = false
     @AppStorage("hasSeenHelp") private var hasSeenHelp = false
     @State private var showHelp = false
     @Environment(\.scenePhase) private var scenePhase
@@ -22,6 +23,15 @@ struct ContentView: View {
                         game.scene?.centerOnCity()
                     } label: {
                         Image(systemName: "scope")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(.white)
+                            .panel()
+                    }
+                    .buttonStyle(.plain)
+                    Button {
+                        showAchievements = true
+                    } label: {
+                        Image(systemName: "trophy.fill")
                             .font(.system(size: 12, weight: .bold))
                             .foregroundStyle(.white)
                             .panel()
@@ -88,6 +98,9 @@ struct ContentView: View {
             MapSelectView(onSelect: { seed in
                 game.finishMapSelection(seed: seed)
             }, allowsCancel: false)
+        }
+        .sheet(isPresented: $showAchievements) {
+            AchievementsView(game: game)
         }
         .sheet(isPresented: $showBudget) {
             BudgetView(game: game)
