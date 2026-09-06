@@ -24,8 +24,26 @@ struct AchievementsView: View {
                     }
                     .padding(.horizontal, 4)
 
-                    ForEach(Achievements.all) { item in
-                        row(item)
+                    ForEach(AchievementGroup.allCases, id: \.self) { group in
+                        let items = Achievements.inGroup(group)
+                        if !items.isEmpty {
+                            HStack {
+                                Text(group.rawValue)
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text("\(items.filter { $0.isEarned }.count) / \(items.count)")
+                                    .font(.system(size: 11, design: .rounded))
+                                    .monospacedDigit()
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.horizontal, 4)
+                            .padding(.top, 8)
+
+                            ForEach(items) { item in
+                                row(item)
+                            }
+                        }
                     }
                 }
                 .padding(16)
