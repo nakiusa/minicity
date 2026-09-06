@@ -54,6 +54,17 @@ struct AchievementsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("閉じる") { dismiss() }
                 }
+                // Game Center にサインインしているときだけ、あちらの一覧も開けるようにする。
+                if GameCenter.isAuthenticated {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button {
+                            dismiss()
+                            GameCenter.showDashboard()
+                        } label: {
+                            Image(systemName: "gamecontroller.fill")
+                        }
+                    }
+                }
             }
         }
         .preferredColorScheme(.dark)

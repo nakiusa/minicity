@@ -349,7 +349,14 @@ swiftc -O -o shotframe tools/shotframe/main.swift
 条件が増えるほど、判定のたびにタイルや区画を数え直すのが無駄になる。
 1か月に一度 `CityStats` にまとめて数え、条件はその値を見るだけにしてある。
 
-`id` は Game Center の実績IDにそのまま対応させる想定で付けてあるので、変えない。
+`id` は Game Center の実績IDとして使う。一度公開したら変えない。
+
+Game Center はローカルの記録の写しにしてある（`App/GameCenter.swift`）。
+サインインしていなくても、通信できなくても、集めた実績は端末の中で完結する。
+サインインした時点で、それまでに取ったぶんをまとめて送る。
+
+App Store Connect に登録する34件の一覧と点数は `ACHIEVEMENTS.md` にある。
+この表はソースから作っているので、実績を足したら生成し直す。
 
 ## まだ入れていないもの
 

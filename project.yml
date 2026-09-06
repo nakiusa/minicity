@@ -50,4 +50,7 @@ targets:
         DEVELOPMENT_TEAM: B54UXU8NGQ
         CODE_SIGN_STYLE: Automatic
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # Game Center を使うための権利。Developer Portal 側でも
+        # App ID に Game Center を有効にしておく必要がある。
+        CODE_SIGN_ENTITLEMENTS: MiniCity/MiniCity.entitlements
         ENABLE_USER_SCRIPT_SANDBOXING: NO

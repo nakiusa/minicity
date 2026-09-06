@@ -263,6 +263,9 @@ final class AchievementStore {
 
     var earnedCount: Int { earned.count }
 
+    /// これまでに取ったすべての名前。Game Center へまとめて送るときに使う。
+    var allEarnedIDs: [String] { Array(earned) }
+
     /// まだ取っていないもののうち、条件を満たしたものを記録して返す。
     func claimNewlyEarned(in sim: Simulation) -> [Achievement] {
         let stats = CityStats(sim)

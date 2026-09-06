@@ -144,6 +144,7 @@ final class GameState: ObservableObject {
         guard let first = newly.first else { return }
         earnedCount = AchievementStore.shared.earnedCount
         justEarned = first
+        GameCenter.report(newly.map(\.id))
         // 同時にいくつも取ったときは、残りは一覧で見てもらう。
         show("実績「\(first.title)」を達成")
     }
