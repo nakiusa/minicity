@@ -685,31 +685,18 @@ final class CityScene: SKScene {
         highlight.isHidden = true
     }
 
-    /// 触れている場所にカーソルを合わせるだけ。まだ何も建てない。
-    @discardableResult
-    /// 触っている場所から狙うマスを決める。
+    /// 触っている場所から狙うマスを決める。触れた場所をそのまま狙う。
     ///
-    /// なぞっている間は、指の少し上を狙う。真下のマスは指の腹に隠れて見えないため。
-    /// タップ（単発の設置）はずらさない。押した場所と違うところに建つと驚くので、
-    /// ずらすのは「なぞっている」とはっきりした後だけにしてある。
+    /// 一時期、指の腹に隠れて見えないぶんを見越して少し上を狙わせていた。
+    /// いまはなぞった線が予告として残り、決定を押すまで確定しないので、
+    /// 確かめる役目は後ろの段に移っている。前の段でずらすと、指と結果が
+    /// 離れている感じだけが残る。狙っているマスは照準の腕で示す。
+    @discardableResult
     private func aim(at touch: UITouch) -> (Int, Int)? {
-        var aimed = touch.location(in: self)
-        // 建てる道具は、触れた瞬間から指の少し上を狙う。真下のマスは指の腹に
-        // 隠れて見えないため。ずらす量を触っている間ずっと同じにしておくと、
-        // なぞり始めても狙いが飛ばない。
-        //
-        // 「調べる」と「移動」はずらさない。こちらは照準を出さないので、
-        // ずらすと何を読んだのか分からなくなる。
-        if !dragMovesCamera {
-            aimed.y += CityScene.aimLift * cam.yScale
-        }
-        guard let tile = tileCoordinate(at: aimed) else { return nil }
+        guard let tile = tileCoordinate(at: touch.location(in: self)) else { return nil }
         showHighlight(at: tile)
         return tile
     }
-
-    /// 指の腹はおよそ 44pt。その外へ狙いを出すためのずらし幅（画面上の点数）。
-    private static let aimLift: CGFloat = 34
 
     /// 予告のマスを描き直す。
     private func refreshPreview() {
