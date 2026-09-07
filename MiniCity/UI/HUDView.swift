@@ -32,10 +32,17 @@ struct TopBar: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 1) {
-                    Text("\(String(sim.year))年 \(monthNames[sim.month - 1])")
-                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    // 月が2桁に変わるたびに、右にある資金や速度のボタンがまとめてずれる。
+                    // いちばん長い日付を型紙として敷いておき、幅を固定する。
+                    ZStack(alignment: .leading) {
+                        Text("0000年 00月").hidden()
+                        Text("\(String(sim.year))年 \(monthNames[sim.month - 1])")
+                    }
+                    .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    .monospacedDigit()
                     Text("人口 \(sim.residents)")
                         .font(.system(size: 11, design: .rounded))
+                        .monospacedDigit()
                         .foregroundStyle(.secondary)
                 }
 
