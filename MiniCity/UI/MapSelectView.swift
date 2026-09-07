@@ -3,12 +3,15 @@ import SwiftUI
 /// 新しい都市を始める前に、候補の地形をいくつか見てから選べる画面。
 /// `GameState` には触れず、選んだ種（シード）を `onSelect` で返すだけにしてある。
 struct MapSelectView: View {
-    let onSelect: (UInt64) -> Void
+    /// 選んだ地形と、遊ぶ年数（`nil` は期限なし）を返す。
+    let onSelect: (UInt64, Int?) -> Void
     /// はじめて遊ぶときは、戻る先がないのでキャンセルを出さない。
     var allowsCancel = true
     @Environment(\.dismiss) private var dismiss
 
     @State private var candidates: [UInt64] = []
+    /// 遊ぶ年数。0 は期限なしのしるし。
+    @State private var termYears = 100
     @State private var thumbnails: [UInt64: Image] = [:]
 
     private let columns = [GridItem(.adaptive(minimum: 140), spacing: 12)]
@@ -16,10 +19,31 @@ struct MapSelectView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("遊ぶ年数")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                    Picker("遊ぶ年数", selection: $termYears) {
+                        Text("50年").tag(50)
+                        Text("100年").tag(100)
+                        Text("200年").tag(200)
+                        Text("期限なし").tag(0)
+                    }
+                    .pickerStyle(.segmented)
+                    Text(termYears == 0
+                         ? "終わりはない。好きなだけ育てられる。"
+                         // 年に桁区切りが入らないよう、数のままにしない。
+                         : "1900年から\(String(1900 + termYears - 1))年まで。最後の年を越えると成績が出る（そのあとも続けられる）。")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+
                 LazyVGrid(columns: columns, spacing: 14) {
                     ForEach(candidates, id: \.self) { seed in
                         Button {
-                            onSelect(seed)
+                            onSelect(seed, termYears == 0 ? nil : termYears)
                             dismiss()
                         } label: {
                             VStack(spacing: 6) {

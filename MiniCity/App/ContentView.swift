@@ -91,8 +91,8 @@ struct ContentView: View {
         .fullScreenCover(isPresented: .constant(game.needsMapSelection)) {
             // はじめて遊ぶときだけ、地形を選んでから始める。
             // いきなり知らない地形に放り出されると、何を見ているのか分からない。
-            MapSelectView(onSelect: { seed in
-                game.finishMapSelection(seed: seed)
+            MapSelectView(onSelect: { seed, termYears in
+                game.finishMapSelection(seed: seed, termYears: termYears)
             }, allowsCancel: false)
         }
         .sheet(isPresented: $showAchievements) {
@@ -100,6 +100,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showBudget) {
             BudgetView(game: game)
+        }
+        .sheet(isPresented: $game.showsResult) {
+            ResultView(game: game)
         }
         .statusBarHidden()
         .preferredColorScheme(.dark)

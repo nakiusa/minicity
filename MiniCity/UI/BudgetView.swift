@@ -26,8 +26,8 @@ struct BudgetView: View {
             }
         }
         .sheet(isPresented: $showMapSelect) {
-            MapSelectView { seed in
-                game.newCity(seed: seed)
+            MapSelectView { seed, termYears in
+                game.newCity(seed: seed, termYears: termYears)
                 dismiss()
             }
         }

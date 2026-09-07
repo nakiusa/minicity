@@ -40,10 +40,21 @@ struct TopBar: View {
                     }
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .monospacedDigit()
-                    Text("人口 \(sim.residents)")
-                        .font(.system(size: 11, design: .rounded))
-                        .monospacedDigit()
-                        .foregroundStyle(.secondary)
+                    // 資金が大きな桁になっても、折り返さずに詰めて1行に収める。
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    HStack(spacing: 6) {
+                        Text("人口 \(sim.residents)")
+                            .monospacedDigit()
+                            .foregroundStyle(.secondary)
+                        // 期限を決めて始めたときだけ、あと何年あるかを添える。
+                        if let left = sim.yearsLeft {
+                            Text("残り \(left)年")
+                                .monospacedDigit()
+                                .foregroundStyle(left <= 5 ? Color.orange : Color.secondary)
+                        }
+                    }
+                    .font(.system(size: 11, design: .rounded))
                 }
 
                 // 予算画面への入口。ただの数字に見えると押せることに気付けないので、
@@ -56,6 +67,8 @@ struct TopBar: View {
                             Text("¥\(sim.funds)")
                                 .font(.system(size: 15, weight: .bold, design: .rounded))
                                 .monospacedDigit()
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.7)
                                 .foregroundStyle(sim.funds < 0 ? Color.red : Color.green)
                             Text("税率 \(sim.taxRate)%")
                                 .font(.system(size: 10, design: .rounded))

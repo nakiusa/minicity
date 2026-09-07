@@ -19,6 +19,7 @@ final class Simulation {
         funds = save.funds
         taxRate = save.taxRate
         monthsElapsed = save.monthsElapsed
+        termYears = save.termYears
         census()
         updatePower()
         updateRoadAccess()
@@ -29,6 +30,20 @@ final class Simulation {
 
     var year: Int { 1900 + monthsElapsed / 12 }
     var month: Int { monthsElapsed % 12 + 1 }
+
+    /// 遊ぶと決めた年数。`nil` なら期限なしで、いつまでも続けられる。
+    var termYears: Int?
+
+    /// 期限の最後の年。1900年から100年なら 1999年まで遊んで終わる。
+    var lastYear: Int? { termYears.map { 1900 + $0 - 1 } }
+
+    /// 期限まで残り何年か。最後の1年のあいだは 1 を返す。
+    var yearsLeft: Int? {
+        termYears.map { max(0, ($0 * 12 - monthsElapsed + 11) / 12) }
+    }
+
+    /// 期限に届いたか。届いた月に時間が止まる。
+    var isOver: Bool { termYears.map { monthsElapsed >= $0 * 12 } ?? false }
 
     // MARK: - 集計
 

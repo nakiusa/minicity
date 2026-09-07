@@ -103,10 +103,22 @@ final class GameState: ObservableObject {
         restartClock()
     }
 
+    /// 遊ぶ期限が来たときに出す成績表。開いているあいだ時間は止まる。
+    @Published var showsResult = false
+
     /// 起動時のマップ選択を終える。
-    func finishMapSelection(seed: UInt64) {
+    func finishMapSelection(seed: UInt64, termYears: Int?) {
         needsMapSelection = false
-        newCity(seed: seed)
+        newCity(seed: seed, termYears: termYears)
+    }
+
+    /// 期限が来たあとも、そのまま続ける。以後は期限なしになる。
+    func keepPlaying() {
+        sim.termYears = nil
+        showsResult = false
+        save()
+        speed = .normal
+        revision &+= 1
     }
 
     func save() {
@@ -127,6 +139,12 @@ final class GameState: ObservableObject {
     private func step() {
         sim.tick()
         if sim.monthsElapsed % 12 == 0 { save() }
+        // 決めた年数まで来たら時間を止めて、成績表を出す。
+        if sim.isOver && !showsResult {
+            speed = .paused
+            save()
+            showsResult = true
+        }
         scene?.applyDirty()
         // 一度に大量に光ると何も読めないので、数を絞る。
         for (x, y) in sim.recentUpgrades.prefix(10) {
@@ -241,10 +259,12 @@ final class GameState: ObservableObject {
 
     /// `seed` を省略すると完全にランダムな地形になる。マップ選択画面から
     /// 呼ぶときは、そこでプレビューした種をそのまま渡して同じ地形を再現する。
-    func newCity(seed: UInt64 = UInt64.random(in: 0..<UInt64.max)) {
+    func newCity(seed: UInt64 = UInt64.random(in: 0..<UInt64.max), termYears: Int? = nil) {
         speed = .paused
+        showsResult = false
         CityStore.clear()
         sim = Simulation(seed: seed)
+        sim.termYears = termYears
         scene?.sim = sim
         scene?.fullRefresh()
         scene?.resetCamera()
