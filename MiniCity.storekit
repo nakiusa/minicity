@@ -1,0 +1,30 @@
+{
+  "identifier" : "3D1F5A2C",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "480",
+      "familyShareable" : false,
+      "internalID" : "A1B2C3D4",
+      "localizations" : [
+        {
+          "description" : "バナーと全画面の広告が出なくなります。買い切りです。",
+          "displayName" : "広告を消す",
+          "locale" : "ja_JP"
+        }
+      ],
+      "productID" : "com.shuyafukai.minicity.removeads",
+      "referenceName" : "広告を消す",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

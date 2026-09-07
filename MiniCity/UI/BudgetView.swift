@@ -3,6 +3,7 @@ import SwiftUI
 /// 税率の調整と、年度末に何が起きるかの内訳。
 struct BudgetView: View {
     @ObservedObject var game: GameState
+    @ObservedObject var store: Store
     @Environment(\.dismiss) private var dismiss
     /// 都市を捨てる操作は戻せないので、一度確かめる。
     @State private var confirmingNewCity = false
@@ -94,6 +95,29 @@ struct BudgetView: View {
                         "\((game.sim.zoneCounts[.coalPlant] ?? 0) * Simulation.plantCapacity) 区画ぶん")
                 }
 
+                Section("広告") {
+                    if store.hasRemovedAds {
+                        Label("広告は消えています", systemImage: "checkmark.seal.fill")
+                            .foregroundStyle(.green)
+                    } else {
+                        Button {
+                            Task { await store.buy() }
+                        } label: {
+                            HStack {
+                                Text("広告を消す")
+                                Spacer()
+                                Text(store.removeAds?.displayPrice ?? "…")
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .disabled(store.removeAds == nil || store.isWorking)
+                        Button("購入を復元") {
+                            Task { await store.restore() }
+                        }
+                        .disabled(store.isWorking)
+                    }
+                }
+
                 Section {
                     Button(role: .destructive) {
                         confirmingNewCity = true
@@ -103,6 +127,12 @@ struct BudgetView: View {
                 } footer: {
                     Text("地形を選び直して、最初の1900年に戻ります。")
                 }
+            }
+            .alert("購入", isPresented: Binding(get: { store.failure != nil },
+                                              set: { if !$0 { store.failure = nil } })) {
+                Button("OK") { store.failure = nil }
+            } message: {
+                Text(store.failure ?? "")
             }
             .navigationTitle("予算")
             .navigationBarTitleDisplayMode(.inline)

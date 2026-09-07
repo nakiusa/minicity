@@ -6,6 +6,12 @@ options:
   createIntermediateGroups: true
   generateEmptyDirectories: false
 
+# 広告の SDK。バナーと全画面広告に使う。
+packages:
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+    from: 13.9.0
+
 schemes:
   MiniCity:
     build:
@@ -13,6 +19,8 @@ schemes:
         MiniCity: all
     run:
       config: Debug
+      # Xcode から動かすときだけ、買い切りの課金を手元で試せるようにする。
+      storeKitConfiguration: MiniCity.storekit
     profile:
       config: Release
     archive:
@@ -24,6 +32,14 @@ targets:
     platform: iOS
     sources:
       - path: MiniCity
+    dependencies:
+      - package: GoogleMobileAds
+    info:
+      path: MiniCity/Info.plist
+      properties:
+        # いまは Google のテスト用 ID。AdMob でアプリを作ったら、本物に差し替える。
+        GADApplicationIdentifier: ca-app-pub-3940256099942544~1458002511
+        NSUserTrackingUsageDescription: 興味に合った広告を表示するために使います。許可しなくても、広告の内容が変わるだけで遊べます。
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.shuyafukai.minicity

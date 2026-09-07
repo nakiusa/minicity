@@ -288,6 +288,40 @@ x を `towerDepth / 2`、y を `podiumDepth / 3` と別々の値でずらして�
 別に「交通量」オーバーレイもあり、そちらは区域ぜんたいの混みぐあいを色の濃淡で見せる。
 車のマークは道路そのものの実況、オーバーレイは俯瞰の統計、という役割分担になっている。
 
+## 広告と買い切りの課金
+
+無料で配るために広告を出し、買い切りで消せるようにしてある。
+広告は Google AdMob（SPM で `swift-package-manager-google-mobile-ads`）を使う。
+
+- 画面の下のバナー（`BannerAdView`）。買っていれば場所ごと消える。
+- 区切りの場面だけの全画面広告（`Ads.showFullScreen`）。遊んでいる最中には割り込まない。
+  出すのは、期限まで遊びきったあとと、新しい都市を始めたときだけで、最短でも90秒は空ける。
+- 初回起動時に追跡の許可を尋ねる（ATT）。断られても広告は出る。内容が興味に合わなくなるだけ。
+
+買い切りは StoreKit 2 の非消耗型 `com.shuyafukai.minicity.removeads`（`Store.swift`）。
+権利は App Store 側が正だが、圏外で広告が戻らないよう、買えたことは端末にも控える。
+入口は予算画面の「広告」の欄で、「購入を復元」も同じ場所に置いてある。
+
+手元で課金を試すときは `MiniCity.storekit` を使う。Xcode から実行すると、
+このファイルの中の商品が本物の代わりに出る（`xcrun simctl launch` では効かない）。
+
+### 出す前にやること
+
+コードの側はテスト用の ID で動くようにしてあるので、次を差し替える。
+
+| いま | 差し替え先 |
+| --- | --- |
+| `project.yml` の `GADApplicationIdentifier`（テスト用） | AdMob で作ったアプリの ID |
+| `Ads.bannerUnit` / `Ads.interstitialUnit`（テスト用） | AdMob で作った広告ユニットの ID |
+
+本物の ID を入れたまま自分で広告を踏むと AdMob の規約違反になるので、
+差し替えるのは提出の直前にする。テスト端末の登録も AdMob 側でしておく。
+
+App Store Connect 側では、買い切りの商品（`com.shuyafukai.minicity.removeads`）を作り、
+有料アプリ契約（銀行口座と税情報）を済ませておく。これがないと課金は売れない。
+アプリのプライバシー申告も、広告の分（識別子・使用状況データ・トラッキング）を
+足して出し直す。プライバシーポリシーは `docs/privacy.html` に書き直してある。
+
 ## 配布
 
 App Store に出すための設定は `project.yml` に入っている。署名は自動（`CODE_SIGN_STYLE: Automatic`、

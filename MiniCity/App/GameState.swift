@@ -106,6 +106,10 @@ final class GameState: ObservableObject {
     /// 遊ぶ期限が来たときに出す成績表。開いているあいだ時間は止まる。
     @Published var showsResult = false
 
+    /// 街がひと区切りついた回数。全画面広告を出す合図に使う。
+    /// 遊びの最中に割り込まないよう、区切りの場面でしか増やさない。
+    @Published private(set) var adBreaks = 0
+
     /// 起動時のマップ選択を終える。
     func finishMapSelection(seed: UInt64, termYears: Int?) {
         needsMapSelection = false
@@ -118,6 +122,7 @@ final class GameState: ObservableObject {
         showsResult = false
         save()
         speed = .normal
+        adBreaks += 1
         revision &+= 1
     }
 
@@ -268,6 +273,7 @@ final class GameState: ObservableObject {
         scene?.sim = sim
         scene?.fullRefresh()
         scene?.resetCamera()
+        adBreaks += 1
         revision &+= 1
         speed = .normal
     }

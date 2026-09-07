@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var game = GameState()
+    @StateObject private var store = Store()
+    @StateObject private var ads = Ads()
     @State private var showBudget = false
     @State private var showAchievements = false
     @AppStorage("hasSeenHelp") private var hasSeenHelp = false
@@ -78,6 +80,15 @@ struct ContentView: View {
                 }
 
                 ToolPalette(game: game)
+
+                // 買い切りで消せる広告。消していれば場所ごと消える。
+                if !store.hasRemovedAds && ads.isReady {
+                    GeometryReader { geo in
+                        BannerAdView(width: geo.size.width)
+                            .frame(width: geo.size.width, height: geo.size.height)
+                    }
+                    .frame(height: 50)
+                }
             }
             .padding(.horizontal, 10)
             .padding(.bottom, 6)
@@ -99,7 +110,7 @@ struct ContentView: View {
             AchievementsView(game: game)
         }
         .sheet(isPresented: $showBudget) {
-            BudgetView(game: game)
+            BudgetView(game: game, store: store)
         }
         .sheet(isPresented: $game.showsResult) {
             ResultView(game: game)
@@ -108,6 +119,16 @@ struct ContentView: View {
         .preferredColorScheme(.dark)
         .onAppear {
             if !hasSeenHelp && !game.needsMapSelection { showHelp = true }
+        }
+        .task {
+            // 起動直後に尋ねると、画面がまだ前に出ていなくて追跡の許可が流れることがある。
+            try? await Task.sleep(for: .seconds(1))
+            await ads.start()
+        }
+        .onChange(of: game.adBreaks) { _, _ in
+            // 街がひと区切りついたところでだけ、全画面広告を出す。
+            guard !store.hasRemovedAds else { return }
+            ads.showFullScreen()
         }
         .onChange(of: game.needsMapSelection) { _, needs in
             // 地形を選び終えてから操作説明を出す。
