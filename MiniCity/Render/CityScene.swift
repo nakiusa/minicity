@@ -16,6 +16,43 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .density: return "人口密度"
         }
     }
+
+    var symbol: String {
+        switch self {
+        case .none: return "map.fill"
+        case .power: return "bolt.fill"
+        case .pollution: return "smoke.fill"
+        case .landValue: return "yensign.circle.fill"
+        case .crime: return "shield.lefthalf.filled"
+        case .traffic: return "car.fill"
+        case .density: return "person.3.fill"
+        }
+    }
+
+    /// 「調べる」で数値と並べる見方。この並びがそのまま画面の並びになる。
+    static let readable: [OverlayMode] = [.landValue, .pollution, .crime, .traffic, .density, .power]
+
+    /// そのマスの値と、帯の色に使う 0...255 の強さ。数で表せない見方は nil。
+    func reading(atX x: Int, y: Int, in sim: Simulation) -> (value: Int, heat: Int)? {
+        switch self {
+        case .none, .power: return nil
+        case .pollution: let v = sim.pollution.atTile(x, y); return (v, v)
+        case .landValue: let v = sim.landValue.atTile(x, y); return (v, v)
+        case .crime: let v = sim.crime.atTile(x, y); return (v, v)
+        case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
+        // 人口密度は地図と同じく1/3に縮めた強さで色を付ける。
+        case .density: let v = sim.density.atTile(x, y); return (v, min(255, v / 3))
+        }
+    }
+
+    /// 数で表せない見方に添える短い言葉。
+    func note(atX x: Int, y: Int, in sim: Simulation) -> String? {
+        guard self == .power else { return nil }
+        let t = sim.map.tile(x, y)
+        if let z = sim.map.zone(t.zoneID) { return z.powered ? "通電" : "停電" }
+        if t.wire { return t.powered ? "通電" : "停電" }
+        return "—"
+    }
 }
 
 /// マップの描画とカメラ操作を受け持つ。

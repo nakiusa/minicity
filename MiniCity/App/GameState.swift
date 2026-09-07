@@ -34,6 +34,14 @@ enum GameSpeed: String, CaseIterable, Identifiable {
     }
 }
 
+/// 「調べる」で叩いたマス。数値は時間とともに変わるので持たず、位置だけ覚えておく。
+struct InspectedTile {
+    let x: Int
+    let y: Int
+    /// そこに何があるか。数値は含めない。
+    let summary: String
+}
+
 /// SwiftUI と SpriteKit の橋渡し。時間を進め、道具の適用結果を画面に返す。
 final class GameState: ObservableObject {
 
@@ -57,7 +65,7 @@ final class GameState: ObservableObject {
         didSet { scene?.overlayMode = overlay }
     }
     @Published var message: String?
-    @Published var inspected: String?
+    @Published var inspected: InspectedTile?
 
     /// 0 が引ききった状態、1 が寄りきった状態。スライダーと双方向に結ぶ。
     @Published var zoomLevel: Double = Double(CityScene.level(forScale: CityScene.defaultScale)) {
@@ -169,7 +177,7 @@ final class GameState: ObservableObject {
         case .pan:
             return
         case .inspect:
-            inspected = describeTile(x: x, y: y)
+            inspected = InspectedTile(x: x, y: y, summary: describeTile(x: x, y: y))
             return
         default:
             break
@@ -225,9 +233,7 @@ final class GameState: ObservableObject {
             if t.wire { parts.append("送電線") }
         }
 
-        parts.append("土地価値 \(sim.landValue.atTile(x, y))")
-        parts.append("公害 \(sim.pollution.atTile(x, y))")
-        parts.append("犯罪 \(sim.crime.atTile(x, y))")
+        // 土地価値や公害の数値はここには混ぜない。見る側で帯付きの一覧として出す。
         return parts.joined(separator: " / ")
     }
 

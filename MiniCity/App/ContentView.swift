@@ -59,12 +59,8 @@ struct ContentView: View {
                     }
                 }
 
-                if let text = game.inspected, game.tool == .inspect {
-                    Text(text)
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .panel()
+                if game.tool == .inspect {
+                    InspectorPanel(game: game)
                 }
 
                 if game.pendingTiles > 0 {
@@ -174,7 +170,7 @@ struct HelpOverlay: View {
                 VStack(alignment: .leading, spacing: 7) {
                     line("移動", "この道具を選ぶと、1本指のドラッグで地図が動く")
                     line("拡大縮小", "右下のつまみを上下になぞる。⊕ ⊖ を押せば1段ずつ動く")
-                    line("調べる", "同じくドラッグで地図が動く。軽く叩くとそのマスの土地価値や公害を読む")
+                    line("調べる", "軽く叩くとそのマスの数値が出る。一覧の行を押すと地価や公害が地図に色で出る")
                     line("その他", "1本指でマスを塗る（道路や送電線はなぞれる）")
                     line("2本指", "どの道具でも地図を動かせる。つまめば拡大縮小")
                 }

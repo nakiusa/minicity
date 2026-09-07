@@ -273,3 +273,78 @@ struct OverlayPicker: View {
         }
     }
 }
+
+/// 「調べる」の一覧。叩いたマスの数値を並べつつ、行そのものが地図の切り替えになる。
+/// 数字だけ読ませても土地の良し悪しは掴めないので、同じ行から色分けの地図へ渡す。
+struct InspectorPanel: View {
+    @ObservedObject var game: GameState
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(game.inspected?.summary ?? "マスを軽く叩くとその場所の数値が出ます。行を押すと地図が色分けされます")
+                .font(.system(size: 11))
+                .foregroundStyle(game.inspected == nil ? Color.white.opacity(0.55) : .white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 2)
+
+            ForEach(OverlayMode.readable) { mode in
+                row(mode)
+            }
+        }
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 12, style: .continuous).fill(panelFill)
+        )
+    }
+
+    private func row(_ mode: OverlayMode) -> some View {
+        let selected = game.overlay == mode
+        let reading = game.inspected.flatMap { mode.reading(atX: $0.x, y: $0.y, in: game.sim) }
+        let note = game.inspected.flatMap { mode.note(atX: $0.x, y: $0.y, in: game.sim) }
+        return Button {
+            // もう一度押すと元の見た目に戻る。切り替えと取り消しを同じ場所で済ませる。
+            game.overlay = selected ? .none : mode
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: mode.symbol)
+                    .font(.system(size: 10))
+                    .frame(width: 14)
+                Text(mode.title)
+                    .font(.system(size: 11, weight: .medium))
+                    .frame(width: 56, alignment: .leading)
+
+                // 帯の色は地図と同じ配色にして、行と地図が同じものを指していると分かるようにする。
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(Color.white.opacity(0.10))
+                        if let reading {
+                            Capsule()
+                                .fill(heatSwatch(reading.heat))
+                                .frame(width: max(3, geo.size.width * Double(reading.heat) / 255))
+                        }
+                    }
+                }
+                .frame(height: 6)
+
+                Text(reading.map { "\($0.value)" } ?? note ?? "—")
+                    .font(.system(size: 11, design: .rounded))
+                    .monospacedDigit()
+                    .frame(width: 38, alignment: .trailing)
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
+            .background(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(selected ? Color.accentColor.opacity(0.75) : Color.white.opacity(0.06))
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+/// 地図の色分けと同じ配色を、帯にも使う。地図側は薄い値を透かすが、帯は細いので不透明で塗る。
+private func heatSwatch(_ v: Int) -> Color {
+    let c = CityScene.heatColor(v)
+    return Color(red: Double(c.r) / 255, green: Double(c.g) / 255, blue: Double(c.b) / 255)
+}
