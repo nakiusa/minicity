@@ -76,24 +76,22 @@ struct AdBanner: View {
 
     var body: some View {
         if !store.hasRemovedAds && ads.isReady {
-            GeometryReader { geo in
-                BannerAdView(width: geo.size.width)
-                    .frame(width: geo.size.width, height: geo.size.height)
-            }
-            .frame(height: 50)
-            .frame(maxWidth: .infinity)
-            // 下地を敷かないと、後ろの一覧が広告の脇から透けて宙に浮いて見える。
-            .background(.bar)
+            // 幅いっぱいの大きな広告も選べるが、メニューの半分が白い箱になる。
+            // 出す場所がメニューなので、320x50 の小さいほうで通す。
+            BannerAdView()
+                .frame(width: AdSizeBanner.size.width, height: AdSizeBanner.size.height)
+                .frame(maxWidth: .infinity)
+                // 下地を敷かないと、後ろの一覧が広告の脇から透けて宙に浮いて見える。
+                .background(.bar)
         }
     }
 }
 
-/// 幅に合わせた高さの広告を頼む。
+/// 320x50 のバナーひとつ。
 struct BannerAdView: UIViewRepresentable {
-    let width: CGFloat
 
     func makeUIView(context: Context) -> BannerView {
-        let view = BannerView(adSize: currentOrientationAnchoredAdaptiveBanner(width: width))
+        let view = BannerView(adSize: AdSizeBanner)
         view.adUnitID = Ads.bannerUnit
         view.rootViewController = Ads.topViewController()
         view.load(Request())
@@ -102,10 +100,5 @@ struct BannerAdView: UIViewRepresentable {
 
     func updateUIView(_ view: BannerView, context: Context) {
         if view.rootViewController == nil { view.rootViewController = Ads.topViewController() }
-    }
-
-    /// バナーが要る高さ。画面の幅で決まるので、外から場所を空けるために使う。
-    static func height(width: CGFloat) -> CGFloat {
-        currentOrientationAnchoredAdaptiveBanner(width: width).size.height
     }
 }
