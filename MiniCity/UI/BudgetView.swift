@@ -134,6 +134,7 @@ struct BudgetView: View {
             } message: {
                 Text(store.failure ?? "")
             }
+            .safeAreaInset(edge: .bottom) { AdBanner() }
             .navigationTitle("予算")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

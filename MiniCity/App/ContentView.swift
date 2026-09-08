@@ -2,8 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var game = GameState()
-    @StateObject private var store = Store()
-    @StateObject private var ads = Ads()
+    @ObservedObject private var store = Store.shared
+    @ObservedObject private var ads = Ads.shared
     @State private var showBudget = false
     @State private var showAchievements = false
     @AppStorage("hasSeenHelp") private var hasSeenHelp = false
@@ -80,15 +80,6 @@ struct ContentView: View {
                 }
 
                 ToolPalette(game: game)
-
-                // 買い切りで消せる広告。消していれば場所ごと消える。
-                if !store.hasRemovedAds && ads.isReady {
-                    GeometryReader { geo in
-                        BannerAdView(width: geo.size.width)
-                            .frame(width: geo.size.width, height: geo.size.height)
-                    }
-                    .frame(height: 50)
-                }
             }
             .padding(.horizontal, 10)
             .padding(.bottom, 6)
@@ -120,8 +111,10 @@ struct ContentView: View {
         .onAppear {
             if !hasSeenHelp && !game.needsMapSelection { showHelp = true }
         }
-        .task {
-            // 起動直後に尋ねると、画面がまだ前に出ていなくて追跡の許可が流れることがある。
+        .task(id: game.needsMapSelection) {
+            // 地形を選んでいる最中に追跡の許可が重なると、どちらも読めない。
+            guard !game.needsMapSelection else { return }
+            // 起動直後に尋ねると、画面がまだ前に出ていなくて許可のダイアログが流れることがある。
             try? await Task.sleep(for: .seconds(1))
             await ads.start()
         }

@@ -48,6 +48,7 @@ struct AchievementsView: View {
                 }
                 .padding(16)
             }
+            .safeAreaInset(edge: .bottom) { AdBanner() }
             .navigationTitle("実績")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

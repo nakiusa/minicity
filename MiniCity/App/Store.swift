@@ -8,6 +8,9 @@ import StoreKit
 @MainActor
 final class Store: ObservableObject {
 
+    /// 画面のあちこちから読むので、ひとつだけ持つ。
+    static let shared = Store()
+
     /// App Store Connect で作る商品の ID。買い切り（非消耗型）。
     static let removeAdsID = "com.shuyafukai.minicity.removeads"
 
@@ -20,7 +23,7 @@ final class Store: ObservableObject {
     private let cacheKey = "hasRemovedAds"
     private var updates: Task<Void, Never>?
 
-    init() {
+    private init() {
         hasRemovedAds = UserDefaults.standard.bool(forKey: cacheKey)
         // 別の端末で買った、あとから返金された、といった変化はここに届く。
         updates = Task { [weak self] in

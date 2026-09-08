@@ -6,6 +6,10 @@ import SwiftUI
 @MainActor
 final class Ads: ObservableObject {
 
+    static let shared = Ads()
+
+    private init() {}
+
     // いまは Google のテスト用 ID。AdMob で本物を作ったら差し替える。
     // 本物の ID を入れる前にテストで踏むと、AdMob の規約違反になる。
     static let bannerUnit = "ca-app-pub-3940256099942544/2934735716"
@@ -61,7 +65,30 @@ final class Ads: ObservableObject {
     }
 }
 
-/// 画面の下に敷くバナー。幅に合わせた高さの広告を頼む。
+/// メニューの下に敷くバナー。
+///
+/// 街の画面には出さない。遊んでいるあいだずっと見える帯に、こちらで色も形も
+/// 決められないものを置くと、画面の作りがそこだけ崩れる。買い切りを持っていれば、
+/// メニューでも出さない。
+struct AdBanner: View {
+    @ObservedObject private var store = Store.shared
+    @ObservedObject private var ads = Ads.shared
+
+    var body: some View {
+        if !store.hasRemovedAds && ads.isReady {
+            GeometryReader { geo in
+                BannerAdView(width: geo.size.width)
+                    .frame(width: geo.size.width, height: geo.size.height)
+            }
+            .frame(height: 50)
+            .frame(maxWidth: .infinity)
+            // 下地を敷かないと、後ろの一覧が広告の脇から透けて宙に浮いて見える。
+            .background(.bar)
+        }
+    }
+}
+
+/// 幅に合わせた高さの広告を頼む。
 struct BannerAdView: UIViewRepresentable {
     let width: CGFloat
 

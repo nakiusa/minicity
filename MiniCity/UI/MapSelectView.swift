@@ -66,6 +66,7 @@ struct MapSelectView: View {
                 }
                 .padding(16)
             }
+            .safeAreaInset(edge: .bottom) { AdBanner() }
             .navigationTitle("マップを選ぶ")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
