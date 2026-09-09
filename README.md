@@ -365,10 +365,23 @@ plutil -replace hasSeenHelp -bool YES "$(xcrun simctl get_app_container <UDID> c
 
 ```bash
 swiftc -O -o shotframe tools/shotframe/main.swift
-./shotframe raw/city.png screenshots/01.png "区画を敷けば、街は育つ" "電気と道路が届いた区画から、人が住みはじめる"
+./shotframe raw/city.png screenshots/01.png "街は、置いたとおりに育つ" "区画を置いて電気を通せば、あとは勝手に人が入る"
 ```
 
-選ぶ4枚は、街の俯瞰、オーバーレイ、マップ選択、予算画面。
+見出しの下に金の線を1本引き、端末の絵に影を落として背景から浮かせている。
+説明文が長いときは読点で2行に折る。
+
+選ぶ4枚は、街の俯瞰、指標の地図、成績表、実績の一覧。
+
+撮るときは広告を消した状態にする。第三者の広告が写った絵はストアに載せられない。
+買い切りを持っている状態は、起動時の引数で作れる。
+
+```bash
+xcrun simctl launch <UDID> com.shuyafukai.minicity -hasRemovedAds YES -hasSeenHelp YES
+```
+
+`defaults write` でセーブ先の plist を書き換える手は効かない。シミュレータの中の
+設定の番人が古い値を抱えていて、上書きし返してくる。
 画面の作りが違うものを選ぶ。同じ都市を寄り引きしただけの2枚は入れない。
 
 撮った PNG はアルファチャンネルを落としてから出す。App Store Connect は
