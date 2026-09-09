@@ -417,6 +417,18 @@ export ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_PATH=...
 画面から実績を1件手で作っても同じことができるが、それだと ID を手で打つことになる。
 2026年9月9日に34件を登録済み。同じ道具をもう一度回しても、あるものは飛ばす。
 
+実績に載せる絵も、同じ定義から作る。アプリの一覧で使っている記号をそのまま使うので、
+画面で見る実績と Game Center で見る実績が食い違わない。
+
+```bash
+swiftc -O -o gcicons MiniCity/Model/*.swift MiniCity/Sim/*.swift tools/gcicons/main.swift
+./gcicons out/                             # 512x512 の PNG を34枚
+./gcachievements --images out/ --apply     # 各実績の日本語の欄に載せる
+```
+
+`NSBitmapImageRep` を「3成分・アルファなし」で作ると描画の文脈が作れず、
+黙って真っ黒な絵ができる。CoreGraphics の `noneSkipLast` で描いてから PNG にしている。
+
 ## まだ入れていないもの
 
 災害（火災・竜巻・地震）、シナリオ、鉄道と空港・港、原子力発電所、

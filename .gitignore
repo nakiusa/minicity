@@ -12,3 +12,6 @@ sheetgen
 screenshots/
 
 gcachievements
+
+# 実績の絵を作る道具。ビルドの成果物なので追跡しない。
+gcicons
