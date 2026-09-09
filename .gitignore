@@ -1,9 +1,9 @@
 MiniCity.xcodeproj/
-simtest
+/simtest
 .DS_Store
 *.png
-scenegen
-sheetgen
+/scenegen
+/sheetgen
 
 # アイコンはコードから生成しているが、ビルドに要るので追跡する。
 !MiniCity/Resources/Assets.xcassets/**/*.png
@@ -11,7 +11,10 @@ sheetgen
 # スクリーンショットは提出のたびに撮り直すので追跡しない。
 screenshots/
 
-gcachievements
-
-# 実績の絵を作る道具。ビルドの成果物なので追跡しない。
-gcicons
+# ビルドの成果物。名前だけで書くと tools/ の中の同名ディレクトリまで
+# 巻き添えで無視されるので、根元に限る。
+/gcachievements
+/gcicons
+/shotframe
+/savegen
+/preview
