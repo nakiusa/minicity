@@ -37,8 +37,7 @@ targets:
     info:
       path: MiniCity/Info.plist
       properties:
-        # いまは Google のテスト用 ID。AdMob でアプリを作ったら、本物に差し替える。
-        GADApplicationIdentifier: ca-app-pub-3940256099942544~1458002511
+        GADApplicationIdentifier: ca-app-pub-9780206641404014~1923613809
         NSUserTrackingUsageDescription: 興味に合った広告を表示するために使います。許可しなくても、広告の内容が変わるだけで遊べます。
     settings:
       base:
