@@ -429,6 +429,17 @@ swiftc -O -o gcicons MiniCity/Model/*.swift MiniCity/Sim/*.swift tools/gcicons/m
 `NSBitmapImageRep` を「3成分・アルファなし」で作ると描画の文脈が作れず、
 黙って真っ黒な絵ができる。CoreGraphics の `noneSkipLast` で描いてから PNG にしている。
 
+登録した実績は、そのままでは審査に載らない。画面の「審査用に追加」を34回押す代わりに、
+同じことを一括でやる。
+
+```bash
+./gcachievements --submit            # 何をするかだけ出す
+./gcachievements --submit --apply    # 審査に回す
+```
+
+版に紐づくので、先に App Store Connect のバージョンへビルドを紐付けておくこと。
+`--get` と `--send` は API の形を確かめるための逃げ道で、任意のパスを叩ける。
+
 ## まだ入れていないもの
 
 災害（火災・竜巻・地震）、シナリオ、鉄道と空港・港、原子力発電所、
