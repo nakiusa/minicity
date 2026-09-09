@@ -95,6 +95,9 @@ struct BudgetView: View {
                         "\((game.sim.zoneCounts[.coalPlant] ?? 0) * Simulation.plantCapacity) 区画ぶん")
                 }
 
+                // 商品を引けないときは欄ごと出さない。押せない購入ボタンが残っていると、
+                // 壊れているように見えるし、審査でも機能しない課金として扱われる。
+                if store.hasRemovedAds || store.removeAds != nil {
                 Section("広告") {
                     if store.hasRemovedAds {
                         Label("広告は消えています", systemImage: "checkmark.seal.fill")
@@ -110,12 +113,13 @@ struct BudgetView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
-                        .disabled(store.removeAds == nil || store.isWorking)
+                        .disabled(store.isWorking)
                         Button("購入を復元") {
                             Task { await store.restore() }
                         }
                         .disabled(store.isWorking)
                     }
+                }
                 }
 
                 Section {
