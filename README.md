@@ -307,17 +307,13 @@ x を `towerDepth / 2`、y を `podiumDepth / 3` と別々の値でずらして�
 手元で課金を試すときは `MiniCity.storekit` を使う。Xcode から実行すると、
 このファイルの中の商品が本物の代わりに出る（`xcrun simctl launch` では効かない）。
 
-### 出す前にやること
+### 広告の ID
 
-コードの側はテスト用の ID で動くようにしてあるので、次を差し替える。
-
-| いま | 差し替え先 |
-| --- | --- |
-| `project.yml` の `GADApplicationIdentifier`（テスト用） | AdMob で作ったアプリの ID |
-| `Ads.bannerUnit` / `Ads.interstitialUnit`（テスト用） | AdMob で作った広告ユニットの ID |
-
-本物の ID を入れたまま自分で広告を踏むと AdMob の規約違反になるので、
-差し替えるのは提出の直前にする。テスト端末の登録も AdMob 側でしておく。
+`project.yml` の `GADApplicationIdentifier` と `Ads.bannerUnit` / `Ads.interstitialUnit` は
+AdMob の本物の ID が入っている。テスト用に戻す必要はない。
+シミュレータは SDK が常にテスト端末として扱うので、そのまま触ってよい。
+実機で試すときは、AdMob の「設定」→「テストデバイス」に登録してからにする。
+登録せずに自分の広告を踏むと、無効なトラフィックとして扱われる。
 
 App Store Connect 側では、買い切りの商品（`com.shuyafukai.minicity.removeads`）を作り、
 有料アプリ契約（銀行口座と税情報）を済ませておく。これがないと課金は売れない。

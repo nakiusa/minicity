@@ -10,10 +10,10 @@ final class Ads: ObservableObject {
 
     private init() {}
 
-    // いまは Google のテスト用 ID。AdMob で本物を作ったら差し替える。
-    // 本物の ID を入れる前にテストで踏むと、AdMob の規約違反になる。
-    static let bannerUnit = "ca-app-pub-3940256099942544/2934735716"
-    static let interstitialUnit = "ca-app-pub-3940256099942544/4411468910"
+    // 実機で自分の広告を踏むと無効なトラフィックになる。試すときは
+    // AdMob にテストデバイスとして登録してから触ること（シミュレータは常にテスト扱い）。
+    static let bannerUnit = "ca-app-pub-9780206641404014/1588089382"
+    static let interstitialUnit = "ca-app-pub-9780206641404014/2207518980"
 
     /// SDK が動き出したか。バナーはこれが立ってから出す。
     @Published private(set) var isReady = false
