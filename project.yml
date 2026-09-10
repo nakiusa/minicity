@@ -38,7 +38,6 @@ targets:
       path: MiniCity/Info.plist
       properties:
         GADApplicationIdentifier: ca-app-pub-9780206641404014~1923613809
-        NSUserTrackingUsageDescription: 興味に合った広告を表示するために使います。許可しなくても、広告の内容が変わるだけで遊べます。
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.shuyafukai.minicity
@@ -48,7 +47,7 @@ targets:
         MARKETING_VERSION: "1.2.0"
         # ビルド番号は、同じアプリで一度使うと再利用できない。
         # 送り直すたびに上げる。
-        CURRENT_PROJECT_VERSION: "7"
+        CURRENT_PROJECT_VERSION: "8"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ミニシティ
         # 暗号化を使っていないことを宣言しておく。

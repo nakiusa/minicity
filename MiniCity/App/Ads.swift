@@ -1,4 +1,3 @@
-import AppTrackingTransparency
 import GoogleMobileAds
 import SwiftUI
 
@@ -24,10 +23,9 @@ final class Ads: ObservableObject {
     private let cooldown: TimeInterval = 90
 
     func start() async {
-        // 追跡の許可を先に尋ねる。断られても広告は出る。内容が興味に合わなくなるだけ。
-        if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
-            _ = await ATTrackingManager.requestTrackingAuthorization()
-        }
+        // 追跡の許可は求めない。出すのは非パーソナライズ広告だけ。
+        // 求めるなら、マニフェストに配信元のドメインを並べる必要があり、
+        // 並べると断った人の端末からは接続ごと遮断されて広告が出なくなる。
         _ = await MobileAds.shared.start()
         isReady = true
         await loadInterstitial()

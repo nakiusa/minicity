@@ -2,15 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- 広告のために広告識別子を使うので、トラッキングありとして申告する。 -->
-	<key>NSPrivacyTracking</key>
-	<true/>
 	<!--
-	  NSPrivacyTrackingDomains は置かない。空の配列を置くと ITMS-91064 で弾かれる。
-	  ここに挙げたドメインは、追跡を断った人の端末から接続そのものを止められる。
-	  広告の配信元を挙げると、断った人には非パーソナライズ広告すら届かなくなる。
-	  アプリ自身はどこにも接続していない。通信するのは広告 SDK だけ。
+	  追跡はしない。ATT のダイアログを出さず、非パーソナライズ広告だけを出す。
+	  true にすると NSPrivacyTrackingDomains の列挙が要る（無いと ITMS-91064 で弾かれる）。
+	  そこに配信元を挙げると、追跡を断った端末からは接続ごと遮断され、
+	  断った人には広告が一切出なくなる。日本では断る人のほうが多い。
 	-->
+	<key>NSPrivacyTracking</key>
+	<false/>
 	<key>NSPrivacyCollectedDataTypes</key>
 	<array>
 		<dict>
@@ -19,7 +18,7 @@
 			<key>NSPrivacyCollectedDataTypeLinked</key>
 			<false/>
 			<key>NSPrivacyCollectedDataTypeTracking</key>
-			<true/>
+			<false/>
 			<key>NSPrivacyCollectedDataTypePurposes</key>
 			<array>
 				<string>NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising</string>
@@ -31,7 +30,7 @@
 			<key>NSPrivacyCollectedDataTypeLinked</key>
 			<false/>
 			<key>NSPrivacyCollectedDataTypeTracking</key>
-			<true/>
+			<false/>
 			<key>NSPrivacyCollectedDataTypePurposes</key>
 			<array>
 				<string>NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising</string>
