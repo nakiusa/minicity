@@ -320,6 +320,12 @@ App Store Connect 側では、買い切りの商品（`com.shuyafukai.minicity.r
 アプリのプライバシー申告も、広告の分（識別子・使用状況データ・トラッキング）を
 足して出し直す。プライバシーポリシーは `docs/privacy.html` に書き直してある。
 
+プライバシーマニフェスト（`MiniCity/PrivacyInfo.xcprivacy`）では
+`NSPrivacyTracking` を true にし、`NSPrivacyTrackingDomains` は置かない。
+空の配列を置いたまま出すと `ITMS-91064` で弾かれる（1.2.0 のビルド6がこれで落ちた）。
+ここにドメインを挙げると、追跡を断った人の端末から接続ごと止められる。
+広告の配信元を挙げれば、断った人には非パーソナライズ広告すら届かなくなる。
+
 ## 配布
 
 App Store に出すための設定は `project.yml` に入っている。署名は自動（`CODE_SIGN_STYLE: Automatic`、

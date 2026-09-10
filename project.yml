@@ -48,7 +48,7 @@ targets:
         MARKETING_VERSION: "1.2.0"
         # ビルド番号は、同じアプリで一度使うと再利用できない。
         # 送り直すたびに上げる。
-        CURRENT_PROJECT_VERSION: "6"
+        CURRENT_PROJECT_VERSION: "7"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ミニシティ
         # 暗号化を使っていないことを宣言しておく。

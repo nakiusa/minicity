@@ -5,9 +5,12 @@
 	<!-- 広告のために広告識別子を使うので、トラッキングありとして申告する。 -->
 	<key>NSPrivacyTracking</key>
 	<true/>
-	<!-- 通信するのは広告 SDK で、その先のドメインは SDK 側のマニフェストが申告する。 -->
-	<key>NSPrivacyTrackingDomains</key>
-	<array/>
+	<!--
+	  NSPrivacyTrackingDomains は置かない。空の配列を置くと ITMS-91064 で弾かれる。
+	  ここに挙げたドメインは、追跡を断った人の端末から接続そのものを止められる。
+	  広告の配信元を挙げると、断った人には非パーソナライズ広告すら届かなくなる。
+	  アプリ自身はどこにも接続していない。通信するのは広告 SDK だけ。
+	-->
 	<key>NSPrivacyCollectedDataTypes</key>
 	<array>
 		<dict>
