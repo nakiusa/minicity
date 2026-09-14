@@ -328,19 +328,19 @@ final class Simulation {
     private func updateWarnings() {
         var list: [String] = []
         if funds < 0 {
-            list.append("財政が赤字です")
+            list.append(String(localized: "財政が赤字です"))
         }
         if unpoweredZones > 0 {
-            list.append("電力が届いていない区画が \(unpoweredZones) あります")
+            list.append(String(localized: "電力が届いていない区画が \(unpoweredZones) あります"))
         }
         if disconnectedZones > 0 {
-            list.append("道路に面していない区画が \(disconnectedZones) あります")
+            list.append(String(localized: "道路に面していない区画が \(disconnectedZones) あります"))
         }
         if list.count < 3, congestion > 150 {
-            list.append("渋滞が発生しています")
+            list.append(String(localized: "渋滞が発生しています"))
         }
         if list.count < 3, residents > 400, (zoneCounts[.police] ?? 0) == 0, crime.maximum > 90 {
-            list.append("犯罪が増えています")
+            list.append(String(localized: "犯罪が増えています"))
         }
         warnings = Array(list.prefix(3))
     }

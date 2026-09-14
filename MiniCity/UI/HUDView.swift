@@ -1,7 +1,7 @@
 import SwiftUI
 
-private let monthNames = ["1月", "2月", "3月", "4月", "5月", "6月",
-                          "7月", "8月", "9月", "10月", "11月", "12月"]
+/// 月の名前は端末の言語に任せる。日本語なら「5月」、英語なら「May」。
+private let monthNames = Calendar.current.shortMonthSymbols
 
 /// HUD の下地。半透明にすると地面の色を拾って濁るので、不透明の暗色で塗る。
 let panelFill = Color(red: 0.07, green: 0.075, blue: 0.095)
@@ -35,8 +35,8 @@ struct TopBar: View {
                     // 月が2桁に変わるたびに、右にある資金や速度のボタンがまとめてずれる。
                     // いちばん長い日付を型紙として敷いておき、幅を固定する。
                     ZStack(alignment: .leading) {
-                        Text("0000年 00月").hidden()
-                        Text("\(String(sim.year))年 \(monthNames[sim.month - 1])")
+                        Text("0000年 00月", comment: "日付の幅の型紙。いちばん長い月名で").hidden()
+                        Text("\(String(sim.year))年 \(monthNames[sim.month - 1])", comment: "年と月。%1$@ が年、%2$@ が月の名前")
                     }
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .monospacedDigit()
@@ -178,8 +178,12 @@ struct ToolPalette: View {
                         VStack(spacing: 2) {
                             Image(systemName: tool.symbol)
                                 .font(.system(size: 15, weight: .semibold))
+                            // 「Stromleitung」のような長い名前でも切れないよう、入らなければ詰める。
                             Text(tool.title)
                                 .font(.system(size: 9, weight: .medium))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.65)
+                                .padding(.horizontal, 2)
                             Text(tool.cost == 0 ? " " : "¥\(tool.cost)")
                                 .font(.system(size: 8, design: .rounded))
                                 .foregroundStyle(.white.opacity(0.6))
@@ -301,7 +305,8 @@ struct InspectorPanel: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(game.inspected?.summary ?? "マスを軽く叩くとその場所の数値が出ます。行を押すと地図が色分けされます")
+            Text(game.inspected.map { LocalizedStringKey($0.summary) }
+                 ?? "マスを軽く叩くとその場所の数値が出ます。行を押すと地図が色分けされます")
                 .font(.system(size: 11))
                 .foregroundStyle(game.inspected == nil ? Color.white.opacity(0.55) : .white)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -329,9 +334,13 @@ struct InspectorPanel: View {
                 Image(systemName: mode.symbol)
                     .font(.system(size: 10))
                     .frame(width: 14)
+                // 言語によって名前の長さがかなり違う（「公害」と「Verschmutzung」）。
+                // 幅は広めに取り、入りきらないときだけ字を詰める。
                 Text(mode.title)
                     .font(.system(size: 11, weight: .medium))
-                    .frame(width: 56, alignment: .leading)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                    .frame(width: 84, alignment: .leading)
 
                 // 帯の色は地図と同じ配色にして、行と地図が同じものを指していると分かるようにする。
                 GeometryReader { geo in

@@ -1,6 +1,8 @@
 name: MiniCity
 options:
   bundleIdPrefix: com.shuyafukai
+  # ソースの文字列は日本語で書いてある。カタログの元言語もこれに合わせる。
+  developmentLanguage: ja
   deploymentTarget:
     iOS: "17.0"
   createIntermediateGroups: true
@@ -58,6 +60,8 @@ targets:
         INFOPLIST_KEY_UIRequiresFullScreen: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
         SWIFT_VERSION: "5.0"
+        # ビルドのたびに Swift の文字列を Localizable.xcstrings へ拾い上げる。
+        SWIFT_EMIT_LOC_STRINGS: YES
         # iPhone 専用。iPad でも動くが、対応を宣言すると App Store Connect に
         # iPad のスクリーンショットも要るので、いまは出さない。
         TARGETED_DEVICE_FAMILY: "1"

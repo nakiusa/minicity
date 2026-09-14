@@ -23,11 +23,11 @@ struct ResultView: View {
 
                     VStack(spacing: 0) {
                         // HUD と同じく桁区切りを入れる。ここだけ素の数字だと落ち着かない。
-                        row("人口", "\(sim.residents.formatted())人")
-                        row("雇用", "\(sim.jobs.formatted())人")
+                        row("人口", String(localized: "\(sim.residents.formatted())人"))
+                        row("雇用", String(localized: "\(sim.jobs.formatted())人"))
                         row("資金", "¥\(sim.funds.formatted())")
                         row("税率", "\(sim.taxRate)%")
-                        row("最高の段", stats.topLevel == 0 ? "なし" : "L\(stats.topLevel)")
+                        row("最高の段", stats.topLevel == 0 ? String(localized: "なし") : "L\(stats.topLevel)")
                         row("公害の最大", "\(sim.pollution.maximum)")
                         row("犯罪の最大", "\(sim.crime.maximum)")
                         row("実績", "\(game.earnedCount) / \(Achievements.all.count)")
@@ -76,7 +76,7 @@ struct ResultView: View {
         }
     }
 
-    private func row(_ label: String, _ value: String) -> some View {
+    private func row(_ label: LocalizedStringKey, _ value: String) -> some View {
         HStack {
             Text(label)
                 .font(.system(size: 13))

@@ -7,13 +7,13 @@ enum OverlayMode: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .none: return "通常"
-        case .power: return "電力"
-        case .pollution: return "公害"
-        case .landValue: return "土地価値"
-        case .crime: return "犯罪"
-        case .traffic: return "交通量"
-        case .density: return "人口密度"
+        case .none: return String(localized: "通常")
+        case .power: return String(localized: "電力")
+        case .pollution: return String(localized: "公害")
+        case .landValue: return String(localized: "土地価値")
+        case .crime: return String(localized: "犯罪")
+        case .traffic: return String(localized: "交通量")
+        case .density: return String(localized: "人口密度")
         }
     }
 
@@ -49,8 +49,8 @@ enum OverlayMode: String, CaseIterable, Identifiable {
     func note(atX x: Int, y: Int, in sim: Simulation) -> String? {
         guard self == .power else { return nil }
         let t = sim.map.tile(x, y)
-        if let z = sim.map.zone(t.zoneID) { return z.powered ? "通電" : "停電" }
-        if t.wire { return t.powered ? "通電" : "停電" }
+        if let z = sim.map.zone(t.zoneID) { return z.powered ? String(localized: "通電") : String(localized: "停電") }
+        if t.wire { return t.powered ? String(localized: "通電") : String(localized: "停電") }
         return "—"
     }
 }

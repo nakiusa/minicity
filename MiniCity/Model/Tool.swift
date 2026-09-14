@@ -20,19 +20,19 @@ enum Tool: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .pan: return "移動"
-        case .inspect: return "調べる"
-        case .bulldozer: return "撤去"
-        case .road: return "道路"
-        case .avenue: return "大通り"
-        case .powerLine: return "送電線"
-        case .park: return "公園"
-        case .residential: return "住宅区"
-        case .commercial: return "商業区"
-        case .industrial: return "工業区"
-        case .coalPlant: return "発電所"
-        case .police: return "警察署"
-        case .fire: return "消防署"
+        case .pan: return String(localized: "移動")
+        case .inspect: return String(localized: "調べる")
+        case .bulldozer: return String(localized: "撤去")
+        case .road: return String(localized: "道路")
+        case .avenue: return String(localized: "大通り")
+        case .powerLine: return String(localized: "送電線")
+        case .park: return String(localized: "公園")
+        case .residential: return String(localized: "住宅区")
+        case .commercial: return String(localized: "商業区")
+        case .industrial: return String(localized: "工業区")
+        case .coalPlant: return String(localized: "発電所")
+        case .police: return String(localized: "警察署")
+        case .fire: return String(localized: "消防署")
         }
     }
 
@@ -180,8 +180,8 @@ extension Simulation {
         guard map.inBounds(x, y) else { return .nothingToDo }
         let t = map.tile(x, y)
         guard t.structure != .road || t.isAvenue != avenue else { return .nothingToDo }
-        guard !t.hasZone else { return .blocked("区画の上には敷けません") }
-        guard t.structure != .park else { return .blocked("先に公園を撤去してください") }
+        guard !t.hasZone else { return .blocked(String(localized: "区画の上には敷けません")) }
+        guard t.structure != .park else { return .blocked(String(localized: "先に公園を撤去してください")) }
 
         let tool: Tool = avenue ? .avenue : .road
         let cost = t.terrain == .water ? (tool.waterCost ?? tool.cost) : tool.cost
@@ -200,7 +200,7 @@ extension Simulation {
         guard map.inBounds(x, y) else { return .nothingToDo }
         let t = map.tile(x, y)
         guard !t.wire else { return .nothingToDo }
-        guard !t.hasZone else { return .blocked("区画はもともと電気を通します") }
+        guard !t.hasZone else { return .blocked(String(localized: "区画はもともと電気を通します")) }
 
         let cost = t.terrain == .water ? (Tool.powerLine.waterCost ?? 25) : Tool.powerLine.cost
         guard charge(cost) else { return .insufficientFunds(needed: cost) }
@@ -216,9 +216,9 @@ extension Simulation {
     private func buildPark(_ x: Int, _ y: Int) -> BuildResult {
         guard map.inBounds(x, y) else { return .nothingToDo }
         let t = map.tile(x, y)
-        guard t.terrain != .water else { return .blocked("水面には置けません") }
+        guard t.terrain != .water else { return .blocked(String(localized: "水面には置けません")) }
         guard !t.hasZone, t.structure != .road, t.structure != .park else {
-            return .blocked("その場所はふさがっています")
+            return .blocked(String(localized: "その場所はふさがっています"))
         }
         guard charge(Tool.park.cost) else { return .insufficientFunds(needed: Tool.park.cost) }
 
@@ -234,7 +234,7 @@ extension Simulation {
     private func buildZone(_ kind: ZoneKind, centerX: Int, centerY: Int, cost: Int) -> BuildResult {
         let ox = centerX - 1, oy = centerY - 1
         guard map.canPlaceZone(ox: ox, oy: oy) else {
-            return .blocked("3x3 の空き地が必要です")
+            return .blocked(String(localized: "3x3 の空き地が必要です"))
         }
         guard charge(cost) else { return .insufficientFunds(needed: cost) }
 

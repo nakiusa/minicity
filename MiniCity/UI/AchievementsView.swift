@@ -28,7 +28,7 @@ struct AchievementsView: View {
                         let items = Achievements.inGroup(group)
                         if !items.isEmpty {
                             HStack {
-                                Text(group.rawValue)
+                                Text(group.title)
                                     .font(.system(size: 12, weight: .semibold))
                                     .foregroundStyle(.secondary)
                                 Spacer()

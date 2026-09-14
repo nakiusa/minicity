@@ -226,7 +226,7 @@ struct HelpOverlay: View {
         }
     }
 
-    private func line(_ head: String, _ body: String) -> some View {
+    private func line(_ head: LocalizedStringKey, _ body: LocalizedStringKey) -> some View {
         HStack(alignment: .top, spacing: 9) {
             Text(head)
                 .font(.system(size: 11, weight: .bold, design: .rounded))

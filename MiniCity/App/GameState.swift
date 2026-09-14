@@ -26,10 +26,10 @@ enum GameSpeed: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .paused: return "停止"
-        case .slow: return "ゆっくり"
-        case .normal: return "ふつう"
-        case .fast: return "はやい"
+        case .paused: return String(localized: "停止")
+        case .slow: return String(localized: "ゆっくり")
+        case .normal: return String(localized: "ふつう")
+        case .fast: return String(localized: "はやい")
         }
     }
 }
@@ -177,7 +177,7 @@ final class GameState: ObservableObject {
         justEarned = first
         GameCenter.report(newly.map(\.id))
         // 同時にいくつも取ったときは、残りは一覧で見てもらう。
-        show("実績「\(first.title)」を達成")
+        show(String(localized: "実績「\(first.title)」を達成"))
     }
 
     // MARK: - 建設
@@ -213,7 +213,7 @@ final class GameState: ObservableObject {
             sim.updateRoadAccess()
             sim.census()
         case .insufficientFunds(let needed):
-            show("資金が足りません（¥\(needed) 必要）")
+            show(String(localized: "資金が足りません（¥\(needed) 必要）"))
         case .blocked(let reason):
             show(reason)
         case .nothingToDo:
@@ -234,26 +234,26 @@ final class GameState: ObservableObject {
         if let z = sim.map.zone(t.zoneID) {
             parts.append(z.kind.name)
             if z.kind.grows {
-                parts.append(z.level == 0 ? "未開発" : "レベル \(z.level)・\(z.capacity)人")
+                parts.append(z.level == 0 ? String(localized: "未開発") : String(localized: "レベル \(z.level)・\(z.capacity)人"))
             }
-            parts.append(z.powered ? "通電" : "停電")
-            parts.append(z.hasRoad ? "道路あり" : "道路なし")
+            parts.append(z.powered ? String(localized: "通電") : String(localized: "停電"))
+            parts.append(z.hasRoad ? String(localized: "道路あり") : String(localized: "道路なし"))
             if z.kind == .residential && z.level > 0 {
-                parts.append(z.hasJobAccess ? "通勤可" : "職場に行けない")
+                parts.append(z.hasJobAccess ? String(localized: "通勤可") : String(localized: "職場に行けない"))
             }
         } else {
             switch t.structure {
-            case .road: parts.append("道路（交通量 \(t.traffic)）")
-            case .park: parts.append("公園")
-            case .rubble: parts.append("更地")
+            case .road: parts.append(String(localized: "道路（交通量 \(t.traffic)）"))
+            case .park: parts.append(String(localized: "公園"))
+            case .rubble: parts.append(String(localized: "更地"))
             case .none, .zone:
                 switch t.terrain {
-                case .water: parts.append("水面")
-                case .forest: parts.append("森")
-                case .dirt: parts.append("空き地")
+                case .water: parts.append(String(localized: "水面"))
+                case .forest: parts.append(String(localized: "森"))
+                case .dirt: parts.append(String(localized: "空き地"))
                 }
             }
-            if t.wire { parts.append("送電線") }
+            if t.wire { parts.append(String(localized: "送電線")) }
         }
 
         // 土地価値や公害の数値はここには混ぜない。見る側で帯付きの一覧として出す。

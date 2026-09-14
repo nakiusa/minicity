@@ -34,12 +34,12 @@ enum ZoneKind: UInt8, CaseIterable, Codable {
 
     var name: String {
         switch self {
-        case .residential: return "住宅"
-        case .commercial: return "商業"
-        case .industrial: return "工業"
-        case .coalPlant: return "火力発電所"
-        case .police: return "警察署"
-        case .fire: return "消防署"
+        case .residential: return String(localized: "住宅")
+        case .commercial: return String(localized: "商業")
+        case .industrial: return String(localized: "工業")
+        case .coalPlant: return String(localized: "火力発電所")
+        case .police: return String(localized: "警察署")
+        case .fire: return String(localized: "消防署")
         }
     }
 }

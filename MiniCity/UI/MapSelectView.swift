@@ -30,12 +30,16 @@ struct MapSelectView: View {
                         Text("期限なし").tag(0)
                     }
                     .pickerStyle(.segmented)
-                    Text(termYears == 0
-                         ? "終わりはない。好きなだけ育てられる。"
-                         // 年に桁区切りが入らないよう、数のままにしない。
-                         : "1900年から\(String(1900 + termYears - 1))年まで。最後の年を越えると成績が出る（そのあとも続けられる）。")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.secondary)
+                    Group {
+                        if termYears == 0 {
+                            Text("終わりはない。好きなだけ育てられる。")
+                        } else {
+                            // 年に桁区切りが入らないよう、数のままにしない。
+                            Text("1900年から\(String(1900 + termYears - 1))年まで。最後の年を越えると成績が出る（そのあとも続けられる）。")
+                        }
+                    }
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 12)

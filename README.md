@@ -326,6 +326,37 @@ App Store Connect 側では、買い切りの商品（`com.shuyafukai.minicity.r
 ここにドメインを挙げると、追跡を断った人の端末から接続ごと止められる。
 広告の配信元を挙げれば、断った人には非パーソナライズ広告すら届かなくなる。
 
+## 言語
+
+日本語のほかに、英語、簡体字、繁体字、韓国語、スペイン語、フランス語、ドイツ語、
+ポルトガル語（ブラジル）に対応している。訳文は `MiniCity/Resources/Localizable.xcstrings` に
+まとめてあり、元言語は日本語（`developmentLanguage: ja`）。ソースの文字列がそのまま鍵になる。
+
+SwiftUI の `Text("…")` はそのままで訳が当たる。`String` を返す場所（道具の名前、実績の題名、
+警告文、`describeTile`）は `String(localized:)` で包んである。三項演算子の中に書くと
+コンパイラが拾えないので、`flag ? String(localized: "A") : String(localized: "B")` の形にする。
+
+鍵の一覧は、ビルドで出る `.stringsdata` から集める（`SWIFT_EMIT_LOC_STRINGS: YES`）。
+`xcodebuild` はカタログを自動で同期しないので、足りない鍵は手で足す。
+
+```bash
+find <DerivedData> -name "*.stringsdata" | xargs -I{} python3 -c "import json;print('\n'.join(i['key'] for t in json.load(open('{}'))['tables'].values() for i in t))" | sort -u
+```
+
+月の名前は `Calendar.current.shortMonthSymbols` に任せている。日本語なら「5月」、英語なら「May」。
+日付の幅の型紙（`0000年 00月`）も言語ごとに訳してあるので、上のバーの幅は言語が変わっても揺れない。
+
+アプリ名は `InfoPlist.xcstrings` で言語ごとに変えている（英語では MiniCity、中国語では 迷你城市）。
+
+シミュレータで言語を切り替えて見るには、起動時の引数で足りる。
+
+```bash
+xcrun simctl launch <UDID> com.shuyafukai.minicity -AppleLanguages "(de)" -AppleLocale de_DE
+```
+
+Game Center の実績の訳と、App Store の掲載文の訳は別。どちらも API から入れられるが、
+審査中の版に紐づくものは触れないので、審査が終わってから入れる。
+
 ## 配布
 
 App Store に出すための設定は `project.yml` に入っている。署名は自動（`CODE_SIGN_STYLE: Automatic`、

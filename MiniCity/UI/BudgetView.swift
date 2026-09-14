@@ -89,10 +89,10 @@ struct BudgetView: View {
                     row("人口", "\(game.sim.residents)")
                     row("商業の雇用", "\(game.sim.jobsCommercial)")
                     row("工業の雇用", "\(game.sim.jobsIndustrial)")
-                    row("道路", "\(game.sim.roadCount) マス")
-                    row("送電線", "\(game.sim.wireCount) マス")
+                    row("道路", String(localized: "\(game.sim.roadCount) マス"))
+                    row("送電線", String(localized: "\(game.sim.wireCount) マス"))
                     row("発電所の供給余力",
-                        "\((game.sim.zoneCounts[.coalPlant] ?? 0) * Simulation.plantCapacity) 区画ぶん")
+                        String(localized: "\((game.sim.zoneCounts[.coalPlant] ?? 0) * Simulation.plantCapacity) 区画ぶん"))
                 }
 
                 // 商品を引けないときは欄ごと出さない。押せない購入ボタンが残っていると、
@@ -151,14 +151,14 @@ struct BudgetView: View {
 
     private var taxAdvice: String {
         switch game.sim.taxRate {
-        case 0...4: return "誰もが喜ぶが、財政は持たない"
-        case 5...8: return "成長を妨げない範囲"
-        case 9...12: return "そろそろ嫌がられる"
-        default: return "高すぎる。人も企業も出ていく"
+        case 0...4: return String(localized: "誰もが喜ぶが、財政は持たない")
+        case 5...8: return String(localized: "成長を妨げない範囲")
+        case 9...12: return String(localized: "そろそろ嫌がられる")
+        default: return String(localized: "高すぎる。人も企業も出ていく")
         }
     }
 
-    private func row(_ label: String, _ value: String) -> some View {
+    private func row(_ label: LocalizedStringKey, _ value: String) -> some View {
         HStack {
             Text(label)
             Spacer()

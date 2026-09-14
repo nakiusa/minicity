@@ -76,7 +76,7 @@ final class Store: ObservableObject {
                 break
             }
         } catch {
-            failure = "購入できませんでした（\(error.localizedDescription)）"
+            failure = String(localized: "購入できませんでした（\(error.localizedDescription)）")
         }
     }
 
@@ -87,7 +87,7 @@ final class Store: ObservableObject {
         defer { isWorking = false }
         try? await AppStore.sync()
         await refresh()
-        if !hasRemovedAds { failure = "購入の記録が見つかりませんでした" }
+        if !hasRemovedAds { failure = String(localized: "購入の記録が見つかりませんでした") }
     }
 
     private func setRemoved(_ value: Bool) {
