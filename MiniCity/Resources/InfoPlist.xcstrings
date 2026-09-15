@@ -1,64 +1,77 @@
 {
-  "sourceLanguage": "ja",
-  "strings": {
-    "CFBundleDisplayName": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MiniCity"
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MiniCity"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MiniCity"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MiniCity"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MiniCity"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MiniCity"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MiniCity"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MiniCity"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ミニシティ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ミニシティ"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "미니시티"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미니시티"
           }
         },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MiniCity"
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MiniCity"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "迷你城市"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷你城市"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "迷你城市"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迷你城市"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "MiniCity"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
