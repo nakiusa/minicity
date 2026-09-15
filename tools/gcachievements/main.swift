@@ -131,7 +131,7 @@ func request(_ method: String, _ path: String, body: [String: Any]? = nil) throw
 
 func fail(_ message: String, _ error: Error) -> Never {
     if case let APIError.http(code, text) = error {
-        FileHandle.standardError.write("\(message): HTTP \(code)\n\(text.prefix(600))\n".data(using: .utf8)!)
+        FileHandle.standardError.write("\(message): HTTP \(code)\n\(text.prefix(20000))\n".data(using: .utf8)!)
     } else {
         FileHandle.standardError.write("\(message): \(error)\n".data(using: .utf8)!)
     }
@@ -412,12 +412,49 @@ if let i = CommandLine.arguments.firstIndex(of: "--localize"), i + 2 < CommandLi
         let image = FileManager.default.contents(atPath: "\(dir)/\(a.id).png")
         do {
             let locs = try request("GET", "/v1/gameCenterAchievements/\(achID)/localizations?limit=50")
-            var have = Set<String>()
+            var have: [String: String] = [:]
             for item in (locs["data"] as? [[String: Any]]) ?? [] {
-                if let l = (item["attributes"] as? [String: Any])?["locale"] as? String { have.insert(l) }
+                if let l = (item["attributes"] as? [String: Any])?["locale"] as? String,
+                   let id = item["id"] as? String { have[l] = id }
+            }
+            /// 欄に絵を載せる。途中で止まった実行の残骸（欄だけあって絵がない）もこれで埋まる。
+            func attach(_ locID: String, _ image: Data) throws {
+                let slot = try request("POST", "/v1/gameCenterAchievementImages", body: [
+                    "data": [
+                        "type": "gameCenterAchievementImages",
+                        "attributes": ["fileName": "\(a.id).png", "fileSize": image.count],
+                        "relationships": [
+                            "gameCenterAchievementLocalization": [
+                                "data": ["type": "gameCenterAchievementLocalizations", "id": locID]
+                            ]
+                        ],
+                    ]
+                ])
+                guard let sd = slot["data"] as? [String: Any], let imageID = sd["id"] as? String,
+                      let attrs = sd["attributes"] as? [String: Any],
+                      let ops = attrs["uploadOperations"] as? [[String: Any]] else { return }
+                for op in ops { try upload(op, image) }
+                _ = try request("PATCH", "/v1/gameCenterAchievementImages/\(imageID)", body: [
+                    "data": ["type": "gameCenterAchievementImages", "id": imageID,
+                             "attributes": ["uploaded": true]]
+                ])
             }
             for (lang, gc) in locales {
-                if have.contains(gc) { skipped += 1; continue }
+                if let locID = have[gc] {
+                    // 欄はある。絵が無いか、送りかけで止まっていれば入れ直す。
+                    let current = try request("GET", "/v1/gameCenterAchievementLocalizations/\(locID)/gameCenterAchievementImage")
+                    let d = current["data"] as? [String: Any]
+                    let state = ((d?["attributes"] as? [String: Any])?["assetDeliveryState"] as? [String: Any])?["state"] as? String
+                    if state == "COMPLETE" { skipped += 1; continue }
+                    guard !dryRun else { print("絵を入れ直す予定: \(a.id) \(gc)（\(state ?? "なし")）"); made += 1; continue }
+                    if let existingID = d?["id"] as? String {
+                        _ = try request("DELETE", "/v1/gameCenterAchievementImages/\(existingID)")
+                    }
+                    if let image { try attach(locID, image) }
+                    print("絵を入れた: \(a.id) \(gc)")
+                    made += 1
+                    continue
+                }
                 guard let name = translate(a.title, lang), let detail = translate(a.detail, lang) else {
                     print("訳がない: \(a.id) \(lang)")
                     continue
@@ -441,28 +478,7 @@ if let i = CommandLine.arguments.firstIndex(of: "--localize"), i + 2 < CommandLi
                     print("欄を作れない: \(a.id) \(gc)")
                     continue
                 }
-                if let image {
-                    let slot = try request("POST", "/v1/gameCenterAchievementImages", body: [
-                        "data": [
-                            "type": "gameCenterAchievementImages",
-                            "attributes": ["fileName": "\(a.id).png", "fileSize": image.count],
-                            "relationships": [
-                                "gameCenterAchievementLocalization": [
-                                    "data": ["type": "gameCenterAchievementLocalizations", "id": locID]
-                                ]
-                            ],
-                        ]
-                    ])
-                    if let sd = slot["data"] as? [String: Any], let imageID = sd["id"] as? String,
-                       let attrs = sd["attributes"] as? [String: Any],
-                       let ops = attrs["uploadOperations"] as? [[String: Any]] {
-                        for op in ops { try upload(op, image) }
-                        _ = try request("PATCH", "/v1/gameCenterAchievementImages/\(imageID)", body: [
-                            "data": ["type": "gameCenterAchievementImages", "id": imageID,
-                                     "attributes": ["uploaded": true]]
-                        ])
-                    }
-                }
+                if let image { try attach(locID, image) }
                 print("入れた: \(a.id) \(gc)")
                 made += 1
             }
