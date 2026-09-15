@@ -262,9 +262,19 @@ if let i = CommandLine.arguments.firstIndex(of: "--screenshots"), i + 1 < Comman
             exit(1)
         }
 
-        let locs = try request("GET", "/v1/appStoreVersions/\(versionID)/appStoreVersionLocalizations?limit=10")
-        guard let locID = (locs["data"] as? [[String: Any]])?.first?["id"] as? String else {
-            FileHandle.standardError.write("言語の欄がありません\n".data(using: .utf8)!)
+        // `--locale en-US` で言語を選ぶ。省略すれば最初の欄（日本語）。
+        var wanted = ""
+        if let j = CommandLine.arguments.firstIndex(of: "--locale"), j + 1 < CommandLine.arguments.count {
+            wanted = CommandLine.arguments[j + 1]
+        }
+        let locs = try request("GET", "/v1/appStoreVersions/\(versionID)/appStoreVersionLocalizations?limit=20&fields[appStoreVersionLocalizations]=locale")
+        var locID = ""
+        for l in (locs["data"] as? [[String: Any]]) ?? [] {
+            let locale = (l["attributes"] as? [String: Any])?["locale"] as? String ?? ""
+            if wanted.isEmpty || locale == wanted { locID = l["id"] as? String ?? ""; break }
+        }
+        guard !locID.isEmpty else {
+            FileHandle.standardError.write("言語の欄がありません: \(wanted)\n".data(using: .utf8)!)
             exit(1)
         }
 
@@ -281,9 +291,25 @@ if let i = CommandLine.arguments.firstIndex(of: "--screenshots"), i + 1 < Comman
                 if let oid = item["id"] as? String { oldIDs.append(oid) }
             }
         }
-        guard !setID.isEmpty else {
-            FileHandle.standardError.write("6.5インチの枠がありません\n".data(using: .utf8)!)
-            exit(1)
+        if setID.isEmpty {
+            // 新しく足した言語には枠そのものがない。作る。
+            guard !dryRun else { print("6.5インチの枠を作ってから入れる"); exit(0) }
+            let made = try request("POST", "/v1/appScreenshotSets", body: [
+                "data": [
+                    "type": "appScreenshotSets",
+                    "attributes": ["screenshotDisplayType": "APP_IPHONE_65"],
+                    "relationships": [
+                        "appStoreVersionLocalization": [
+                            "data": ["type": "appStoreVersionLocalizations", "id": locID]
+                        ]
+                    ],
+                ]
+            ])
+            setID = (made["data"] as? [String: Any])?["id"] as? String ?? ""
+            guard !setID.isEmpty else {
+                FileHandle.standardError.write("枠を作れません\n".data(using: .utf8)!)
+                exit(1)
+            }
         }
 
         print("入れ替え \(oldIDs.count) 枚 → \(files.count) 枚")
@@ -328,6 +354,122 @@ if let i = CommandLine.arguments.firstIndex(of: "--get"), i + 1 < CommandLine.ar
         let data = try JSONSerialization.data(withJSONObject: r, options: [.prettyPrinted, .sortedKeys])
         print(String(data: data, encoding: .utf8) ?? "")
     } catch { fail("取得に失敗", error) }
+    exit(0)
+}
+
+// MARK: - 実績の訳を入れる
+
+/// `--localize <Localizable.xcstrings> <絵のディレクトリ>` で、日本語以外の言語の欄を作り、
+/// 訳と絵を入れる。訳はアプリの String Catalog から引くので、画面の実績と Game Center の
+/// 実績が食い違わない。
+if let i = CommandLine.arguments.firstIndex(of: "--localize"), i + 2 < CommandLine.arguments.count {
+    let catalogPath = (CommandLine.arguments[i + 1] as NSString).expandingTildeInPath
+    let dir = (CommandLine.arguments[i + 2] as NSString).expandingTildeInPath
+    guard let catalogData = FileManager.default.contents(atPath: catalogPath),
+          let catalog = try? JSONSerialization.jsonObject(with: catalogData) as? [String: Any],
+          let strings = catalog["strings"] as? [String: Any] else {
+        FileHandle.standardError.write("カタログを読めません: \(catalogPath)\n".data(using: .utf8)!)
+        exit(1)
+    }
+    /// カタログの言語と Game Center の言語名の対応。
+    let locales: [(catalog: String, gc: String)] = [
+        ("en", "en-US"), ("zh-Hans", "zh-Hans"), ("zh-Hant", "zh-Hant"), ("ko", "ko"),
+        ("es", "es-ES"), ("fr", "fr-FR"), ("de", "de-DE"), ("pt-BR", "pt-BR"),
+    ]
+    func translate(_ key: String, _ lang: String) -> String? {
+        let entry = strings[key] as? [String: Any]
+        let loc = (entry?["localizations"] as? [String: Any])?[lang] as? [String: Any]
+        return (loc?["stringUnit"] as? [String: Any])?["value"] as? String
+    }
+    func upload(_ operation: [String: Any], _ data: Data) throws {
+        guard let urlString = operation["url"] as? String, let url = URL(string: urlString),
+              let method = operation["method"] as? String else { return }
+        let offset = operation["offset"] as? Int ?? 0
+        let length = operation["length"] as? Int ?? data.count
+        var req = URLRequest(url: url)
+        req.httpMethod = method
+        for header in (operation["requestHeaders"] as? [[String: Any]]) ?? [] {
+            if let name = header["name"] as? String, let value = header["value"] as? String {
+                req.setValue(value, forHTTPHeaderField: name)
+            }
+        }
+        req.httpBody = data.subdata(in: offset..<(offset + length))
+        var thrown: Error?
+        let sem = DispatchSemaphore(value: 0)
+        URLSession.shared.dataTask(with: req) { _, response, error in
+            defer { sem.signal() }
+            if let error { thrown = error; return }
+            let code = (response as? HTTPURLResponse)?.statusCode ?? 0
+            if !(200..<300).contains(code) { thrown = APIError.http(code, "アップロードに失敗") }
+        }.resume()
+        sem.wait()
+        if let thrown { throw thrown }
+    }
+
+    var made = 0, skipped = 0
+    for a in Achievements.all {
+        guard let achID = remoteIDs[a.id] else { print("見つからない: \(a.id)"); continue }
+        let image = FileManager.default.contents(atPath: "\(dir)/\(a.id).png")
+        do {
+            let locs = try request("GET", "/v1/gameCenterAchievements/\(achID)/localizations?limit=50")
+            var have = Set<String>()
+            for item in (locs["data"] as? [[String: Any]]) ?? [] {
+                if let l = (item["attributes"] as? [String: Any])?["locale"] as? String { have.insert(l) }
+            }
+            for (lang, gc) in locales {
+                if have.contains(gc) { skipped += 1; continue }
+                guard let name = translate(a.title, lang), let detail = translate(a.detail, lang) else {
+                    print("訳がない: \(a.id) \(lang)")
+                    continue
+                }
+                guard !dryRun else { print("作る予定: \(a.id) \(gc) → \(name)"); made += 1; continue }
+                let created = try request("POST", "/v1/gameCenterAchievementLocalizations", body: [
+                    "data": [
+                        "type": "gameCenterAchievementLocalizations",
+                        "attributes": [
+                            "locale": gc, "name": name,
+                            "beforeEarnedDescription": detail, "afterEarnedDescription": detail,
+                        ],
+                        "relationships": [
+                            "gameCenterAchievement": [
+                                "data": ["type": "gameCenterAchievements", "id": achID]
+                            ]
+                        ],
+                    ]
+                ])
+                guard let d = created["data"] as? [String: Any], let locID = d["id"] as? String else {
+                    print("欄を作れない: \(a.id) \(gc)")
+                    continue
+                }
+                if let image {
+                    let slot = try request("POST", "/v1/gameCenterAchievementImages", body: [
+                        "data": [
+                            "type": "gameCenterAchievementImages",
+                            "attributes": ["fileName": "\(a.id).png", "fileSize": image.count],
+                            "relationships": [
+                                "gameCenterAchievementLocalization": [
+                                    "data": ["type": "gameCenterAchievementLocalizations", "id": locID]
+                                ]
+                            ],
+                        ]
+                    ])
+                    if let sd = slot["data"] as? [String: Any], let imageID = sd["id"] as? String,
+                       let attrs = sd["attributes"] as? [String: Any],
+                       let ops = attrs["uploadOperations"] as? [[String: Any]] {
+                        for op in ops { try upload(op, image) }
+                        _ = try request("PATCH", "/v1/gameCenterAchievementImages/\(imageID)", body: [
+                            "data": ["type": "gameCenterAchievementImages", "id": imageID,
+                                     "attributes": ["uploaded": true]]
+                        ])
+                    }
+                }
+                print("入れた: \(a.id) \(gc)")
+                made += 1
+            }
+        } catch { fail("  \(a.id) の訳で失敗", error) }
+    }
+    print("")
+    print(dryRun ? "作る予定 \(made) 件 / すでにある \(skipped) 件" : "入れた \(made) 件 / すでにあった \(skipped) 件")
     exit(0)
 }
 

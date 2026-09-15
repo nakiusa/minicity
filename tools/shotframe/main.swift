@@ -89,35 +89,51 @@ func drawCentered(_ text: String, fontName: String, size: CGFloat, topY: CGFloat
     return width
 }
 
-/// 収まらない説明文を2行に折る。読点か句点で切れる場所を探し、なければ真ん中で割る。
-func wrap(_ text: String, fontName: String, size: CGFloat, limit: Double) -> [String] {
+func measure(_ text: String, fontName: String, size: CGFloat) -> Double {
     let font = CTFontCreateWithName(fontName as CFString, size, nil)
-    func measure(_ s: String) -> Double {
-        let a = CFAttributedStringCreate(nil, s as CFString,
-                                         [kCTFontAttributeName: font] as CFDictionary)!
-        return CTLineGetTypographicBounds(CTLineCreateWithAttributedString(a), nil, nil, nil)
-    }
-    guard measure(text) > limit else { return [text] }
+    let a = CFAttributedStringCreate(nil, text as CFString, [kCTFontAttributeName: font] as CFDictionary)!
+    return CTLineGetTypographicBounds(CTLineCreateWithAttributedString(a), nil, nil, nil)
+}
+
+/// 収まらない説明文を2行に折る。日本語なら読点か句点、欧文なら空白のうち、
+/// 真ん中にいちばん近い場所で切る。真ん中で機械的に割ると欧文の単語が裂ける。
+func wrap(_ text: String, fontName: String, size: CGFloat, limit: Double) -> [String] {
+    guard measure(text, fontName: fontName, size: size) > limit else { return [text] }
     let chars = Array(text)
     let middle = chars.count / 2
     var cut = middle
     var best = chars.count
-    for (i, c) in chars.enumerated() where c == "、" || c == "。" {
-        if abs(i - middle) < best { best = abs(i - middle); cut = i + 1 }
+    for (i, c) in chars.enumerated() {
+        // 句読点はその直後で、空白はその位置で切る。
+        let candidate: Int? = (c == "、" || c == "。" || c == "," || c == ".") ? i + 1 : (c == " " ? i : nil)
+        if let candidate, abs(candidate - middle) < best { best = abs(candidate - middle); cut = candidate }
     }
-    return [String(chars[..<cut]), String(chars[cut...])]
+    let head = String(chars[..<cut]).trimmingCharacters(in: .whitespaces)
+    let tail = String(chars[cut...]).trimmingCharacters(in: .whitespaces)
+    return [head, tail]
 }
 
-drawCentered(headline, fontName: "HiraginoSans-W6", size: 74, topY: 132, alpha: 1.0)
+// 見出しは1行に収める。長い言語では字を小さくする。
+var headlineSize: CGFloat = 74
+while measure(headline, fontName: "HiraginoSans-W6", size: headlineSize) > 1150 && headlineSize > 48 {
+    headlineSize -= 2
+}
+drawCentered(headline, fontName: "HiraginoSans-W6", size: headlineSize, topY: 132 + (74 - headlineSize) / 2, alpha: 1.0)
 
 // 見出しと説明のあいだの短い線。二つの役割の違いを、余白だけより早く伝える。
 ctx.setFillColor(accent)
 ctx.fill(CGRect(x: CGFloat(W) / 2 - 48, y: CGFloat(H) - 252, width: 96, height: 6))
 
-let lines = wrap(subline, fontName: "HiraginoSans-W3", size: 38, limit: 1060)
+// 説明も、2行に折ってなお入らなければ字を小さくする。
+var sublineSize: CGFloat = 38
+var lines = wrap(subline, fontName: "HiraginoSans-W3", size: sublineSize, limit: 1100)
+while lines.contains(where: { measure($0, fontName: "HiraginoSans-W3", size: sublineSize) > 1100 }) && sublineSize > 28 {
+    sublineSize -= 1
+    lines = wrap(subline, fontName: "HiraginoSans-W3", size: sublineSize, limit: 1100)
+}
 for (i, line) in lines.enumerated() {
-    drawCentered(line, fontName: "HiraginoSans-W3", size: 38,
-                 topY: 300 + CGFloat(i) * 56, alpha: 0.74)
+    drawCentered(line, fontName: "HiraginoSans-W3", size: sublineSize,
+                 topY: 300 + CGFloat(i) * (sublineSize + 18), alpha: 0.74)
 }
 
 guard let out = ctx.makeImage(),

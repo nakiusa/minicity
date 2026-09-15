@@ -101,6 +101,19 @@ final class GameState: ObservableObject {
             needsMapSelection = true
         }
         restartClock()
+
+        // スクリーンショットを撮るときの逃げ道。起動時の引数 `-screenshotInspect x,y` で
+        // 「調べる」を選んだ状態にし、公害の地図を載せる。言語ごとに8回撮るので、
+        // 手で叩かずに済むようにしてある。
+        if let spec = UserDefaults.standard.string(forKey: "screenshotInspect") {
+            let parts = spec.split(separator: ",").compactMap { Int($0) }
+            if parts.count == 2 {
+                tool = .inspect
+                inspected = InspectedTile(x: parts[0], y: parts[1],
+                                          summary: describeTile(x: parts[0], y: parts[1]))
+                overlay = .pollution
+            }
+        }
     }
 
     /// 遊ぶ期限が来たときに出す成績表。開いているあいだ時間は止まる。

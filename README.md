@@ -354,8 +354,21 @@ find <DerivedData> -name "*.stringsdata" | xargs -I{} python3 -c "import json;pr
 xcrun simctl launch <UDID> com.shuyafukai.minicity -AppleLanguages "(de)" -AppleLocale de_DE
 ```
 
-Game Center の実績の訳と、App Store の掲載文の訳は別。どちらも API から入れられるが、
-審査中の版に紐づくものは触れないので、審査が終わってから入れる。
+Game Center の実績の訳は、同じカタログから道具で流し込む。言語ごとに絵も別なので、
+34件×8言語ぶんの絵をまとめて載せる。
+
+```bash
+./gcicons out/
+./gcachievements --localize MiniCity/Resources/Localizable.xcstrings out/ --apply
+```
+
+App Store の掲載文の訳は `STORE.md` の「各言語の掲載文」にあり、API で入れてある。
+名前は言語ごとに一意でなければならず、「MiniCity」は英語とスペイン語で他社に取られていた。
+
+スクリーンショットも言語ごとに撮る。起動時の引数 `-screenshotInspect 50,46` で
+「調べる」を選んで公害の地図を載せた状態にできるので、手で叩かずに8言語ぶん撮れる。
+見出しは `tools/shotframe` が言語ごとに載せ、`--screenshots <dir> --locale en-US` で
+その言語の枠に入れる。
 
 ## 配布
 
