@@ -6,6 +6,10 @@ struct ResultView: View {
     @ObservedObject var game: GameState
     @Environment(\.dismiss) private var dismiss
     @State private var showMapSelect = false
+    /// 世界での順位。Game Center から引けたときだけ出す。
+    @State private var rank: Int?
+    /// 共有用の1枚絵。開いたときに街を撮って作る。
+    @State private var card: UIImage?
 
     var body: some View {
         let sim = game.sim
@@ -17,7 +21,7 @@ struct ResultView: View {
                         Text("1900年から\(String(sim.year - 1))年まで")
                             .font(.system(size: 12))
                             .foregroundStyle(.secondary)
-                        Text("\(sim.termYears ?? sim.year - 1900)年の記録")
+                        Text("\(years)年の記録")
                             .font(.system(size: 24, weight: .heavy, design: .rounded))
                     }
 
@@ -31,11 +35,29 @@ struct ResultView: View {
                         row("公害の最大", "\(sim.pollution.maximum)")
                         row("犯罪の最大", "\(sim.crime.maximum)")
                         row("実績", "\(game.earnedCount) / \(Achievements.all.count)")
+                        if let rank, let term = sim.termYears {
+                            Button { GameCenter.showLeaderboard(term: term) } label: {
+                                row("世界の順位", String(localized: "\(rank.formatted())位"))
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(Color.white.opacity(0.07))
                     )
+
+                    if let card {
+                        ShareLink(item: Image(uiImage: card),
+                                  preview: SharePreview(Text("\(years)年の記録"), image: Image(uiImage: card))) {
+                            Label("記録を共有する", systemImage: "square.and.arrow.up")
+                                .font(.system(size: 15, weight: .semibold))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 11)
+                                .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.12)))
+                                .foregroundStyle(.white)
+                        }
+                    }
 
                     Button {
                         game.keepPlaying()
@@ -68,6 +90,17 @@ struct ResultView: View {
         }
         .interactiveDismissDisabled()
         .preferredColorScheme(.dark)
+        .task {
+            if let city = game.scene?.snapshot() {
+                card = ShareCard.make(city: city, population: sim.residents, years: years)
+                // 起動引数 -dumpShareCard YES で、共有の絵を書類に書き出す。見た目の確認用。
+                if UserDefaults.standard.bool(forKey: "dumpShareCard"),
+                   let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                    try? card?.pngData()?.write(to: url.appendingPathComponent("sharecard.png"))
+                }
+            }
+            if let term = sim.termYears { rank = await GameCenter.rank(term: term) }
+        }
         .sheet(isPresented: $showMapSelect) {
             MapSelectView { seed, termYears in
                 game.newCity(seed: seed, termYears: termYears)
@@ -75,6 +108,9 @@ struct ResultView: View {
             }
         }
     }
+
+    /// 遊んだ年数。期限つきなら期限、なければ 1900 年からの経過年。
+    private var years: Int { game.sim.termYears ?? game.sim.year - 1900 }
 
     private func row(_ label: LocalizedStringKey, _ value: String) -> some View {
         HStack {

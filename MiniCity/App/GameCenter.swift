@@ -45,6 +45,34 @@ enum GameCenter {
         }
     }
 
+    /// 期限が来た街の人口をランキングに送る。過去の最高だけが残る。
+    static func submit(population: Int, term: Int) {
+        guard isAuthenticated, Leaderboards.isRanked(term: term) else { return }
+        GKLeaderboard.submitScore(population, context: 0, player: GKLocalPlayer.local,
+                                  leaderboardIDs: [Leaderboards.id(term: term)]) { error in
+            if let error { print("ランキングの送信に失敗: \(error.localizedDescription)") }
+        }
+    }
+
+    /// 自分の順位を引く。サインインしていない、圏外、まだ順位がついていないときは nil。
+    static func rank(term: Int) async -> Int? {
+        guard isAuthenticated, Leaderboards.isRanked(term: term) else { return nil }
+        guard let board = try? await GKLeaderboard.loadLeaderboards(IDs: [Leaderboards.id(term: term)]).first,
+              let entries = try? await board.loadEntries(for: .global, timeScope: .allTime,
+                                                         range: NSRange(location: 1, length: 1)),
+              let mine = entries.0 else { return nil }
+        return mine.rank
+    }
+
+    /// ランキングを Game Center の画面で開く。
+    static func showLeaderboard(term: Int) {
+        guard isAuthenticated else { return }
+        let vc = GKGameCenterViewController(leaderboardID: Leaderboards.id(term: term),
+                                            playerScope: .global, timeScope: .allTime)
+        vc.gameCenterDelegate = Delegate.shared
+        present(vc)
+    }
+
     /// 実績の一覧を Game Center の画面で開く。
     static func showDashboard() {
         guard isAuthenticated else { return }

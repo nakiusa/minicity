@@ -210,6 +210,100 @@ do {
     }
 } catch { fail("登録済みの実績の取得に失敗", error) }
 
+// MARK: - ランキングを登録する
+
+/// `--leaderboards <カタログ>` で、年数ごとの人口ランキングを作り、名前を各言語で入れ、審査に回す。
+/// 実績と違って絵は要らない。すでにあるものは飛ばすので、何度回しても増えない。
+if let i = CommandLine.arguments.firstIndex(of: "--leaderboards"), i + 1 < CommandLine.arguments.count {
+    let catalogPath = (CommandLine.arguments[i + 1] as NSString).expandingTildeInPath
+    guard let catalogData = FileManager.default.contents(atPath: catalogPath),
+          let catalog = try? JSONSerialization.jsonObject(with: catalogData) as? [String: Any],
+          let strings = catalog["strings"] as? [String: Any],
+          let entry = strings["%lld年後の人口"] as? [String: Any],
+          let names = entry["localizations"] as? [String: Any] else {
+        FileHandle.standardError.write("カタログに「%lld年後の人口」がありません: \(catalogPath)\n".data(using: .utf8)!)
+        exit(1)
+    }
+    let locales: [(catalog: String, gc: String)] = [
+        ("ja", "ja"), ("en", "en-US"), ("zh-Hans", "zh-Hans"), ("zh-Hant", "zh-Hant"), ("ko", "ko"),
+        ("es", "es-ES"), ("fr", "fr-FR"), ("de", "de-DE"), ("pt-BR", "pt-BR"),
+    ]
+    func name(term: Int, _ lang: String) -> String {
+        let value = ((names[lang] as? [String: Any])?["stringUnit"] as? [String: Any])?["value"] as? String
+        return (value ?? "%lld年後の人口").replacingOccurrences(of: "%lld", with: String(term))
+    }
+    func list(_ path: String, _ key: String) throws -> [String: String] {
+        var out: [String: String] = [:]
+        var path = path
+        while !path.isEmpty {
+            let r = try request("GET", path)
+            for item in (r["data"] as? [[String: Any]]) ?? [] {
+                if let v = (item["attributes"] as? [String: Any])?[key] as? String, let id = item["id"] as? String { out[v] = id }
+            }
+            if let next = (r["links"] as? [String: Any])?["next"] as? String, let range = next.range(of: "/v1/") {
+                path = String(next[range.lowerBound...])
+            } else { path = "" }
+        }
+        return out
+    }
+    do {
+        var boards = try list("/v1/gameCenterDetails/\(detailID)/gameCenterLeaderboards?limit=200", "vendorIdentifier")
+        for term in Leaderboards.terms {
+            let vendor = Leaderboards.id(term: term)
+            if boards[vendor] == nil {
+                print("作る: \(vendor)")
+                guard !dryRun else { continue }
+                let made = try request("POST", "/v1/gameCenterLeaderboards", body: ["data": [
+                    "type": "gameCenterLeaderboards",
+                    "attributes": [
+                        "referenceName": name(term: term, "ja"),
+                        "vendorIdentifier": vendor,
+                        "defaultFormatter": "INTEGER",
+                        "scoreSortType": "DESC",
+                        "submissionType": "BEST_SCORE",
+                        "scoreRangeStart": "0",
+                        "scoreRangeEnd": "100000000",
+                    ],
+                    "relationships": ["gameCenterDetail": ["data": ["type": "gameCenterDetails", "id": detailID]]],
+                ]])
+                boards[vendor] = (made["data"] as? [String: Any])?["id"] as? String
+            }
+            guard let boardID = boards[vendor] else { continue }
+            let have = try list("/v1/gameCenterLeaderboards/\(boardID)/localizations?limit=50", "locale")
+            for (lang, gc) in locales where have[gc] == nil {
+                print("  名前: \(gc) = \(name(term: term, lang))")
+                guard !dryRun else { continue }
+                _ = try request("POST", "/v1/gameCenterLeaderboardLocalizations", body: ["data": [
+                    "type": "gameCenterLeaderboardLocalizations",
+                    "attributes": ["locale": gc, "name": name(term: term, lang)],
+                    "relationships": ["gameCenterLeaderboard": ["data": ["type": "gameCenterLeaderboards", "id": boardID]]],
+                ]])
+            }
+        }
+        // 審査に回す。回してあるものは included に出るので、それ以外だけ。
+        let r = try request("GET", "/v1/gameCenterDetails/\(detailID)/leaderboardReleases?limit=200&include=gameCenterLeaderboard")
+        var released = Set<String>()
+        for item in (r["included"] as? [[String: Any]]) ?? [] {
+            if let v = (item["attributes"] as? [String: Any])?["vendorIdentifier"] as? String { released.insert(v) }
+        }
+        for term in Leaderboards.terms {
+            let vendor = Leaderboards.id(term: term)
+            guard !released.contains(vendor), let boardID = boards[vendor] else { continue }
+            print("回す: \(vendor)")
+            guard !dryRun else { continue }
+            _ = try request("POST", "/v1/gameCenterLeaderboardReleases", body: ["data": [
+                "type": "gameCenterLeaderboardReleases",
+                "relationships": [
+                    "gameCenterLeaderboard": ["data": ["type": "gameCenterLeaderboards", "id": boardID]],
+                    "gameCenterDetail": ["data": ["type": "gameCenterDetails", "id": detailID]],
+                ],
+            ]])
+        }
+    } catch { fail("ランキングの登録に失敗", error) }
+    print(dryRun ? "（下見。実際に登録するには --apply を付ける）" : "済み")
+    exit(0)
+}
+
 // MARK: - ストアのスクリーンショットを入れ替える
 
 /// `--screenshots <ディレクトリ>` で、審査中でない版の 6.5 インチの絵を丸ごと差し替える。

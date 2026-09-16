@@ -511,6 +511,26 @@ swiftc -O -o gcicons MiniCity/Model/*.swift MiniCity/Sim/*.swift tools/gcicons/m
 版に紐づくので、先に App Store Connect のバージョンへビルドを紐付けておくこと。
 `--get` と `--send` は API の形を確かめるための逃げ道で、任意のパスを叩ける。
 
+## ランキングと成績表の共有
+
+期限つきで遊びきった街の人口は、Game Center のランキングに送る（`Model/Leaderboard.swift`）。
+50年・100年・200年の3本で、期限なしや、期限を越えて続けた街は送らない。
+競う相手がいるから期限を選ぶ意味が出る、という順番にしてある。
+成績表には自分の順位を出し、押すと Game Center のランキングが開く。
+
+成績表の「記録を共有する」は、街全体の俯瞰に人口と年数を書き足した1枚絵を作る。
+俯瞰は `CityScene.snapshot()` で、地図の層をまとめた `world` ノードを
+カメラに関係なく丸ごと撮っている（`Render/ShareCard.swift`）。
+`-dumpShareCard YES` を付けて起動すると、その絵を書類の `sharecard.png` に書き出す。
+見た目を確かめるときと、ストアのスクリーンショットを作るときに使う。
+
+ランキングの登録も `gcachievements` でやる。カタログから各言語の名前を引く。
+
+```bash
+./gcachievements --leaderboards MiniCity/Resources/Localizable.xcstrings          # 何をするかだけ出す
+./gcachievements --leaderboards MiniCity/Resources/Localizable.xcstrings --apply  # 作って、名前を入れて、審査に回す
+```
+
 ## まだ入れていないもの
 
 災害（火災・竜巻・地震）、シナリオ、鉄道と空港・港、原子力発電所、

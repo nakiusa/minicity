@@ -162,6 +162,7 @@ final class GameState: ObservableObject {
             speed = .paused
             save()
             showsResult = true
+            if let term = sim.termYears { GameCenter.submit(population: sim.residents, term: term) }
         }
         scene?.applyDirty()
         // 一度に大量に光ると何も読めないので、数を絞る。

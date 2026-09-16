@@ -76,6 +76,8 @@ final class CityScene: SKScene {
     private var towerSprites: [Int32: SKSpriteNode] = [:]
     private var overlaySprite: SKSpriteNode!
     private var highlight: SKShapeNode!
+    /// 地図の層をまとめて載せる親。カメラに関係なく街全体を1枚に撮るための足場。
+    private let world = SKNode()
 
     /// いま印を出しているタイル。消す対象を知るために覚えておく。
     private var markedTiles: Set<Int> = []
@@ -154,6 +156,7 @@ final class CityScene: SKScene {
     }
 
     private func buildLayers() {
+        addChild(world)
         func makeLayer(_ z: CGFloat) -> SKTileMapNode {
             let node = SKTileMapNode(tileSet: catalog.tileSet,
                                      columns: CityMap.width,
@@ -163,7 +166,7 @@ final class CityScene: SKScene {
             node.enableAutomapping = false
             node.position = .zero
             node.zPosition = z
-            addChild(node)
+            world.addChild(node)
             return node
         }
 
@@ -174,7 +177,7 @@ final class CityScene: SKScene {
 
         towerLayer = SKNode()
         towerLayer.zPosition = 4
-        addChild(towerLayer)
+        world.addChild(towerLayer)
 
         markerLayer = makeLayer(5)
 
@@ -183,7 +186,7 @@ final class CityScene: SKScene {
         overlaySprite.zPosition = 10
         overlaySprite.alpha = 0.62
         overlaySprite.isHidden = true
-        addChild(overlaySprite)
+        world.addChild(overlaySprite)
 
         let shoreline = SKShapeNode(rect: CGRect(x: -mapWidthPoints / 2, y: -mapHeightPoints / 2,
                                                  width: mapWidthPoints, height: mapHeightPoints))
@@ -191,7 +194,7 @@ final class CityScene: SKScene {
         shoreline.lineWidth = 2
         shoreline.fillColor = .clear
         shoreline.zPosition = 6
-        addChild(shoreline)
+        world.addChild(shoreline)
 
         highlight = SKShapeNode(rectOf: CGSize(width: CityScene.tileSide, height: CityScene.tileSide))
         highlight.strokeColor = SKColor(white: 1, alpha: 0.9)
@@ -199,11 +202,23 @@ final class CityScene: SKScene {
         highlight.fillColor = SKColor(white: 1, alpha: 0.12)
         highlight.zPosition = 20
         highlight.isHidden = true
-        addChild(highlight)
+        world.addChild(highlight)
 
         previewNode = SKNode()
         previewNode.zPosition = 19
-        addChild(previewNode)
+        world.addChild(previewNode)
+    }
+
+    /// 街全体を1枚の絵にする。成績表の共有に使う。
+    /// 照準や指標の色は写らないよう、撮る間だけ消す。
+    func snapshot() -> CGImage? {
+        guard let view else { return nil }
+        let hidden = (highlight.isHidden, overlaySprite.isHidden, previewNode.isHidden)
+        highlight.isHidden = true; overlaySprite.isHidden = true; previewNode.isHidden = true
+        defer { (highlight.isHidden, overlaySprite.isHidden, previewNode.isHidden) = hidden }
+        let rect = CGRect(x: -mapWidthPoints / 2, y: -mapHeightPoints / 2,
+                          width: mapWidthPoints, height: mapHeightPoints)
+        return view.texture(from: world, crop: rect)?.cgImage()
     }
 
     /// 照準の形を作り直す。
