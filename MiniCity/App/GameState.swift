@@ -2,34 +2,35 @@ import Combine
 import SwiftUI
 
 enum GameSpeed: String, CaseIterable, Identifiable {
-    case paused, slow, normal, fast
+    case paused, x1, x2, x4
 
     var id: String { rawValue }
 
+    /// 1か月にかける秒数。等倍で1年が24秒、50年で20分。
     var interval: TimeInterval? {
         switch self {
         case .paused: return nil
-        case .slow: return 1.2
-        case .normal: return 0.5
-        case .fast: return 0.15
+        case .x1: return 2.0
+        case .x2: return 1.0
+        case .x4: return 0.5
         }
     }
 
     var symbol: String {
         switch self {
         case .paused: return "pause.fill"
-        case .slow: return "play.fill"
-        case .normal: return "forward.fill"
-        case .fast: return "forward.end.fill"
+        case .x1: return "play.fill"
+        case .x2: return "forward.fill"
+        case .x4: return "forward.end.fill"
         }
     }
 
     var title: String {
         switch self {
         case .paused: return String(localized: "停止")
-        case .slow: return String(localized: "ゆっくり")
-        case .normal: return String(localized: "ふつう")
-        case .fast: return String(localized: "はやい")
+        case .x1: return String(localized: "等倍")
+        case .x2: return String(localized: "2倍")
+        case .x4: return String(localized: "4倍")
         }
     }
 }
@@ -58,7 +59,7 @@ final class GameState: ObservableObject {
             scene?.cancelPreview()
         }
     }
-    @Published var speed: GameSpeed = .normal {
+    @Published var speed: GameSpeed = .x1 {
         didSet { restartClock() }
     }
     @Published var overlay: OverlayMode = .none {
@@ -134,7 +135,7 @@ final class GameState: ObservableObject {
         sim.termYears = nil
         showsResult = false
         save()
-        speed = .normal
+        speed = .x1
         adBreaks += 1
         revision &+= 1
     }
@@ -289,7 +290,7 @@ final class GameState: ObservableObject {
         scene?.resetCamera()
         adBreaks += 1
         revision &+= 1
-        speed = .normal
+        speed = .x1
     }
 
     func setTaxRate(_ rate: Int) {
