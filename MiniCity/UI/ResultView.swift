@@ -28,7 +28,7 @@ struct ResultView: View {
                     VStack(spacing: 0) {
                         // HUD と同じく桁区切りを入れる。ここだけ素の数字だと落ち着かない。
                         row("人口", String(localized: "\(sim.residents.formatted())人"))
-                        row("雇用", String(localized: "\(sim.jobs.formatted())人"))
+                        row("雇用", String(localized: "jobs.count", defaultValue: "\(sim.jobs.formatted())人"))
                         row("資金", "¥\(sim.funds.formatted())")
                         row("税率", "\(sim.taxRate)%")
                         row("最高の段", stats.topLevel == 0 ? String(localized: "なし") : "L\(stats.topLevel)")
