@@ -136,7 +136,20 @@ for y in [12, 20, 28, 36, 40, 48, 56] {
 for y in stride(from: 6, through: 54, by: 8) { serviced.apply(.police, atX: 50, y: y) }
 for y in stride(from: 10, through: 54, by: 8) { serviced.apply(.fire, atX: 50, y: y) }
 serviced.census()
-for _ in 1...1200 { serviced.tick() }
+// 最良の都市で、何年で何段まで届くかの推移。段が早く上がりすぎないかを見る。
+print("")
+print("== 最良の都市の推移（年 / 人口 / 資金 / 最高段 / L8以上の数） ==")
+var firstReached = [Int: Int]()
+for month in 1...1200 {
+    serviced.tick()
+    let levels = serviced.map.zones.filter { $0.alive && $0.kind.grows }.map { Int($0.level) }
+    let top = levels.max() ?? 0
+    for l in [6, 8, 10] where top >= l && firstReached[l] == nil { firstReached[l] = serviced.year }
+    if month % 60 == 0 {
+        print("  \(serviced.year) | \(serviced.residents) | \(serviced.funds) | L\(top) | \(levels.filter { $0 >= 8 }.count)")
+    }
+}
+print("  初到達 L6:\(firstReached[6].map(String.init) ?? "-") L8:\(firstReached[8].map(String.init) ?? "-") L10:\(firstReached[10].map(String.init) ?? "-")")
 
 func servicedHistogram(_ kind: ZoneKind) -> String {
     var counts = Array(repeating: 0, count: Zone.maxLevel + 1)

@@ -71,7 +71,10 @@ final class Simulation {
     var pollution = CoarseMap()
     var landValue = CoarseMap(64)
     var crime = CoarseMap()
+    /// 住民と雇用を合わせた「にぎわい」。地価と犯罪の計算に使う。
     var density = CoarseMap()
+    /// 住民だけの密度。「人口密度」の地図と「調べる」に出すのはこちら。
+    var population = CoarseMap()
     var policeCover = CoarseMap()
     var fireCover = CoarseMap()
     var trafficMap = CoarseMap()
@@ -131,6 +134,7 @@ final class Simulation {
         var sumX = 0.0, sumY = 0.0, weight = 0.0
 
         density.clear()
+        population.clear()
 
         map.forEachZone { _, z in
             counts[z.kind, default: 0] += 1
@@ -153,6 +157,7 @@ final class Simulation {
                 sumY += cy * Double(cap)
                 weight += Double(cap)
                 density.addAtTile(Int(cx), Int(cy), cap)
+                if z.kind == .residential { population.addAtTile(Int(cx), Int(cy), cap) }
             }
         }
 
@@ -263,8 +268,11 @@ final class Simulation {
                 shrinkThreshold = Double(level) * 12.0 - 10.0
             }
 
+            // 段が上がるほど、次の段まで待つ月が長くなる。条件が揃いっぱなしでも
+            // L10 までおよそ30年かかる刻み。序盤の1段目だけは数か月で建つ。
+            let growChance = 0.22 / pow(Double(level + 1), 1.8)
             var newLevel = level
-            if level < Zone.maxLevel, score > growThreshold, Double.random(in: 0..<1, using: &rng) < 0.22 {
+            if level < Zone.maxLevel, score > growThreshold, Double.random(in: 0..<1, using: &rng) < growChance {
                 newLevel = level + 1
             } else if score < shrinkThreshold, Double.random(in: 0..<1, using: &rng) < 0.15 {
                 newLevel = level - 1
@@ -304,9 +312,9 @@ final class Simulation {
     /// 道路の維持費。街が広がるほど効いてくるよう、1マスあたりを重くしてある。
     /// 大通りは通しただけで地価を押し上げるので、そのぶん維持費も高い。
     var roadUpkeep: Int { (roadCount - avenueCount) * 6 + avenueCount * 20 }
-    var plantUpkeep: Int { (zoneCounts[.coalPlant] ?? 0) * 100 }
-    var policeUpkeep: Int { (zoneCounts[.police] ?? 0) * 180 }
-    var fireUpkeep: Int { (zoneCounts[.fire] ?? 0) * 180 }
+    var plantUpkeep: Int { (zoneCounts[.coalPlant] ?? 0) * 200 }
+    var policeUpkeep: Int { (zoneCounts[.police] ?? 0) * 400 }
+    var fireUpkeep: Int { (zoneCounts[.fire] ?? 0) * 400 }
 
     var projectedExpenses: Int { roadUpkeep + plantUpkeep + policeUpkeep + fireUpkeep }
 

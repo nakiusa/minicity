@@ -41,7 +41,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .crime: let v = sim.crime.atTile(x, y); return (v, v)
         case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
         // 人口密度は地図と同じく1/3に縮めた強さで色を付ける。
-        case .density: let v = sim.density.atTile(x, y); return (v, min(255, v / 3))
+        case .density: let v = sim.population.atTile(x, y); return (v, min(255, v / 3))
         }
     }
 
@@ -444,7 +444,7 @@ final class CityScene: SKScene {
         case .traffic:
             canvas = heatCanvas(sim.trafficMap)
         case .density:
-            canvas = heatCanvas(sim.density, divisor: 3)
+            canvas = heatCanvas(sim.population, divisor: 3)
         }
 
         guard let image = canvas.cgImage() else { return nil }
