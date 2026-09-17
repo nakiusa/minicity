@@ -1,7 +1,7 @@
 import SpriteKit
 
 enum OverlayMode: String, CaseIterable, Identifiable {
-    case none, power, pollution, landValue, crime, traffic, density
+    case none, power, pollution, landValue, crime, traffic, density, activity
 
     var id: String { rawValue }
 
@@ -14,6 +14,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .crime: return String(localized: "犯罪")
         case .traffic: return String(localized: "交通量")
         case .density: return String(localized: "人口密度")
+        case .activity: return String(localized: "活気")
         }
     }
 
@@ -26,11 +27,12 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .crime: return "shield.lefthalf.filled"
         case .traffic: return "car.fill"
         case .density: return "person.3.fill"
+        case .activity: return "building.2.crop.circle.fill"
         }
     }
 
     /// 「調べる」で数値と並べる見方。この並びがそのまま画面の並びになる。
-    static let readable: [OverlayMode] = [.landValue, .pollution, .crime, .traffic, .density, .power]
+    static let readable: [OverlayMode] = [.landValue, .pollution, .crime, .traffic, .density, .activity, .power]
 
     /// そのマスの値と、帯の色に使う 0...255 の強さ。数で表せない見方は nil。
     func reading(atX x: Int, y: Int, in sim: Simulation) -> (value: Int, heat: Int)? {
@@ -42,6 +44,8 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
         // 人口密度は地図と同じく1/3に縮めた強さで色を付ける。
         case .density: let v = sim.population.atTile(x, y); return (v, min(255, v / 3))
+        // 活気は住民と雇用を合わせた数。地価を押し上げ、犯罪も呼ぶ。
+        case .activity: let v = sim.density.atTile(x, y); return (v, min(255, v / 4))
         }
     }
 
@@ -445,6 +449,8 @@ final class CityScene: SKScene {
             canvas = heatCanvas(sim.trafficMap)
         case .density:
             canvas = heatCanvas(sim.population, divisor: 3)
+        case .activity:
+            canvas = heatCanvas(sim.density, divisor: 4)
         }
 
         guard let image = canvas.cgImage() else { return nil }
