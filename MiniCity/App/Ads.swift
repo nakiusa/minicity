@@ -37,8 +37,12 @@ final class Ads: ObservableObject {
 
     /// 区切りの場面で全画面広告を出す。出せなければ、黙って何もしない。
     func showFullScreen() {
-        guard let ad = interstitial,
-              Date().timeIntervalSince(lastFullScreen) > cooldown else { return }
+        guard Date().timeIntervalSince(lastFullScreen) > cooldown else { return }
+        guard let ad = interstitial else {
+            // 起動時の読み込みが在庫切れで外れていると、ここに来る。次の区切りに間に合うよう読み直す。
+            Task { await loadInterstitial() }
+            return
+        }
         lastFullScreen = Date()
         interstitial = nil
         Task {
