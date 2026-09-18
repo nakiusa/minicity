@@ -293,6 +293,26 @@ final class GameState: ObservableObject {
         speed = .x1
     }
 
+    /// いまの街に名前を付けて残す。遊んでいる街はそのまま。
+    func shelveCity(name: String) {
+        CityStore.shelve(sim, name: name)
+        revision &+= 1
+    }
+
+    /// 残してあった街を呼び出す。いま遊んでいる街は上書きされる。
+    func loadCity(_ save: CitySave) {
+        speed = .paused
+        showsResult = false
+        sim = Simulation(save: save)
+        scene?.sim = sim
+        scene?.fullRefresh()
+        scene?.resetCamera()
+        CityStore.save(sim)
+        adBreaks += 1
+        revision &+= 1
+        speed = .x1
+    }
+
     func borrow() {
         sim.borrow()
         save()

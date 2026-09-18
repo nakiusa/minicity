@@ -8,6 +8,9 @@ struct BudgetView: View {
     /// 都市を捨てる操作は戻せないので、一度確かめる。
     @State private var confirmingNewCity = false
     @State private var showMapSelect = false
+    /// 名前を付けて残すときの入力。
+    @State private var namingCity = false
+    @State private var cityName = ""
 
     var body: some View {
         ZStack {
@@ -149,14 +152,37 @@ struct BudgetView: View {
                 }
 
                 Section {
+                    Button {
+                        cityName = ""
+                        namingCity = true
+                    } label: {
+                        Label("この街に名前を付けて残す", systemImage: "square.and.arrow.down")
+                    }
+                    NavigationLink {
+                        ShelvedCitiesView(game: game)
+                    } label: {
+                        Label("残してある街", systemImage: "archivebox")
+                    }
                     Button(role: .destructive) {
                         confirmingNewCity = true
                     } label: {
                         Text("新しい都市をはじめる")
                     }
+                } header: {
+                    Text("街")
                 } footer: {
-                    Text("地形を選び直して、最初の1900年に戻ります。")
+                    Text("新しい都市をはじめると、いまの街は消えます。残したい街は先に名前を付けてください。")
                 }
+            }
+            .alert("街の名前", isPresented: $namingCity) {
+                TextField("名前", text: $cityName)
+                Button("残す") {
+                    let name = cityName.trimmingCharacters(in: .whitespaces)
+                    game.shelveCity(name: name.isEmpty ? String(localized: "\(game.sim.year)年の街") : name)
+                }
+                Button("やめる", role: .cancel) {}
+            } message: {
+                Text("いまの街の写しを残します。遊んでいる街はそのまま続きます。")
             }
             .alert("購入", isPresented: Binding(get: { store.failure != nil },
                                               set: { if !$0 { store.failure = nil } })) {
@@ -250,6 +276,61 @@ private struct ConfirmNewCityOverlay: View {
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color(white: 0.15)))
             .foregroundStyle(.white)
+        }
+    }
+}
+
+
+/// 名前を付けて残した街の一覧。呼び出すか、消す。
+struct ShelvedCitiesView: View {
+    @ObservedObject var game: GameState
+    @Environment(\.dismiss) private var dismiss
+    @State private var cities = CityStore.shelved()
+    @State private var loading: URL?
+
+    var body: some View {
+        List {
+            if cities.isEmpty {
+                Text("まだありません。予算の「この街に名前を付けて残す」で残せます。")
+                    .foregroundStyle(.secondary)
+            }
+            ForEach(cities, id: \.url) { city in
+                Button {
+                    loading = city.url
+                } label: {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(city.save.name ?? "—")
+                            .font(.system(size: 15, weight: .semibold))
+                        Text("\(String(city.save.year))年 · 人口 \(city.save.residents.formatted())人 · ¥\(city.save.funds.formatted())")
+                            .font(.system(size: 12))
+                            .foregroundStyle(.secondary)
+                        if let at = city.save.savedAt {
+                            Text(at, style: .date)
+                                .font(.system(size: 11))
+                                .foregroundStyle(.tertiary)
+                        }
+                    }
+                }
+                .foregroundStyle(.primary)
+            }
+            .onDelete { offsets in
+                for i in offsets { CityStore.unshelve(cities[i].url) }
+                cities = CityStore.shelved()
+            }
+        }
+        .navigationTitle("残してある街")
+        .navigationBarTitleDisplayMode(.inline)
+        .alert("この街を呼び出す", isPresented: Binding(get: { loading != nil }, set: { if !$0 { loading = nil } })) {
+            Button("呼び出す") {
+                if let url = loading, let city = cities.first(where: { $0.url == url }) {
+                    game.loadCity(city.save)
+                    dismiss()
+                }
+                loading = nil
+            }
+            Button("やめる", role: .cancel) { loading = nil }
+        } message: {
+            Text("いま遊んでいる街は上書きされます。残したいなら、先に名前を付けてください。")
         }
     }
 }
