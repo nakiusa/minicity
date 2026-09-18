@@ -7,7 +7,10 @@ struct ContentView: View {
     @State private var showBudget = false
     @State private var showAchievements = false
     @AppStorage("hasSeenHelp") private var hasSeenHelp = false
+    /// 街が動き出すまでの手順の案内を、もう出さなくてよいか。
+    @AppStorage("guideDone") private var guideDone = false
     @State private var showHelp = false
+    @State private var showIntro = false
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -51,6 +54,10 @@ struct ContentView: View {
                     OverlayPicker(game: game)
                 }
 
+                if !guideDone, let step = GuideStep.next(for: game.sim) {
+                    GuideBar(game: game, step: step) { guideDone = true }
+                }
+
                 Spacer()
 
                 HStack {
@@ -86,9 +93,20 @@ struct ContentView: View {
             .animation(.easeInOut(duration: 0.15), value: game.message)
             .animation(.easeInOut(duration: 0.15), value: game.pendingTiles)
 
-            if showHelp {
-                HelpOverlay(isPresented: $showHelp, hasSeenHelp: $hasSeenHelp)
+        }
+        .fullScreenCover(isPresented: $showIntro) {
+            IntroView {
+                hasSeenHelp = true
+                showIntro = false
             }
+        }
+        .onChange(of: showIntro) { _, shown in
+            // 案内を読んでいる間に街の時間が進むと、戻ったときに何年も経っている。
+            game.speed = shown ? .paused : .x1
+        }
+        .sheet(isPresented: $showHelp) {
+            HelpView(onReplayIntro: { showIntro = true },
+                     onResetGuide: { guideDone = false })
         }
         .fullScreenCover(isPresented: .constant(game.needsMapSelection)) {
             // はじめて遊ぶときだけ、地形を選んでから始める。
@@ -109,7 +127,13 @@ struct ContentView: View {
         .statusBarHidden()
         .preferredColorScheme(.dark)
         .onAppear {
-            if !hasSeenHelp && !game.needsMapSelection { showHelp = true }
+            if !hasSeenHelp && !game.needsMapSelection { showIntro = true }
+        }
+        .onChange(of: game.revision) { _, _ in
+            // 人が入ったら手順の案内は終わり。以後は ? から読み直せる。
+            if !guideDone, game.sim.residents > 0, GuideStep.next(for: game.sim) == nil {
+                guideDone = true
+            }
         }
         .task(id: game.needsMapSelection) {
             // 地形を選んでいる最中に追跡の許可が重なると、どちらも読めない。
@@ -126,7 +150,7 @@ struct ContentView: View {
         .onChange(of: game.needsMapSelection) { _, needs in
             // 地形を選び終えてから操作説明を出す。
             // 選択画面と重なると、どちらも読めない。
-            if !needs && !hasSeenHelp { showHelp = true }
+            if !needs && !hasSeenHelp { showIntro = true }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { game.save() }
@@ -169,73 +193,5 @@ struct ConfirmBar: View {
         .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
             .fill(Color.black.opacity(0.78)))
         .transition(.move(edge: .bottom).combined(with: .opacity))
-    }
-}
-
-/// 最初の一回だけ、操作と最短の立ち上げ手順を出す。
-struct HelpOverlay: View {
-    @Binding var isPresented: Bool
-    @Binding var hasSeenHelp: Bool
-
-    var body: some View {
-        ZStack {
-            Color.black.opacity(0.78).ignoresSafeArea()
-            VStack(alignment: .leading, spacing: 14) {
-                Text("ミニシティ")
-                    .font(.system(size: 26, weight: .heavy, design: .rounded))
-
-                VStack(alignment: .leading, spacing: 7) {
-                    line("移動", "この道具を選ぶと、1本指のドラッグで地図が動く")
-                    line("拡大縮小", "右下のつまみを上下になぞる。⊕ ⊖ を押せば1段ずつ動く")
-                    line("調べる", "軽く叩くとそのマスの数値が出る。一覧の行を押すと地価や公害が地図に色で出る")
-                    line("その他", "1本指でマスを塗る（道路や送電線はなぞれる）")
-                    line("2本指", "どの道具でも地図を動かせる。つまめば拡大縮小")
-                }
-
-                Divider().overlay(Color.white.opacity(0.2))
-
-                Text("はじめかた")
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                VStack(alignment: .leading, spacing: 7) {
-                    line("1", "発電所を1つ置く")
-                    line("2", "道路を引き、その脇に住宅区と工業区を並べる")
-                    line("3", "送電線で発電所と区画をつなぐ（区画どうしは電気を通す）")
-                    line("4", "時間を進める。人が入れば商業の需要が立ち上がる")
-                }
-
-                Button {
-                    hasSeenHelp = true
-                    isPresented = false
-                } label: {
-                    Text("はじめる")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.accentColor))
-                }
-                .buttonStyle(.plain)
-                .padding(.top, 4)
-            }
-            .foregroundStyle(.white)
-            .padding(22)
-            .background(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(Color(white: 0.13))
-            )
-            .padding(24)
-        }
-    }
-
-    private func line(_ head: LocalizedStringKey, _ body: LocalizedStringKey) -> some View {
-        HStack(alignment: .top, spacing: 9) {
-            Text(head)
-                .font(.system(size: 11, weight: .bold, design: .rounded))
-                .frame(width: 46, alignment: .center)
-                .padding(.vertical, 3)
-                .background(Capsule().fill(Color.white.opacity(0.16)))
-            Text(body)
-                .font(.system(size: 13))
-                .fixedSize(horizontal: false, vertical: true)
-        }
     }
 }

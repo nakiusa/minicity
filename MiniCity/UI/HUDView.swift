@@ -168,6 +168,7 @@ struct ToolPalette: View {
     @ObservedObject var game: GameState
 
     var body: some View {
+        ScrollViewReader { proxy in
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
                 ForEach(Tool.allCases.filter { $0 != .pan }) { tool in
@@ -196,10 +197,16 @@ struct ToolPalette: View {
                         .foregroundStyle(.white)
                     }
                     .buttonStyle(.plain)
+                    .id(tool)
                 }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 7)
+        }
+        // 案内の行から道具が切り替わったとき、画面の外にある道具まで送る。
+        .onChange(of: game.tool) { _, tool in
+            withAnimation { proxy.scrollTo(tool, anchor: .center) }
+        }
         }
         .background(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
