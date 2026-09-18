@@ -10,6 +10,8 @@ struct CitySave: Codable {
     var monthsElapsed: Int
     /// 遊ぶと決めた年数。古いセーブには入っていないので、その場合は期限なしになる。
     var termYears: Int?
+    /// 借入の残高。古いセーブには入っていない。
+    var debt: Int?
 }
 
 enum CityStore {
@@ -25,7 +27,8 @@ enum CityStore {
                                funds: sim.funds,
                                taxRate: sim.taxRate,
                                monthsElapsed: sim.monthsElapsed,
-                               termYears: sim.termYears)
+                               termYears: sim.termYears,
+                               debt: sim.debt)
         do {
             let encoder = PropertyListEncoder()
             encoder.outputFormat = .binary

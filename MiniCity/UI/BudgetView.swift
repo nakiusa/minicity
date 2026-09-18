@@ -65,6 +65,10 @@ struct BudgetView: View {
                     row("発電所", "-¥\(game.sim.plantUpkeep)")
                     row("警察", "-¥\(game.sim.policeUpkeep)")
                     row("消防", "-¥\(game.sim.fireUpkeep)")
+                    if game.sim.debt > 0 {
+                        row("借入の利息", "-¥\(game.sim.debtInterest)")
+                        row("借入の返済", "-¥\(game.sim.debtRepayment)")
+                    }
                     let net = game.sim.projectedIncome - game.sim.projectedExpenses
                     HStack {
                         Text("収支").fontWeight(.semibold)
@@ -74,6 +78,28 @@ struct BudgetView: View {
                             .monospacedDigit()
                             .foregroundStyle(net >= 0 ? .green : .red)
                     }
+                }
+
+                Section {
+                    row("借入の残高", "¥\(game.sim.debt)")
+                    Button {
+                        game.borrow()
+                    } label: {
+                        Text("¥\(Simulation.loanAmount.formatted()) を借りる")
+                    }
+                    .disabled(!game.sim.canBorrow)
+                    if game.sim.debt > 0 {
+                        Button {
+                            game.repay()
+                        } label: {
+                            Text("手元の資金で返す")
+                        }
+                        .disabled(game.sim.funds <= 0)
+                    }
+                } header: {
+                    Text("借入")
+                } footer: {
+                    Text("年5％の利息。毎年、残高の1割（最低 ¥5,000）と利息を返します。上限は ¥\(Simulation.debtLimit.formatted())。")
                 }
 
                 Section("前年度の決算") {

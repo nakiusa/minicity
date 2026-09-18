@@ -11,6 +11,9 @@ final class Simulation {
     var funds: Int = 20_000
     var taxRate: Int = 7
     private(set) var monthsElapsed: Int = 0
+    /// 借入の残高。年度末に利息と元本の一部を返す。
+    /// 赤字が続いて手が打てなくなった街の逃げ道。撤去も建て直しも金が要る。
+    private(set) var debt: Int = 0
 
     /// セーブデータから都市を組み立て直す。地形は生成せず、保存されたものを使う。
     convenience init(save: CitySave) {
@@ -20,6 +23,7 @@ final class Simulation {
         taxRate = save.taxRate
         monthsElapsed = save.monthsElapsed
         termYears = save.termYears
+        debt = save.debt ?? 0
         census()
         updatePower()
         updateRoadAccess()
@@ -297,10 +301,39 @@ final class Simulation {
     private func settleAnnualBudget() {
         let income = projectedIncome
         let expenses = projectedExpenses
+        let repayment = debtRepayment
 
         lastIncome = income
         lastExpenses = expenses
         funds += income - expenses
+        debt -= repayment
+    }
+
+    // MARK: - 借入
+
+    static let loanAmount = 50_000
+    static let debtLimit = 300_000
+
+    /// 年5%の利息。残高に対して毎年払う。
+    var debtInterest: Int { debt * 5 / 100 }
+    /// 元本の返済。毎年1割、ただし最低 5,000。残りが少なければ残り全部。
+    var debtRepayment: Int { min(debt, max(debt / 10, 5_000)) }
+
+    var canBorrow: Bool { debt + Simulation.loanAmount <= Simulation.debtLimit }
+
+    /// 5万円を借りる。上限に達していれば何もしない。
+    func borrow() {
+        guard canBorrow else { return }
+        debt += Simulation.loanAmount
+        funds += Simulation.loanAmount
+    }
+
+    /// 手元の金で返せるだけ返す。
+    func repay() {
+        let amount = min(debt, funds)
+        guard amount > 0 else { return }
+        debt -= amount
+        funds -= amount
     }
 
     /// 年度が変わる前でも、いま決算したらどうなるかを予算画面に出す。
@@ -316,7 +349,7 @@ final class Simulation {
     var policeUpkeep: Int { (zoneCounts[.police] ?? 0) * 400 }
     var fireUpkeep: Int { (zoneCounts[.fire] ?? 0) * 400 }
 
-    var projectedExpenses: Int { roadUpkeep + plantUpkeep + policeUpkeep + fireUpkeep }
+    var projectedExpenses: Int { roadUpkeep + plantUpkeep + policeUpkeep + fireUpkeep + debtInterest + debtRepayment }
 
     /// 道路のある街区に限った平均の混み具合。
     /// 幹線が1本詰まっているだけで警告を出しても仕方がないので、最大値では測らない。
@@ -336,7 +369,7 @@ final class Simulation {
     private func updateWarnings() {
         var list: [String] = []
         if funds < 0 {
-            list.append(String(localized: "財政が赤字です"))
+            list.append(String(localized: "財政が赤字です。予算から借りられます"))
         }
         if unpoweredZones > 0 {
             list.append(String(localized: "電力が届いていない区画が \(unpoweredZones) あります"))

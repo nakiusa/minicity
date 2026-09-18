@@ -293,6 +293,18 @@ final class GameState: ObservableObject {
         speed = .x1
     }
 
+    func borrow() {
+        sim.borrow()
+        save()
+        revision &+= 1
+    }
+
+    func repay() {
+        sim.repay()
+        save()
+        revision &+= 1
+    }
+
     func setTaxRate(_ rate: Int) {
         sim.taxRate = min(max(rate, 0), 20)
         revision &+= 1

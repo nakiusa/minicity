@@ -1391,6 +1391,58 @@
         }
       }
     },
+    "¥%@ を借りる": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrow ¥%@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¥%@ leihen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pedir ¥%@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emprunter ¥%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¥%@ 빌리기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pegar ¥%@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借入 ¥%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借入 ¥%@"
+          }
+        }
+      }
+    },
     "¥%lld": {
       "shouldTranslate": false
     },
@@ -3630,6 +3682,214 @@
         }
       }
     },
+    "借入": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kredit"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préstamos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emprunt"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대출"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empréstimo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款"
+          }
+        }
+      }
+    },
+    "借入の利息": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loan interest"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kreditzinsen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intereses"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intérêts"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대출 이자"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Juros"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款利息"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款利息"
+          }
+        }
+      }
+    },
+    "借入の残高": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outstanding debt"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restschuld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deuda pendiente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dette restante"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대출 잔액"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dívida restante"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款余额"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款餘額"
+          }
+        }
+      }
+    },
+    "借入の返済": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loan repayment"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tilgung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amortización"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remboursement"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대출 상환"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amortização"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款还款"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款還款"
+          }
+        }
+      }
+    },
     "停止": {
       "localizations": {
         "de": {
@@ -5814,6 +6074,58 @@
         }
       }
     },
+    "年5％の利息。毎年、残高の1割（最低 ¥5,000）と利息を返します。上限は ¥%@。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5%% interest per year. Each year you repay a tenth of the balance (at least ¥5,000) plus interest. Limit ¥%@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 %% Zinsen pro Jahr. Jedes Jahr tilgst du ein Zehntel der Restschuld (mindestens ¥5.000) plus Zinsen. Höchstens ¥%@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 %% de interés anual. Cada año devuelves una décima parte del saldo (mínimo ¥5.000) más intereses. Límite ¥%@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 %% d'intérêts par an. Chaque année, vous remboursez un dixième du solde (au moins ¥5 000) plus les intérêts. Plafond ¥%@."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "연 5%% 이자. 매년 잔액의 1할(최소 ¥5,000)과 이자를 갚습니다. 한도 ¥%@."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5%% de juros ao ano. A cada ano você paga um décimo do saldo (no mínimo ¥5.000) mais juros. Limite ¥%@."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年利率 5%%。每年偿还余额的一成（至少 ¥5,000）加利息。上限 ¥%@。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年利率 5%%。每年償還餘額的一成（至少 ¥5,000）加利息。上限 ¥%@。"
+          }
+        }
+      }
+    },
     "年度の見込み": {
       "localizations": {
         "de": {
@@ -6122,6 +6434,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "不妨礙發展的範圍"
+          }
+        }
+      }
+    },
+    "手元の資金で返す": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repay from funds"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus der Kasse tilgen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devolver con los fondos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rembourser avec les fonds"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자금으로 상환"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pagar com o caixa"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用资金偿还"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用資金償還"
           }
         }
       }
@@ -9454,54 +9818,54 @@
         }
       }
     },
-    "財政が赤字です": {
+    "財政が赤字です。予算から借りられます": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Der Haushalt ist im Minus"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The budget is in the red"
+            "value": "Funds are negative. You can borrow in Budget"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Kasse ist im Minus. Im Budget kannst du leihen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las cuentas están en rojo"
+            "value": "Los fondos están en negativo. Puedes pedir un préstamo en Presupuesto"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les finances sont dans le rouge"
+            "value": "Les fonds sont négatifs. Vous pouvez emprunter dans Budget"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "재정이 적자입니다"
+            "value": "자금이 마이너스입니다. 예산에서 빌릴 수 있습니다"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "As contas estão no vermelho"
+            "value": "O caixa está negativo. Você pode pegar empréstimo em Orçamento"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "财政出现赤字"
+            "value": "资金为负。可在预算中借款"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "財政出現赤字"
+            "value": "資金為負。可在預算中借款"
           }
         }
       }

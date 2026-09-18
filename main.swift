@@ -194,3 +194,22 @@ for year in 1...40 {
         print("  \(s2.year)年: 人口 \(s2.residents), 雇用 \(s2.jobs), 資金 \(s2.funds), 年収支 \(s2.projectedIncome - s2.projectedExpenses)")
     }
 }
+
+// --- 借入。借りた額が手元に入り、年度末に利息と元本の一割が引かれ、返しきれる。 ---
+print("")
+print("== 借入 ==")
+let s3 = Simulation(seed: 3, generateTerrain: false)
+s3.funds = 1_000
+s3.borrow()
+assert(s3.funds == 51_000 && s3.debt == 50_000, "借りた額が合わない")
+let before = s3.funds
+for _ in 1...12 { s3.tick() }
+// 区画がないので税収も維持費もゼロ。引かれるのは利息 2,500 と元本 5,000 だけ。
+assert(s3.debt == 45_000, "元本が減っていない: \(s3.debt)")
+assert(before - s3.funds == 7_500, "返済額が合わない: \(before - s3.funds)")
+for _ in 0..<6 { s3.borrow() }
+assert(s3.debt == 300_000, "上限を越えて借りられる: \(s3.debt)")
+s3.funds = 1_000_000
+s3.repay()
+assert(s3.debt == 0 && s3.funds == 700_000, "返しきれない")
+print("  借入 5万 → 1年後の残高 \(45_000)、上限 30万、一括返済 OK")
