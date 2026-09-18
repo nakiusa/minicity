@@ -410,6 +410,11 @@ App Store の掲載文の訳は `STORE.md` の「各言語の掲載文」にあ�
 
 ## 配布
 
+Distribute の途中に出る「Manage Version and Build Number」は外す。
+入れたままだと Xcode がバージョンを App Store の現行版に合わせて書き換え、
+1.3.1 の archive が 1.3.0 として届いて ITMS-90062 で弾かれる（1.3.1 のビルド 11 で起きた）。
+
+
 App Store に出すための設定は `project.yml` に入っている。署名は自動（`CODE_SIGN_STYLE: Automatic`、
 チームは `B54UXU8NGQ`）、アイコンは `ASSETCATALOG_COMPILER_APPICON_NAME` で解決する。
 暗号化を使っていないことは `INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO` で宣言してある。
