@@ -77,7 +77,7 @@ final class Simulation {
     var crime = CoarseMap()
     /// 住民と雇用を合わせた「にぎわい」。地価と犯罪の計算に使う。
     var density = CoarseMap()
-    /// 住民だけの密度。「人口密度」の地図と「調べる」に出すのはこちら。
+    /// 住民だけの数。「人口」の地図と「調べる」に出すのはこちら。住宅区の外は 0。
     var population = CoarseMap()
     var policeCover = CoarseMap()
     var fireCover = CoarseMap()

@@ -309,24 +309,53 @@ struct OverlayPicker: View {
 /// 数字だけ読ませても土地の良し悪しは掴めないので、同じ行から色分けの地図へ渡す。
 struct InspectorPanel: View {
     @ObservedObject var game: GameState
+    /// 一覧を畳んで、地図の下半分を見えるようにする。別のマスを叩くと開き直す。
+    @State private var collapsed = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(game.inspected.map { LocalizedStringKey($0.summary) }
-                 ?? "マスを軽く叩くとその場所の数値が出ます。行を押すと地図が色分けされます")
-                .font(.system(size: 11))
-                .foregroundStyle(game.inspected == nil ? Color.white.opacity(0.55) : .white)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.bottom, 2)
+            HStack(spacing: 8) {
+                Text(game.inspected.map { LocalizedStringKey($0.summary) }
+                     ?? "マスを軽く叩くとその場所の数値が出ます。行を押すと地図が色分けされます")
+                    .font(.system(size: 11))
+                    .foregroundStyle(game.inspected == nil ? Color.white.opacity(0.55) : .white)
+                    .lineLimit(collapsed ? 1 : nil)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                if collapsed, game.overlay != .none {
+                    Label(game.overlay.title, systemImage: game.overlay.symbol)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                }
+                Button {
+                    withAnimation(.easeInOut(duration: 0.15)) { collapsed.toggle() }
+                } label: {
+                    Image(systemName: collapsed ? "chevron.up" : "chevron.down")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundStyle(.white.opacity(0.8))
+                        .frame(width: 28, height: 22)
+                        .background(RoundedRectangle(cornerRadius: 6).fill(Color.white.opacity(0.1)))
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(.bottom, collapsed ? 0 : 2)
+            .contentShape(Rectangle())
+            .onTapGesture { withAnimation(.easeInOut(duration: 0.15)) { collapsed.toggle() } }
 
-            ForEach(OverlayMode.readable) { mode in
-                row(mode)
+            if !collapsed {
+                ForEach(OverlayMode.readable) { mode in
+                    row(mode)
+                }
             }
         }
         .padding(10)
         .background(
             RoundedRectangle(cornerRadius: 12, style: .continuous).fill(panelFill)
         )
+        .onChange(of: game.inspected?.x ?? -1 &* 31 &+ (game.inspected?.y ?? -1)) { _, _ in
+            // 新しいマスを叩いたということは数字を見たいということなので、開く。
+            if game.inspected != nil { withAnimation(.easeInOut(duration: 0.15)) { collapsed = false } }
+        }
     }
 
     private func row(_ mode: OverlayMode) -> some View {

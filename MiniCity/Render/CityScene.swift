@@ -13,7 +13,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .landValue: return String(localized: "土地価値")
         case .crime: return String(localized: "犯罪")
         case .traffic: return String(localized: "交通量")
-        case .density: return String(localized: "人口密度")
+        case .density: return String(localized: "人口")
         case .activity: return String(localized: "活気")
         }
     }
@@ -42,7 +42,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .landValue: let v = sim.landValue.atTile(x, y); return (v, v)
         case .crime: let v = sim.crime.atTile(x, y); return (v, v)
         case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
-        // 人口密度は地図と同じく1/3に縮めた強さで色を付ける。
+        // 人口は住民だけ。住宅区の外は 0。地図と同じく1/3に縮めた強さで色を付ける。
         case .density: let v = sim.population.atTile(x, y); return (v, min(255, v / 3))
         // 活気は住民と雇用を合わせた数。地価を押し上げ、犯罪も呼ぶ。
         case .activity: let v = sim.density.atTile(x, y); return (v, min(255, v / 4))
