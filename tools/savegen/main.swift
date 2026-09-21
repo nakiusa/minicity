@@ -77,7 +77,12 @@ where sim.map.zones[i].alive && sim.map.zones[i].kind.grows && !sim.map.zones[i]
     sim.map.removeZone(Int32(i))
 }
 sim.census()
-for _ in 1...700 { sim.tick() }
+// 3つ目の引数は回す月数、4つ目は遊ぶ年数、5つ目は最後に持たせる資金。
+// 成績表の絵を撮るには、期限の月まで回した街を用意する（600, 50）。
+let months = CommandLine.arguments.count > 3 ? (Int(CommandLine.arguments[3]) ?? 700) : 700
+sim.termYears = CommandLine.arguments.count > 4 ? Int(CommandLine.arguments[4]).flatMap { $0 > 0 ? $0 : nil } : nil
+for _ in 1..<months { sim.tick() }
+if CommandLine.arguments.count > 5, let f = Int(CommandLine.arguments[5]) { sim.funds = f }
 
 var counts = Array(repeating: 0, count: Zone.maxLevel + 1)
 for z in sim.map.zones where z.alive && z.kind.grows { counts[Int(z.level)] += 1 }
@@ -85,8 +90,7 @@ print("人口 \(sim.residents) 雇用 \(sim.jobs) 資金 \(sim.funds) 年 \(sim.
 print("停電 \(sim.unpoweredZones) 道路なし \(sim.disconnectedZones) 警告 \(sim.warnings)")
 print("レベル分布 " + counts.enumerated().map { "L\($0.offset):\($0.element)" }.joined(separator: " "))
 
-let save = CitySave(tiles: sim.map.tiles, zones: sim.map.zones,
-                    funds: sim.funds, taxRate: sim.taxRate, monthsElapsed: sim.monthsElapsed)
+let save = CityStore.payload(sim)
 let encoder = PropertyListEncoder()
 encoder.outputFormat = .binary
 try encoder.encode(save).write(to: URL(fileURLWithPath: CommandLine.arguments[1]))
