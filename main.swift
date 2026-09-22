@@ -236,3 +236,28 @@ s4.map.updateZone(ids[3]) { $0.level = 8 }
 s4.tick()
 assert(s4.linkedZones.isEmpty, "1つ欠けても結ばれている")
 print("  4つ L9 → 結び 4 / 住民 \(single * 2)、1つ L8 → 結びなし")
+
+// --- 大公園。工場の脇に置いたとき、小さな公園を9つ並べるより公害を減らし、地価を上げる。 ---
+print("")
+print("== 大公園 ==")
+func parkTest(big: Bool) -> (pollution: Int, land: Int) {
+    let s = Simulation(seed: 5, generateTerrain: false)
+    s.funds = 1_000_000
+    for x in 20...40 { s.apply(.road, atX: x, y: 30) }
+    for cx in stride(from: 22, through: 31, by: 3) { s.apply(.industrial, atX: cx, y: 32) }
+    s.apply(.coalPlant, atX: 38, y: 33)
+    for x in 33...36 { s.apply(.powerLine, atX: x, y: 32) }
+    s.apply(.residential, atX: 26, y: 26)
+    if big {
+        s.apply(.bigPark, atX: 30, y: 26)
+    } else {
+        for dy in -1...1 { for dx in -1...1 { s.apply(.park, atX: 30 + dx, y: 26 + dy) } }
+    }
+    for i in s.map.zones.indices where s.map.zones[i].kind == .industrial { s.map.updateZone(Int32(i)) { $0.level = 5 } }
+    for _ in 1...24 { s.tick() }
+    return (s.pollution.atTile(26, 26), s.landValue.atTile(26, 26))
+}
+let small = parkTest(big: false), large = parkTest(big: true)
+print("  住宅のマス: 小公園×9 → 公害 \(small.pollution) 地価 \(small.land) / 大公園 → 公害 \(large.pollution) 地価 \(large.land)")
+assert(large.pollution < small.pollution, "大公園のほうが公害が減っていない")
+assert(large.land > small.land, "大公園のほうが地価が上がっていない")

@@ -332,7 +332,7 @@ final class CityScene: SKScene {
         guard let sim, markerLayer != nil else { return }
         var next = Set<Int>()
 
-        for z in sim.map.zones where z.alive && z.kind != .coalPlant {
+        for z in sim.map.zones where z.alive && z.kind.needsUtilities {
             let key: String
             if !z.powered {
                 key = "marker.power"

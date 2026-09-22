@@ -1373,6 +1373,58 @@
         }
       }
     },
+    "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで値打ちを上げる。電気も道路も要らない。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Absorbs pollution farther than nine small parks and raises land value several blocks out. Needs no power or road."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3。比9个小公园吸收污染更远，抬高几个街区外的地价。不需要电力和道路。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3。比9個小公園吸收污染更遠，抬高幾個街區外的地價。不需要電力和道路。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. 작은 공원 9개보다 멀리까지 공해를 흡수하고, 몇 블록 밖까지 지가를 올립니다. 전기도 도로도 필요 없습니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Absorbe la contaminación más lejos que nueve parques pequeños y sube el valor del suelo a varias manzanas. No necesita electricidad ni calle."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Absorbe la pollution plus loin que neuf petits parcs et fait monter la valeur foncière sur plusieurs îlots. Ni courant ni route nécessaires."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Schluckt Verschmutzung weiter als neun kleine Parks und hebt den Bodenwert mehrere Blöcke weit. Braucht weder Strom noch Straße."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Absorve poluição mais longe que nove parques pequenos e aumenta o valor do terreno por vários quarteirões. Não precisa de energia nem rua."
+          }
+        }
+      }
+    },
     "3×3。電気の元。容量に限りがあり、街が広がると足りなくなる。煙を出す。": {
       "localizations": {
         "de": {
@@ -7524,6 +7576,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "選擇地圖"
+          }
+        }
+      }
+    },
+    "大公園": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Big Park"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大公园"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大公園"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대공원"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gran parque"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grand parc"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Großer Park"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parque grande"
           }
         }
       }

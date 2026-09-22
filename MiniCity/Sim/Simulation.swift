@@ -155,7 +155,7 @@ final class Simulation {
             }
             // 発電所は自前で動き、道路も要らない。それ以外は更地の段階から
             // 電気と道路を待っているので、育つ前でも足りなければ知らせる。
-            if z.kind != .coalPlant {
+            if z.kind.needsUtilities {
                 if !z.powered { unpowered += 1 }
                 if !z.hasRoad { disconnected += 1 }
             }

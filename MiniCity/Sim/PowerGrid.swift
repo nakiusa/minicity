@@ -62,7 +62,7 @@ extension Simulation {
                     continue
                 }
                 // 更地のゾーンは電気を食わないが、電気が来ていることは記録する。
-                let consumes = z.kind.grows ? (z.level > 0) : true
+                let consumes = z.kind.grows ? (z.level > 0) : z.kind.needsUtilities
                 if !consumes {
                     map.updateZone(zid) { $0.powered = capacity > 0 }
                     continue

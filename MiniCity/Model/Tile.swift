@@ -26,11 +26,16 @@ enum ZoneKind: UInt8, CaseIterable, Codable {
     case coalPlant = 3
     case police = 4
     case fire = 5
+    /// 3×3 の大きな公園。小さな公園を9つ並べるより遠くまで効く。
+    case bigPark = 6
 
     /// 需要に応じて育つゾーンか。
     var grows: Bool {
         self == .residential || self == .commercial || self == .industrial
     }
+
+    /// 電気と道路を待つゾーンか。発電所は自前で動き、公園はどちらも要らない。
+    var needsUtilities: Bool { self != .coalPlant && self != .bigPark }
 
     var name: String {
         switch self {
@@ -40,6 +45,7 @@ enum ZoneKind: UInt8, CaseIterable, Codable {
         case .coalPlant: return String(localized: "火力発電所")
         case .police: return String(localized: "警察署")
         case .fire: return String(localized: "消防署")
+        case .bigPark: return String(localized: "大公園")
         }
     }
 }

@@ -55,6 +55,10 @@ extension Simulation {
             case .coalPlant:
                 emit(&pollution, tileX: Int(z.ox) + 1, tileY: Int(z.oy) + 1,
                      strength: z.powered ? 140 : 20, radius: 4)
+            case .bigPark:
+                // 小さな公園9つぶん（-26×9）より強く、遠くまで吸う。
+                emit(&pollution, tileX: Int(z.ox) + 1, tileY: Int(z.oy) + 1,
+                     strength: -360, radius: 4)
             default:
                 break
             }
@@ -119,6 +123,10 @@ extension Simulation {
                 amenity[cx, cy] = water * 5 + forest * 4 + park * 5
                 frontage[cx, cy] = avenue * 12
             }
+        }
+        // 大公園は、面した街区だけでなく数街区先まで値打ちを押し上げる。
+        for z in map.zones where z.alive && z.kind == .bigPark {
+            emit(&amenity, tileX: Int(z.ox) + 1, tileY: Int(z.oy) + 1, strength: 90, radius: 3)
         }
         amenity.blur()
         // 隣の街区までは表通りの効き目が届く。

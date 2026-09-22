@@ -9,6 +9,7 @@ enum Tool: String, CaseIterable, Identifiable {
     case avenue
     case powerLine
     case park
+    case bigPark
     case residential
     case commercial
     case industrial
@@ -27,6 +28,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .avenue: return String(localized: "大通り")
         case .powerLine: return String(localized: "送電線")
         case .park: return String(localized: "公園")
+        case .bigPark: return String(localized: "大公園")
         case .residential: return String(localized: "住宅区")
         case .commercial: return String(localized: "商業区")
         case .industrial: return String(localized: "工業区")
@@ -45,6 +47,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .avenue: return "road.lanes.curved.right"
         case .powerLine: return "bolt.fill"
         case .park: return "tree.fill"
+        case .bigPark: return "leaf.fill"
         case .residential: return "house.fill"
         case .commercial: return "building.2.fill"
         case .industrial: return "gearshape.fill"
@@ -62,6 +65,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .avenue: return 90
         case .powerLine: return 5
         case .park: return 10
+        case .bigPark: return 400
         case .residential, .commercial, .industrial: return 100
         case .coalPlant: return 3000
         case .police, .fire: return 500
@@ -84,7 +88,7 @@ enum Tool: String, CaseIterable, Identifiable {
     /// 一辺のタイル数。
     var footprint: Int {
         switch self {
-        case .residential, .commercial, .industrial, .coalPlant, .police, .fire: return 3
+        case .residential, .commercial, .industrial, .coalPlant, .police, .fire, .bigPark: return 3
         default: return 1
         }
     }
@@ -105,6 +109,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .coalPlant: return .coalPlant
         case .police: return .police
         case .fire: return .fire
+        case .bigPark: return .bigPark
         default: return nil
         }
     }

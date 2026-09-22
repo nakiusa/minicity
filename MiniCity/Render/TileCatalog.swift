@@ -89,7 +89,7 @@ final class TileCatalog {
                 }
             }
         }
-        for kind in [ZoneKind.coalPlant, .police, .fire] {
+        for kind in [ZoneKind.coalPlant, .police, .fire, .bigPark] {
             registerZone("z.\(kind.rawValue).0.0", TileArt.zoneArt(kind: kind, level: 0, variant: 0))
         }
 

@@ -1196,6 +1196,27 @@ enum TileArt {
             return police()
         case .fire:
             return fireStation()
+        case .bigPark:
+            return bigPark()
         }
+    }
+
+    /// 3×3 の大公園。真ん中に池、周りに木立と小道。区画の枠は引かず、地面と溶け合わせる。
+    static func bigPark() -> PixelCanvas {
+        var c = PixelCanvas(width: zoneSize, height: zoneSize, fill: Palette.lawnLight)
+        c.speckle(seed: 4242, count: 120, color: Palette.lawn)
+        c.speckle(seed: 4243, count: 40, color: Palette.lawnDark)
+        // 小道。十字に通して、真ん中の池を囲む。
+        c.rect(0, 22, zoneSize, 3, Palette.land)
+        c.rect(22, 0, 3, zoneSize, Palette.land)
+        // 池。
+        c.disc(24, 24, 9, Palette.waterDark)
+        c.disc(24, 24, 8, Palette.water)
+        c.disc(22, 22, 3, Palette.waterLight)
+        // 木立。四隅に大きく、あいだに小さく。
+        for (x, y) in [(7, 8), (39, 8), (7, 39), (39, 39)] { tree(&c, x, y, scale: 3) }
+        for (x, y) in [(15, 5), (31, 5), (5, 16), (43, 16), (5, 31), (43, 31), (15, 43), (31, 43)] { tree(&c, x, y, scale: 2) }
+        for (x, y) in [(12, 30), (35, 13), (13, 13), (35, 33)] { tree(&c, x, y, scale: 1) }
+        return c
     }
 }
