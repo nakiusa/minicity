@@ -9,6 +9,8 @@ struct ContentView: View {
     @AppStorage("hasSeenHelp") private var hasSeenHelp = false
     /// 街が動き出すまでの手順の案内を、もう出さなくてよいか。
     @AppStorage("guideDone") private var guideDone = false
+    /// 目標の行を消したか。
+    @AppStorage("goalsHidden") private var goalsHidden = false
     @State private var showHelp = false
     @State private var showIntro = false
     @Environment(\.scenePhase) private var scenePhase
@@ -56,6 +58,10 @@ struct ContentView: View {
 
                 if !guideDone, let step = GuideStep.next(for: game.sim) {
                     GuideBar(game: game, step: step) { guideDone = true }
+                } else if guideDone, !goalsHidden, let goal = GoalStep.next(for: game.sim) {
+                    GoalBar(achievement: goal.achievement, now: goal.now, goal: goal.goal,
+                            onOpen: { showAchievements = true },
+                            onDismiss: { goalsHidden = true })
                 }
 
                 Spacer()

@@ -4,6 +4,8 @@ import SwiftUI
 /// ここで終わりにしたい人と、そのまま育て続けたい人の両方がいるので、どちらも選べるようにしてある。
 struct ResultView: View {
     @ObservedObject var game: GameState
+    /// 期限が来て出す成績表か。途中で見るだけなら「続ける」は閉じるだけで、新しい都市も出さない。
+    var isFinal = true
     @Environment(\.dismiss) private var dismiss
     @State private var showMapSelect = false
     /// 世界での順位。Game Center から引けたときだけ出す。
@@ -60,9 +62,9 @@ struct ResultView: View {
                     }
 
                     Button {
-                        game.keepPlaying()
+                        if isFinal { game.keepPlaying() } else { dismiss() }
                     } label: {
-                        Text("このまま続ける")
+                        Text(isFinal ? "このまま続ける" : "閉じる")
                             .font(.system(size: 16, weight: .bold, design: .rounded))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
@@ -71,6 +73,7 @@ struct ResultView: View {
                     }
                     .buttonStyle(.plain)
 
+                    if isFinal {
                     Button {
                         showMapSelect = true
                     } label: {
@@ -82,13 +85,14 @@ struct ResultView: View {
                             .foregroundStyle(.white)
                     }
                     .buttonStyle(.plain)
+                    }
                 }
                 .padding(18)
             }
-            .navigationTitle("期限まで遊びました")
+            .navigationTitle(isFinal ? "期限まで遊びました" : "いまの成績")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .interactiveDismissDisabled()
+        .interactiveDismissDisabled(isFinal)
         .preferredColorScheme(.dark)
         .task {
             if let city = game.scene?.snapshot() {

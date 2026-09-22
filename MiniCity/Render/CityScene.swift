@@ -345,7 +345,8 @@ final class CityScene: SKScene {
             let anchor = sim.linkedZones[id]
             if let anchor, anchor != id { continue }
             let linked = anchor == id
-            let key = "tower.\(z.kind.rawValue).\(z.level).\(z.variant)"
+            let key = linked ? "mega.\(z.kind.rawValue).\(z.variant)"
+                             : "tower.\(z.kind.rawValue).\(z.level).\(z.variant)"
             guard let texture = catalog.towerTexture(key) else { continue }
             live.insert(id)
 

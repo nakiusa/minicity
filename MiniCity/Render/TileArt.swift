@@ -603,6 +603,52 @@ enum TileArt {
         }
     }
 
+    /// 結ばれた 2×2 の街区に立てる1棟。幅も高さも通常のタワーの2倍の絵を、拡大ではなく描き起こす。
+    /// 広い土台の上に段を重ねた本塔を据え、両脇に低い翼を付ける。4区画ぶんの重さを1つの塊で見せる。
+    static func megaTower(kind: ZoneKind, variant: Int) -> PixelCanvas {
+        let w = zoneSize * 2, h = towerCanvasHeight * 2
+        var c = PixelCanvas(width: w, height: h)
+        var rng = SplitMix64(seed: UInt64(Int(kind.rawValue) * 100 + variant + 4242))
+        let baseY = h - 1
+        let walls = wallPair(kind: kind, variant: variant)
+        let roof = Palette.roofGrey
+
+        // 土台。街区いっぱいに広く、低く。
+        let podiumX = 6, podiumW = w - 14, podiumH = 12, podiumDepth = 44
+        box(&c, x: podiumX, baseY: baseY, w: podiumW, depth: podiumDepth, height: podiumH,
+            wall: walls.sub, roof: roof, windows: Palette.window, shadow: 6, rng: &rng)
+        let podiumTop = baseY - podiumH
+
+        // 両脇の翼。本塔より低く、少し奥に引く。
+        let wingW = 20, wingDepth = 14, wingH = 34
+        for wx in [podiumX + 4, podiumX + podiumW - wingW - 4] {
+            box(&c, x: wx, baseY: podiumTop - 10, w: wingW, depth: wingDepth, height: wingH,
+                wall: walls.main.shaded(0.9), roof: roof, windows: Palette.window, shadow: 3, rng: &rng)
+        }
+
+        // 本塔。3段のセットバック。
+        let widths = [44, 30, 18], heights = [46, 34, 22], depths = [22, 14, 8]
+        var x = (w - widths[0]) / 2
+        var base = podiumTop - 8
+        var topCX = 0, topY = 0
+        for i in 0..<3 {
+            if i > 0 {
+                x += (widths[i - 1] - widths[i]) / 2
+                base -= max(2, (depths[i - 1] - depths[i]) / 2)
+            }
+            box(&c, x: x, baseY: base, w: widths[i], depth: depths[i], height: heights[i],
+                wall: walls.main, roof: roof, windows: Palette.window, shadow: 3, rng: &rng)
+            // 面を縦線で割って、大きな壁がのっぺりしないようにする。
+            c.vLine(x + widths[i] / 3, base - heights[i] + 3, heights[i] - 6, Palette.towerAccent)
+            c.vLine(x + widths[i] * 2 / 3, base - heights[i] + 3, heights[i] - 6, Palette.towerAccent)
+            topCX = x + widths[i] / 2
+            topY = base - heights[i] - depths[i]
+            base -= heights[i]
+        }
+        spire(&c, cx: topCX, topY: topY, height: 12, blink: Palette.beacon)
+        return c
+    }
+
     static func towerSprite(kind: ZoneKind, level: Int, variant: Int) -> PixelCanvas {
         var c = PixelCanvas(width: zoneSize, height: towerCanvasHeight)
         let seed = UInt64(Int(kind.rawValue) * 1000 + level * 10 + variant + 77)

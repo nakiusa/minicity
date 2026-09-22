@@ -163,6 +163,7 @@ final class GameState: ObservableObject {
             speed = .paused
             save()
             showsResult = true
+            Feedback.shared.finished()
             if let term = sim.termYears { GameCenter.submit(population: sim.residents, term: term) }
         }
         scene?.applyDirty()
@@ -170,6 +171,7 @@ final class GameState: ObservableObject {
         for (x, y) in sim.recentUpgrades.prefix(10) {
             scene?.flashUpgrade(x: x, y: y)
         }
+        if !sim.recentUpgrades.isEmpty { Feedback.shared.grew() }
         scene?.refreshMarkers()
         scene?.refreshTraffic()
         scene?.refreshTowers()
@@ -227,10 +229,13 @@ final class GameState: ObservableObject {
             sim.updatePower()
             sim.updateRoadAccess()
             sim.census()
+            Feedback.shared.placed()
         case .insufficientFunds(let needed):
             show(String(localized: "資金が足りません（¥\(needed) 必要）"))
+            Feedback.shared.denied()
         case .blocked(let reason):
             show(reason)
+            Feedback.shared.denied()
         case .nothingToDo:
             break
         }
@@ -330,7 +335,7 @@ final class GameState: ObservableObject {
         revision &+= 1
     }
 
-    private func show(_ text: String) {
+    func show(_ text: String) {
         message = text
         messageClearWork?.cancel()
         let work = DispatchWorkItem { [weak self] in self?.message = nil }

@@ -299,3 +299,84 @@ struct HelpView: View {
         .preferredColorScheme(.dark)
     }
 }
+
+// MARK: - 街が動き出したあとの目標
+
+/// 手順の案内が終わったあと、次に目指すものを1つだけ出す。
+/// 中身は実績から借りる。近いものから順に、まだ取っていない最初のものを見せる。
+enum GoalStep {
+    /// 目標にする実績の順と、その進みぐあいの取りかた。
+    private static let order: [(id: String, progress: (Simulation) -> (now: Int, goal: Int))] = [
+        ("pop.100", { ($0.residents, 100) }),
+        ("pop.1000", { ($0.residents, 1_000) }),
+        ("tower.first", { (topLevel($0), 6) }),
+        ("pop.5000", { ($0.residents, 5_000) }),
+        ("funds.100k", { ($0.funds, 100_000) }),
+        ("skyline", { (count($0, atLeast: 8), 5) }),
+        ("pop.10000", { ($0.residents, 10_000) }),
+        ("tower.max", { (topLevel($0), 10) }),
+        ("downtown", { (count($0, atLeast: 9), 10) }),
+        ("pop.20000", { ($0.residents, 20_000) }),
+        ("funds.500k", { ($0.funds, 500_000) }),
+    ]
+
+    private static func topLevel(_ sim: Simulation) -> Int {
+        sim.map.zones.filter { $0.alive && $0.kind.grows }.map { Int($0.level) }.max() ?? 0
+    }
+
+    private static func count(_ sim: Simulation, atLeast level: Int) -> Int {
+        sim.map.zones.filter { $0.alive && $0.kind.grows && Int($0.level) >= level }.count
+    }
+
+    /// いま目指すもの。全部取っていれば nil。
+    static func next(for sim: Simulation) -> (achievement: Achievement, now: Int, goal: Int)? {
+        for entry in order where !AchievementStore.shared.isEarned(entry.id) {
+            guard let a = Achievements.all.first(where: { $0.id == entry.id }) else { continue }
+            let p = entry.progress(sim)
+            return (a, p.now, p.goal)
+        }
+        return nil
+    }
+}
+
+/// 画面の上に出す一行。押すと実績の一覧が開く。
+struct GoalBar: View {
+    let achievement: Achievement
+    let now: Int
+    let goal: Int
+    var onOpen: () -> Void
+    var onDismiss: () -> Void
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: achievement.symbol)
+                .font(.system(size: 11, weight: .bold))
+                .frame(width: 20, height: 20)
+                .background(Circle().fill(Color.white.opacity(0.16)))
+            VStack(alignment: .leading, spacing: 1) {
+                Text("目標：\(achievement.title)")
+                    .font(.system(size: 12, weight: .semibold))
+                    .lineLimit(1)
+                Text(achievement.detail)
+                    .font(.system(size: 10))
+                    .foregroundStyle(.white.opacity(0.7))
+                    .lineLimit(1)
+            }
+            Spacer(minLength: 4)
+            Text("\(min(now, goal).formatted()) / \(goal.formatted())")
+                .font(.system(size: 11, weight: .medium, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(.white.opacity(0.85))
+            Button(action: onDismiss) {
+                Image(systemName: "xmark").font(.system(size: 10, weight: .bold)).opacity(0.6)
+                    .padding(4)
+            }
+            .buttonStyle(.plain)
+        }
+        .foregroundStyle(.white)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.72)))
+        .onTapGesture(perform: onOpen)
+    }
+}

@@ -107,6 +107,12 @@ final class TileCatalog {
                         towerTextures["tower.\(kind.rawValue).\(level).\(variant)"] = texture
                     }
                 }
+                // 結ばれた街区の1棟。
+                if let image = TileArt.megaTower(kind: kind, variant: variant).cgImage() {
+                    let texture = SKTexture(cgImage: image)
+                    texture.filteringMode = .nearest
+                    towerTextures["mega.\(kind.rawValue).\(variant)"] = texture
+                }
             }
         }
 

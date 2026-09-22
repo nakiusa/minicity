@@ -135,6 +135,18 @@ struct DemandIndicator: View {
             bar("I", game.sim.demandI, .yellow)
         }
         .panel()
+        .contentShape(Rectangle())
+        .onTapGesture {
+            // 棒だけでは何の値か分からない、という声への手当て。押せば言葉で出す。
+            game.show(String(localized: "需要 住宅：\(word(game.sim.demandR)) 商業：\(word(game.sim.demandC)) 工業：\(word(game.sim.demandI))"))
+        }
+    }
+
+    private func word(_ v: Double) -> String {
+        if v > 0.3 { return String(localized: "高い") }
+        if v > 0.05 { return String(localized: "ある") }
+        if v > -0.1 { return String(localized: "なし") }
+        return String(localized: "余っている")
     }
 
     private func bar(_ label: String, _ value: Double, _ color: Color) -> some View {

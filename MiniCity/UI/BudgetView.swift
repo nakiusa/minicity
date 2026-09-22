@@ -11,6 +11,8 @@ struct BudgetView: View {
     /// 名前を付けて残すときの入力。
     @State private var namingCity = false
     @State private var cityName = ""
+    @State private var showReport = false
+    @AppStorage("soundOn") private var soundOn = true
 
     var body: some View {
         ZStack {
@@ -28,6 +30,9 @@ struct BudgetView: View {
                     }
                 )
             }
+        }
+        .sheet(isPresented: $showReport) {
+            ResultView(game: game, isFinal: false)
         }
         .sheet(isPresented: $showMapSelect) {
             MapSelectView { seed, termYears in
@@ -105,6 +110,10 @@ struct BudgetView: View {
                     Text("年5％の利息。毎年、残高の1割（最低 ¥5,000）と利息を返します。上限は ¥\(Simulation.debtLimit.formatted())。")
                 }
 
+                Section("設定") {
+                    Toggle("効果音", isOn: $soundOn)
+                }
+
                 Section("前年度の決算") {
                     if game.sim.lastIncome == 0 && game.sim.lastExpenses == 0 {
                         Text("まだ決算がありません").foregroundStyle(.secondary)
@@ -152,6 +161,11 @@ struct BudgetView: View {
                 }
 
                 Section {
+                    Button {
+                        showReport = true
+                    } label: {
+                        Label("いまの成績表を見る", systemImage: "list.clipboard")
+                    }
                     Button {
                         cityName = ""
                         namingCity = true
