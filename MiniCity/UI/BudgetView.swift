@@ -13,6 +13,7 @@ struct BudgetView: View {
     @State private var cityName = ""
     @State private var showReport = false
     @AppStorage("soundOn") private var soundOn = true
+    @AppStorage("hapticsOn") private var hapticsOn = true
 
     var body: some View {
         ZStack {
@@ -112,6 +113,7 @@ struct BudgetView: View {
 
                 Section("設定") {
                     Toggle("効果音", isOn: $soundOn)
+                    Toggle("振動", isOn: $hapticsOn)
                 }
 
                 Section("前年度の決算") {

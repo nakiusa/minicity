@@ -12,6 +12,12 @@ final class Feedback {
         set { UserDefaults.standard.set(newValue, forKey: "soundOn") }
     }
 
+    /// 振動も同じく切れる。既定はオン。
+    var hapticsOn: Bool {
+        get { UserDefaults.standard.object(forKey: "hapticsOn") as? Bool ?? true }
+        set { UserDefaults.standard.set(newValue, forKey: "hapticsOn") }
+    }
+
     private var players: [String: AVAudioPlayer] = [:]
     private let tap = UIImpactFeedbackGenerator(style: .light)
     private let thud = UINotificationFeedbackGenerator()
@@ -28,13 +34,13 @@ final class Feedback {
 
     /// 何かを置いた。
     func placed() {
-        tap.impactOccurred()
+        if hapticsOn { tap.impactOccurred() }
         play("place")
     }
 
     /// 置けなかった、金が足りない。
     func denied() {
-        thud.notificationOccurred(.warning)
+        if hapticsOn { thud.notificationOccurred(.warning) }
         play("deny")
     }
 
@@ -47,7 +53,7 @@ final class Feedback {
 
     /// 成績表が出た。
     func finished() {
-        thud.notificationOccurred(.success)
+        if hapticsOn { thud.notificationOccurred(.success) }
         play("result")
     }
 
