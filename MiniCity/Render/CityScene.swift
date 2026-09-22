@@ -45,12 +45,21 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .crime: let v = sim.crime.atTile(x, y); return (v, v)
         case .fire: let v = sim.fireRisk.atTile(x, y); return (v, v)
         case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
-        // 人口は住民だけ。住宅区の外は 0。地図と同じく1/3に縮めた強さで色を付ける。
-        case .density: let v = sim.population.atTile(x, y); return (v, min(255, v / 3))
-        // 活気は住民と雇用を合わせた数。地価を押し上げ、犯罪も呼ぶ。
-        case .activity: let v = sim.density.atTile(x, y); return (v, min(255, v / 4))
+        // 人口はその区画の住民。住宅区の外は 0。
+        case .density:
+            let h = sim.headcount(atX: x, y: y)
+            let v = h?.kind == .residential ? h!.count : 0
+            return (v, OverlayMode.headcountHeat(v))
+        // 活気はその区画の住民か雇用。住宅でも商工でも数える。
+        case .activity:
+            let v = sim.headcount(atX: x, y: y)?.count ?? 0
+            return (v, OverlayMode.headcountHeat(v))
         }
     }
+
+    /// 区画の人数を色の強さにする。L10 の住宅（980人）で赤。
+    /// 比例にすると中層（100人前後）がほとんど透けて見えないので、平方根で広げる。
+    static func headcountHeat(_ v: Int) -> Int { min(255, Int((Double(v) / 980).squareRoot() * 255)) }
 
     /// 数で表せない見方に添える短い言葉。
     func note(atX x: Int, y: Int, in sim: Simulation) -> String? {
@@ -198,7 +207,8 @@ final class CityScene: SKScene {
 
         overlaySprite = SKSpriteNode(color: .clear,
                                      size: CGSize(width: mapWidthPoints, height: mapHeightPoints))
-        overlaySprite.zPosition = 10
+        // タワーは行ごとに奥行きを積む（4 + 行 + 3）ので、地図の端の行より上に置かないと高層街区で色が隠れる。
+        overlaySprite.zPosition = 1000
         overlaySprite.alpha = 0.62
         overlaySprite.isHidden = true
         world.addChild(overlaySprite)
@@ -215,12 +225,12 @@ final class CityScene: SKScene {
         highlight.strokeColor = SKColor(white: 1, alpha: 0.9)
         highlight.lineWidth = 1.5
         highlight.fillColor = SKColor(white: 1, alpha: 0.12)
-        highlight.zPosition = 20
+        highlight.zPosition = 1020
         highlight.isHidden = true
         world.addChild(highlight)
 
         previewNode = SKNode()
-        previewNode.zPosition = 19
+        previewNode.zPosition = 1019
         world.addChild(previewNode)
     }
 
@@ -519,10 +529,20 @@ final class CityScene: SKScene {
             canvas = heatCanvas(sim.fireRisk)
         case .traffic:
             canvas = heatCanvas(sim.trafficMap)
-        case .density:
-            canvas = heatCanvas(sim.population, divisor: 3)
-        case .activity:
-            canvas = heatCanvas(sim.density, divisor: 4)
+        case .density, .activity:
+            // 区画ごとに塗る。粗い格子でならすと、区画の境目と色の境目がずれる。
+            smooth = false
+            canvas = PixelCanvas(width: CityMap.width, height: CityMap.height)
+            for y in 0..<CityMap.height {
+                for x in 0..<CityMap.width {
+                    // 0人の区画は塗らない。人口の地図で商業や工業に色が付いて見えないように。
+                    guard let r = overlayMode.reading(atX: x, y: y, in: sim), r.value > 0 else { continue }
+                    // 1区画ずつ塗ると、粗い格子の薄い塗りでは建物の上でほとんど見えない。電力の地図と同じ濃さにする。
+                    var c = CityScene.heatColor(r.heat)
+                    c.a = 170
+                    canvas.set(x, y, c)
+                }
+            }
         }
 
         guard let image = canvas.cgImage() else { return nil }

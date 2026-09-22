@@ -254,7 +254,14 @@ final class GameState: ObservableObject {
         if let z = sim.map.zone(t.zoneID) {
             parts.append(z.kind.name)
             if z.kind.grows {
-                parts.append(z.level == 0 ? String(localized: "未開発") : String(localized: "レベル \(z.level)・\(z.capacity)人"))
+                let n = sim.headcount(z, id: t.zoneID)
+                if z.level == 0 {
+                    parts.append(String(localized: "未開発"))
+                } else if z.kind == .residential {
+                    parts.append(String(localized: "レベル \(z.level)・\(n)人"))
+                } else {
+                    parts.append(String(localized: "レベル \(z.level)・雇用 \(n)"))
+                }
             }
             parts.append(z.powered ? String(localized: "通電") : String(localized: "停電"))
             parts.append(z.hasRoad ? String(localized: "道路あり") : String(localized: "道路なし"))

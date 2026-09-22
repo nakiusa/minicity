@@ -78,8 +78,6 @@ final class Simulation {
     var crime = CoarseMap()
     /// 住民と雇用を合わせた「にぎわい」。地価と犯罪の計算に使う。
     var density = CoarseMap()
-    /// 住民だけの数。「人口」の地図と「調べる」に出すのはこちら。住宅区の外は 0。
-    var population = CoarseMap()
     var policeCover = CoarseMap()
     var fireCover = CoarseMap()
     /// 火事の起きやすさ。建物が密で高いほど、工場や発電所ほど上がり、消防署の近くで下がる。
@@ -142,13 +140,10 @@ final class Simulation {
         var sumX = 0.0, sumY = 0.0, weight = 0.0
 
         density.clear()
-        population.clear()
 
         map.forEachZone { id, z in
             counts[z.kind, default: 0] += 1
-            var cap = z.capacity
-            // 結ばれた街区は、ひとつの大きな建物として抱える数が跳ね上がる。
-            if linkedZones[id] != nil { cap = z.kind == .residential ? cap * 2 : cap * 3 / 2 }
+            let cap = headcount(z, id: id)
             switch z.kind {
             case .residential: res += cap
             case .commercial: com += cap
@@ -167,7 +162,6 @@ final class Simulation {
                 sumY += cy * Double(cap)
                 weight += Double(cap)
                 density.addAtTile(Int(cx), Int(cy), cap)
-                if z.kind == .residential { population.addAtTile(Int(cx), Int(cy), cap) }
             }
         }
 
@@ -194,6 +188,21 @@ final class Simulation {
         roadCount = roads
         avenueCount = avenues
         wireCount = wires
+    }
+
+    /// 区画が抱える人数。住宅なら住民、商業と工業なら雇用。
+    /// 結ばれた街区は、ひとつの大きな建物として抱える数が跳ね上がる。
+    func headcount(_ z: Zone, id: Int32) -> Int {
+        guard linkedZones[id] != nil else { return z.capacity }
+        return z.kind == .residential ? z.capacity * 2 : z.capacity * 3 / 2
+    }
+
+    /// そのマスが属する区画の人数と種類。区画の外なら nil。
+    /// 粗い格子で引くと、隣の区画の人数が混ざったり自分の人数が隣へ行ったりするので、区画から直接引く。
+    func headcount(atX x: Int, y: Int) -> (count: Int, kind: ZoneKind)? {
+        let id = map.tile(x, y).zoneID
+        guard let z = map.zone(id), z.kind.grows else { return nil }
+        return (headcount(z, id: id), z.kind)
     }
 
     // MARK: - 需要

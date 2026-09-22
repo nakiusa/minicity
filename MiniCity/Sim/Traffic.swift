@@ -42,12 +42,12 @@ extension Simulation {
             map.mutateTileQuietly(i) { $0.traffic = 0 }
         }
 
-        // 職場ごとの空き。結ばれた街区は census と同じく1.5倍を抱える。
+        // 職場ごとの空き。
         var jobsLeft = [Int](repeating: 0, count: map.zones.count)
         for id in map.zones.indices {
             let z = map.zones[id]
             guard z.alive, z.kind == .commercial || z.kind == .industrial else { continue }
-            jobsLeft[id] = linkedZones[Int32(id)] != nil ? z.capacity * 3 / 2 : z.capacity
+            jobsLeft[id] = headcount(z, id: Int32(id))
         }
 
         var stamp = [Int32](repeating: 0, count: cellCount)
@@ -80,7 +80,7 @@ extension Simulation {
             }
 
             // 住民の半分が働きに出る。需要の計算と同じ割合。
-            var workers = (linkedZones[Int32(id)] != nil ? z.capacity * 2 : z.capacity) / 2
+            var workers = headcount(z, id: Int32(id)) / 2
             var reached = false
             var head = 0
 
