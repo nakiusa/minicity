@@ -444,6 +444,21 @@ App Store の掲載文の訳は `STORE.md` の「各言語の掲載文」にあ�
 
 ## 配布
 
+archive とアップロードはコマンドラインでもできる（Mac の前にいなくても済む）。
+API キーで署名も認証も通るので、Xcode を開かなくてよい。
+
+```bash
+xcodebuild -project MiniCity.xcodeproj -scheme MiniCity -configuration Release \
+  -destination 'generic/platform=iOS' -archivePath out/MiniCity.xcarchive archive \
+  -allowProvisioningUpdates -authenticationKeyPath ~/.appstoreconnect/keys/AuthKey_XXXX.p8 \
+  -authenticationKeyID XXXX -authenticationKeyIssuerID <issuer>
+xcodebuild -exportArchive -archivePath out/MiniCity.xcarchive -exportOptionsPlist exportOptions.plist \
+  -exportPath out/export -allowProvisioningUpdates（同じ認証の引数）
+```
+
+exportOptions.plist は method `app-store-connect`、destination `upload`、
+`manageAppVersionAndBuildNumber` を false にする。
+
 Distribute の途中に出る「Manage Version and Build Number」は外す。
 入れたままだと Xcode がバージョンを App Store の現行版に合わせて書き換え、
 1.3.1 の archive が 1.3.0 として届いて ITMS-90062 で弾かれる（1.3.1 のビルド 11 で起きた）。
