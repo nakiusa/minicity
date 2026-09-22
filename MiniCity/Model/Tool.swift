@@ -186,7 +186,7 @@ extension Simulation {
         let t = map.tile(x, y)
         guard t.structure != .road || t.isAvenue != avenue else { return .nothingToDo }
         guard !t.hasZone else { return .blocked(String(localized: "区画の上には敷けません")) }
-        guard t.structure != .park else { return .blocked(String(localized: "先に公園を撤去してください")) }
+        // 小さな公園の上にはそのまま敷ける。いちいち撤去させるほどのものではない。
 
         let tool: Tool = avenue ? .avenue : .road
         let cost = t.terrain == .water ? (tool.waterCost ?? tool.cost) : tool.cost
@@ -227,10 +227,10 @@ extension Simulation {
         }
         guard charge(Tool.park.cost) else { return .insufficientFunds(needed: Tool.park.cost) }
 
+        // 送電線の上に公園を置いても、線は残す。消えると気づきにくく、停電の原因になる。
         map.mutateTile(x, y) { tile in
             tile.terrain = .dirt
             tile.structure = .park
-            tile.wire = false
         }
         refreshNeighbors(x, y)
         return .built(cost: Tool.park.cost)

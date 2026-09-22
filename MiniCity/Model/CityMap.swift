@@ -139,7 +139,8 @@ final class CityMap {
             for dx in 0..<3 {
                 let t = tile(ox + dx, oy + dy)
                 if t.terrain == .water { return false }
-                if t.isOccupied { return false }
+                // 小さな公園の上には置ける。区画のほうが用途として上。
+                if t.isOccupied && t.structure != .park { return false }
                 if t.hasZone { return false }
             }
         }

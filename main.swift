@@ -261,3 +261,17 @@ let small = parkTest(big: false), large = parkTest(big: true)
 print("  住宅のマス: 小公園×9 → 公害 \(small.pollution) 地価 \(small.land) / 大公園 → 公害 \(large.pollution) 地価 \(large.land)")
 assert(large.pollution < small.pollution, "大公園のほうが公害が減っていない")
 assert(large.land > small.land, "大公園のほうが地価が上がっていない")
+
+// --- 上書き。公園の上に道路と区画を置ける。送電線の上に公園を置いても線は残る。 ---
+print("")
+print("== 上書き ==")
+let s5 = Simulation(seed: 6, generateTerrain: false)
+s5.funds = 100_000
+for x in 10...14 { s5.apply(.powerLine, atX: x, y: 10) }
+s5.apply(.park, atX: 12, y: 10)
+assert(s5.map.tile(12, 10).wire && s5.map.tile(12, 10).structure == .park, "公園で送電線が消えた")
+if case .built = s5.apply(.road, atX: 12, y: 10) {} else { assertionFailure("公園の上に道路が敷けない") }
+assert(s5.map.tile(12, 10).structure == .road && s5.map.tile(12, 10).wire, "道路で送電線が消えた")
+for dy in 0..<3 { for dx in 0..<3 { s5.apply(.park, atX: 20 + dx, y: 20 + dy) } }
+if case .built = s5.apply(.residential, atX: 21, y: 21) {} else { assertionFailure("公園の上に区画が置けない") }
+print("  公園→道路 OK、送電線が残る OK、公園×9→区画 OK")
