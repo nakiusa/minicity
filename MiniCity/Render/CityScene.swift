@@ -1,7 +1,7 @@
 import SpriteKit
 
 enum OverlayMode: String, CaseIterable, Identifiable {
-    case none, power, pollution, landValue, crime, traffic, density, activity
+    case none, power, pollution, landValue, crime, fire, traffic, density, activity
 
     var id: String { rawValue }
 
@@ -12,6 +12,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .pollution: return String(localized: "公害")
         case .landValue: return String(localized: "土地価値")
         case .crime: return String(localized: "犯罪")
+        case .fire: return String(localized: "火災リスク")
         case .traffic: return String(localized: "交通量")
         case .density: return String(localized: "人口")
         case .activity: return String(localized: "活気")
@@ -25,6 +26,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .pollution: return "smoke.fill"
         case .landValue: return "yensign.circle.fill"
         case .crime: return "shield.lefthalf.filled"
+        case .fire: return "flame.fill"
         case .traffic: return "car.fill"
         case .density: return "person.3.fill"
         case .activity: return "building.2.crop.circle.fill"
@@ -32,7 +34,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
     }
 
     /// 「調べる」で数値と並べる見方。この並びがそのまま画面の並びになる。
-    static let readable: [OverlayMode] = [.landValue, .pollution, .crime, .traffic, .density, .activity, .power]
+    static let readable: [OverlayMode] = [.landValue, .pollution, .crime, .fire, .traffic, .density, .activity, .power]
 
     /// そのマスの値と、帯の色に使う 0...255 の強さ。数で表せない見方は nil。
     func reading(atX x: Int, y: Int, in sim: Simulation) -> (value: Int, heat: Int)? {
@@ -41,6 +43,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .pollution: let v = sim.pollution.atTile(x, y); return (v, v)
         case .landValue: let v = sim.landValue.atTile(x, y); return (v, v)
         case .crime: let v = sim.crime.atTile(x, y); return (v, v)
+        case .fire: let v = sim.fireRisk.atTile(x, y); return (v, v)
         case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
         // 人口は住民だけ。住宅区の外は 0。地図と同じく1/3に縮めた強さで色を付ける。
         case .density: let v = sim.population.atTile(x, y); return (v, min(255, v / 3))
@@ -512,6 +515,8 @@ final class CityScene: SKScene {
             canvas = heatCanvas(sim.landValue)
         case .crime:
             canvas = heatCanvas(sim.crime)
+        case .fire:
+            canvas = heatCanvas(sim.fireRisk)
         case .traffic:
             canvas = heatCanvas(sim.trafficMap)
         case .density:

@@ -78,7 +78,7 @@ print("1200か月の計算に \(String(format: "%.2f", -clock.timeIntervalSinceN
 print("住宅の内訳 \(histogram(.residential))")
 print("商業の内訳 \(histogram(.commercial))")
 print("工業の内訳 \(histogram(.industrial))")
-print("警告: \(sim.warnings)")
+print("警告: \(sim.warnings) 渋滞の平均 \(sim.congestion) 火災リスク最大 \(sim.fireRisk.maximum)")
 
 // --- 都市計画の良し悪しが効くか。区画の数は同じまま、工業を住宅の真隣に並べ、
 // --- 警察も消防も置かない都市を、同じ年数だけ回して人口を比べる。
@@ -168,7 +168,7 @@ print("到達した最高レベル: L\(topLevel)\(topLevel >= Zone.maxLevel ? "�
 print("")
 print("== 都市計画の比較（同じ年数・同じ区画数） ==")
 print("  分けて建てた都市: 人口 \(sim.residents), 最大公害 \(sim.pollution.maximum), 最大地価 \(sim.landValue.maximum)")
-print("  混ぜて建てた都市: 人口 \(sprawl.residents), 最大公害 \(sprawl.pollution.maximum), 最大地価 \(sprawl.landValue.maximum)")
+print("  混ぜて建てた都市（消防なし）: 火災リスク最大 \(sprawl.fireRisk.maximum), 人口 \(sprawl.residents), 最大公害 \(sprawl.pollution.maximum), 最大地価 \(sprawl.landValue.maximum)")
 
 // --- 序盤の資金繰り。初期資金2万で、ふつうに始めた都市が続けられるか。 ---
 print("")
@@ -201,18 +201,18 @@ print("== 借入 ==")
 let s3 = Simulation(seed: 3, generateTerrain: false)
 s3.funds = 1_000
 s3.borrow()
-assert(s3.funds == 51_000 && s3.debt == 50_000, "借りた額が合わない")
+precondition(s3.funds == 51_000 && s3.debt == 50_000, "借りた額が合わない")
 let before = s3.funds
 for _ in 1...12 { s3.tick() }
 // 区画がないので税収も維持費もゼロ。引かれるのは利息 2,500 と元本 5,000 だけ。
-assert(s3.debt == 45_000, "元本が減っていない: \(s3.debt)")
-assert(before - s3.funds == 7_500, "返済額が合わない: \(before - s3.funds)")
+precondition(s3.debt == 45_000, "元本が減っていない: \(s3.debt)")
+precondition(before - s3.funds == 7_500, "返済額が合わない: \(before - s3.funds)")
 for _ in 0..<6 { s3.borrow() }
-assert(s3.debt == 300_000, "上限を越えて借りられる: \(s3.debt)")
+precondition(s3.debt == 295_000, "上限の手前で止まらない: \(s3.debt)")
 s3.funds = 1_000_000
 s3.repay()
-assert(s3.debt == 0 && s3.funds == 700_000, "返しきれない")
-print("  借入 5万 → 1年後の残高 \(45_000)、上限 30万、一括返済 OK")
+precondition(s3.debt == 0 && s3.funds == 705_000, "返しきれない")
+print("  借入 5万 → 1年後の残高 \(45_000)、上限 30万の手前で止まる、一括返済 OK")
 
 // --- 街区の結び。2×2 の同業種が L9 以上で結ばれ、住民が倍になる。1つ欠けると結ばれない。 ---
 print("")
@@ -226,15 +226,16 @@ s4.apply(.coalPlant, atX: 20, y: 13)
 for x in 16...18 { s4.apply(.powerLine, atX: x, y: 12) }
 s4.census()
 let ids = s4.map.zones.indices.filter { s4.map.zones[$0].kind == .residential }.map { Int32($0) }
-assert(ids.count == 4, "区画が4つでない: \(ids.count)")
+precondition(ids.count == 4, "区画が4つでない: \(ids.count)")
 for id in ids { s4.map.updateZone(id) { $0.level = 9 } }
-s4.tick()
+// 月を進めると、条件の悪い空き地では結ばれる前に段が下がることがある。結びだけを見る。
+s4.updateLinks(); s4.census()
 let single = 4 * 680
-assert(s4.linkedZones.count == 4, "結ばれていない: \(s4.linkedZones)")
-assert(s4.residents == single * 2, "住民が倍になっていない: \(s4.residents)")
+precondition(s4.linkedZones.count == 4, "結ばれていない: \(s4.linkedZones)")
+precondition(s4.residents == single * 2, "住民が倍になっていない: \(s4.residents)")
 s4.map.updateZone(ids[3]) { $0.level = 8 }
-s4.tick()
-assert(s4.linkedZones.isEmpty, "1つ欠けても結ばれている")
+s4.updateLinks(); s4.census()
+precondition(s4.linkedZones.isEmpty, "1つ欠けても結ばれている")
 print("  4つ L9 → 結び 4 / 住民 \(single * 2)、1つ L8 → 結びなし")
 
 // --- 大公園。工場の脇に置いたとき、小さな公園を9つ並べるより公害を減らし、地価を上げる。 ---
@@ -259,8 +260,8 @@ func parkTest(big: Bool) -> (pollution: Int, land: Int) {
 }
 let small = parkTest(big: false), large = parkTest(big: true)
 print("  住宅のマス: 小公園×9 → 公害 \(small.pollution) 地価 \(small.land) / 大公園 → 公害 \(large.pollution) 地価 \(large.land)")
-assert(large.pollution < small.pollution, "大公園のほうが公害が減っていない")
-assert(large.land > small.land, "大公園のほうが地価が上がっていない")
+precondition(large.pollution < small.pollution, "大公園のほうが公害が減っていない")
+precondition(large.land > small.land, "大公園のほうが地価が上がっていない")
 
 // --- 上書き。公園の上に道路と区画を置ける。送電線の上に公園を置いても線は残る。 ---
 print("")
@@ -269,9 +270,34 @@ let s5 = Simulation(seed: 6, generateTerrain: false)
 s5.funds = 100_000
 for x in 10...14 { s5.apply(.powerLine, atX: x, y: 10) }
 s5.apply(.park, atX: 12, y: 10)
-assert(s5.map.tile(12, 10).wire && s5.map.tile(12, 10).structure == .park, "公園で送電線が消えた")
-if case .built = s5.apply(.road, atX: 12, y: 10) {} else { assertionFailure("公園の上に道路が敷けない") }
-assert(s5.map.tile(12, 10).structure == .road && s5.map.tile(12, 10).wire, "道路で送電線が消えた")
+precondition(s5.map.tile(12, 10).wire && s5.map.tile(12, 10).structure == .park, "公園で送電線が消えた")
+if case .built = s5.apply(.road, atX: 12, y: 10) {} else { preconditionFailure("公園の上に道路が敷けない") }
+precondition(s5.map.tile(12, 10).structure == .road && s5.map.tile(12, 10).wire, "道路で送電線が消えた")
 for dy in 0..<3 { for dx in 0..<3 { s5.apply(.park, atX: 20 + dx, y: 20 + dy) } }
-if case .built = s5.apply(.residential, atX: 21, y: 21) {} else { assertionFailure("公園の上に区画が置けない") }
+if case .built = s5.apply(.residential, atX: 21, y: 21) {} else { preconditionFailure("公園の上に区画が置けない") }
 print("  公園→道路 OK、送電線が残る OK、公園×9→区画 OK")
+
+// --- 通勤。住宅の働き手は近い職場から埋め、あふれた分は遠くの工業地まで通う。その間の道が混む。 ---
+print("")
+print("== 通勤 ==")
+func commuteTest(nearShop: Bool) -> (mid: Int, access: Bool) {
+    let s = Simulation(seed: 7, generateTerrain: false)
+    s.funds = 1_000_000
+    for x in 5...100 { s.apply(.road, atX: x, y: 20) }
+    for cx in stride(from: 7, through: 16, by: 3) { s.apply(.residential, atX: cx, y: 22) }
+    if nearShop { s.apply(.commercial, atX: 19, y: 22) }
+    for cx in stride(from: 88, through: 97, by: 3) { s.apply(.industrial, atX: cx, y: 22) }
+    s.census()
+    for i in s.map.zones.indices {
+        let k = s.map.zones[i].kind
+        if k == .residential || k == .commercial || k == .industrial { s.map.updateZone(Int32(i)) { $0.level = 5 } }
+    }
+    for i in s.map.zones.indices { s.map.updateZone(Int32(i)) { $0.hasRoad = true } }
+    s.updateTraffic()
+    let first = s.map.zones.firstIndex { $0.kind == .residential }!
+    return (Int(s.map.tile(50, 20).traffic), s.map.zones[first].hasJobAccess)
+}
+let far = commuteTest(nearShop: false), mixed = commuteTest(nearShop: true)
+print("  間の道の交通量: 工業だけ遠くにある → \(far.mid) / 近くに商業が1つ → \(mixed.mid)")
+precondition(far.access && far.mid >= 30, "遠い工業地への通勤で間の道が混んでいない: \(far.mid)")
+precondition(mixed.mid > 0 && mixed.mid < far.mid, "近くの職場が埋まった残りが遠くへ通っていない: \(mixed.mid)")

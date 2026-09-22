@@ -2,9 +2,9 @@ import Foundation
 
 extension Simulation {
 
-    /// 道路をたどる探索の打ち切り。長くなりすぎると重いうえ、
-    /// 現実の通勤としても遠すぎるので、この歩数で諦めさせる。
-    static let commuteSearchLimit = 220
+    /// 道路をたどる探索の打ち切り（たどる道路のマス数）。職場が近くで埋まっても
+    /// 街の反対側まで通えるだけの広さにし、それより遠い通勤は諦めさせる。
+    static let commuteSearchLimit = 2_000
 
     /// 各ゾーンが道路に面しているかを調べる。
     func updateRoadAccess() {
@@ -29,10 +29,11 @@ extension Simulation {
         return false
     }
 
-    /// 住宅から職場（商業・工業）まで道路をたどらせ、通った道に交通量を積む。
+    /// 住宅の働き手を、道路をたどって近い職場から順に割り振り、通った道に交通量を積む。
     ///
-    /// 経路が見つからない住宅は職に就けず、成長が止まる。
-    /// 見つかった経路は混み、混んだ道の周りは公害と土地価値の面で不利になる。
+    /// 職場ごとに雇える数（区画の雇用）に限りがあり、近い職場が埋まれば、残りは遠くまで通う。
+    /// 住宅から遠い工業地しかなければ、その間の道に通勤の車が集まって混む。
+    /// 職場にひとつも届かない住宅は職に就けず、成長が止まる。
     func updateTraffic() {
         let w = CityMap.width, h = CityMap.height
         let cellCount = w * h
@@ -41,12 +42,21 @@ extension Simulation {
             map.mutateTileQuietly(i) { $0.traffic = 0 }
         }
 
+        // 職場ごとの空き。結ばれた街区は census と同じく1.5倍を抱える。
+        var jobsLeft = [Int](repeating: 0, count: map.zones.count)
+        for id in map.zones.indices {
+            let z = map.zones[id]
+            guard z.alive, z.kind == .commercial || z.kind == .industrial else { continue }
+            jobsLeft[id] = linkedZones[Int32(id)] != nil ? z.capacity * 3 / 2 : z.capacity
+        }
+
         var stamp = [Int32](repeating: 0, count: cellCount)
         var parent = [Int32](repeating: -1, count: cellCount)
         var queue = [Int]()
         queue.reserveCapacity(Simulation.commuteSearchLimit + 8)
         var generation: Int32 = 0
 
+        // ponytail: 区画の番号順に割り振るので、先に建った住宅ほど近い職場を取る。偏りが目立てば順番を毎月まわす。
         for id in map.zones.indices {
             let z = map.zones[id]
             guard z.alive, z.kind == .residential, z.level > 0 else { continue }
@@ -69,15 +79,30 @@ extension Simulation {
                 seedRoad(ox + 3, oy + dy, generation, &stamp, &parent, &queue)
             }
 
+            // 住民の半分が働きに出る。需要の計算と同じ割合。
+            var workers = (linkedZones[Int32(id)] != nil ? z.capacity * 2 : z.capacity) / 2
+            var reached = false
             var head = 0
-            var destination = -1
 
-            while head < queue.count && head < Simulation.commuteSearchLimit {
+            while head < queue.count && head < Simulation.commuteSearchLimit && workers > 0 {
                 let i = queue[head]; head += 1
 
-                if roadTouchesWorkplace(i) {
-                    destination = i
-                    break
+                for zid in workplaces(touching: i) {
+                    reached = true
+                    let take = min(workers, jobsLeft[zid])
+                    guard take > 0 else { continue }
+                    workers -= take
+                    jobsLeft[zid] -= take
+                    // 6人で1台ぶん。遠い職場ほど長い道のりに車が並ぶ。
+                    let load = max(1, take / 6)
+                    var cur = i
+                    while cur >= 0 {
+                        map.mutateTileQuietly(cur) {
+                            $0.traffic = UInt8(min(255, Int($0.traffic) + load))
+                        }
+                        cur = Int(parent[cur])
+                    }
+                    if workers == 0 { break }
                 }
 
                 let x = i % w, y = i / w
@@ -87,19 +112,7 @@ extension Simulation {
                 if y < h - 1 { pushRoad(i + w, from: i, generation, &stamp, &parent, &queue) }
             }
 
-            if destination >= 0 {
-                map.updateZone(Int32(id)) { $0.hasJobAccess = true }
-                let load = max(1, z.capacity / 16)
-                var cur = destination
-                while cur >= 0 {
-                    map.mutateTileQuietly(cur) {
-                        $0.traffic = UInt8(min(255, Int($0.traffic) + load))
-                    }
-                    cur = Int(parent[cur])
-                }
-            } else {
-                map.updateZone(Int32(id)) { $0.hasJobAccess = false }
-            }
+            map.updateZone(Int32(id)) { $0.hasJobAccess = reached }
         }
 
         // 街区ごとの混み具合は、道路の本数ではなく1本あたりの混雑で測る。
@@ -144,19 +157,20 @@ extension Simulation {
         queue.append(i)
     }
 
-    /// この道路タイルの隣に、育った商業か工業のゾーンがあるか。
-    private func roadTouchesWorkplace(_ i: Int) -> Bool {
+    /// この道路タイルの隣にある、育った商業か工業の区画の番号。
+    private func workplaces(touching i: Int) -> [Int] {
         let w = CityMap.width
         let x = i % w, y = i / w
+        var found: [Int] = []
         for (dx, dy) in [(0, -1), (1, 0), (0, 1), (-1, 0)] {
             let nx = x + dx, ny = y + dy
             guard map.inBounds(nx, ny) else { continue }
-            let zid = map.tiles[map.index(nx, ny)].zoneID
-            guard zid >= 0 else { continue }
-            let z = map.zones[Int(zid)]
-            guard z.alive, z.level > 0 else { continue }
-            if z.kind == .commercial || z.kind == .industrial { return true }
+            let zid = Int(map.tiles[map.index(nx, ny)].zoneID)
+            guard zid >= 0, !found.contains(zid) else { continue }
+            let z = map.zones[zid]
+            guard z.alive, z.level > 0, z.kind == .commercial || z.kind == .industrial else { continue }
+            found.append(zid)
         }
-        return false
+        return found
     }
 }

@@ -67,11 +67,8 @@ final class Ads: ObservableObject {
     }
 }
 
-/// メニューの下に敷くバナー。
-///
-/// 街の画面には出さない。遊んでいるあいだずっと見える帯に、こちらで色も形も
-/// 決められないものを置くと、画面の作りがそこだけ崩れる。買い切りを持っていれば、
-/// メニューでも出さない。
+/// メニューの下と、街の画面の道具の列の下に敷くバナー。
+/// 買い切りを持っていれば、どこにも出さない。
 struct AdBanner: View {
     @ObservedObject private var store = Store.shared
     @ObservedObject private var ads = Ads.shared

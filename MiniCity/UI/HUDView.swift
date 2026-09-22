@@ -410,7 +410,7 @@ struct InspectorPanel: View {
             }
             .foregroundStyle(.white)
             .padding(.horizontal, 8)
-            .padding(.vertical, 5)
+            .padding(.vertical, 3)
             .background(
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(selected ? Color.accentColor.opacity(0.75) : Color.white.opacity(0.06))

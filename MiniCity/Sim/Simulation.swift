@@ -82,6 +82,8 @@ final class Simulation {
     var population = CoarseMap()
     var policeCover = CoarseMap()
     var fireCover = CoarseMap()
+    /// 火事の起きやすさ。建物が密で高いほど、工場や発電所ほど上がり、消防署の近くで下がる。
+    var fireRisk = CoarseMap()
     var trafficMap = CoarseMap()
 
     /// 直近の会計年度の内訳。予算画面が読む。
@@ -316,7 +318,7 @@ final class Simulation {
         return z.kind.grows && z.level >= Simulation.linkLevel ? t.zoneID : nil
     }
 
-    private func updateLinks() {
+    func updateLinks() {
         var links: [Int32: Int32] = [:]
         // forEachZone は inout で回すので、中から別の区画を読めない。番号で回す。
         for i in map.zones.indices {
@@ -420,6 +422,9 @@ final class Simulation {
         }
         if list.count < 3, residents > 400, (zoneCounts[.police] ?? 0) == 0, crime.maximum > 90 {
             list.append(String(localized: "犯罪が増えています"))
+        }
+        if list.count < 3, residents > 400, fireRisk.maximum > 80 {
+            list.append(String(localized: "火災の危険が高まっています"))
         }
         warnings = Array(list.prefix(3))
     }

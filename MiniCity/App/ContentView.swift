@@ -93,6 +93,12 @@ struct ContentView: View {
                 }
 
                 ToolPalette(game: game)
+
+                // 「調べる」の一覧を開くと縦が足りず、上の帯が画面の外へ押し出される。その間だけ引っ込める。
+                if game.tool != .inspect {
+                    AdBanner()
+                        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                }
             }
             .padding(.horizontal, 10)
             .padding(.bottom, 6)

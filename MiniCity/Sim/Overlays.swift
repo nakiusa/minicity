@@ -2,9 +2,10 @@ import Foundation
 
 extension Simulation {
 
-    /// 公害・土地価値・犯罪と、警察と消防の効き具合をまとめて計算する。
+    /// 公害・土地価値・犯罪・火災リスクと、警察と消防の効き具合をまとめて計算する。
     func updateOverlays() {
         updateServiceCoverage()
+        updateFireRisk()
         updatePollution()
         updateLandValue()
         updateCrime()
@@ -37,6 +38,31 @@ extension Simulation {
         }
         policeCover.clamp(0, 255)
         fireCover.clamp(0, 255)
+    }
+
+    // MARK: - 火災リスク
+
+    /// 燃えやすさは建物の高さと業種で決まる。工場と発電所は火を扱うぶん高い。
+    /// 消防署の届く範囲では、その効き目のぶん下がる。
+    private func updateFireRisk() {
+        fireRisk.clear()
+        for z in map.zones where z.alive {
+            let risk: Int
+            switch z.kind {
+            case .residential, .commercial: risk = z.level > 0 ? 8 + Int(z.level) * 5 : 0
+            case .industrial: risk = z.level > 0 ? 30 + Int(z.level) * 8 : 0
+            case .coalPlant: risk = 110
+            default: risk = 0
+            }
+            fireRisk.addAtTile(Int(z.ox) + 1, Int(z.oy) + 1, risk)
+        }
+        fireRisk.blur()
+        for cy in 0..<CoarseMap.height {
+            for cx in 0..<CoarseMap.width {
+                fireRisk[cx, cy] -= fireCover[cx, cy]
+            }
+        }
+        fireRisk.clamp(0, 255)
     }
 
     // MARK: - 公害
@@ -155,7 +181,8 @@ extension Simulation {
                 v += min(45.0, Double(frontage[cx, cy]))
                 v -= Double(pollution[cx, cy]) / 3.0
                 v -= Double(crime[cx, cy]) / 4.0
-                v += Double(fireCover[cx, cy]) / 8.0
+                // 燃えやすい街区は敬遠される。消防署がこれを打ち消す。
+                v -= Double(fireRisk[cx, cy]) / 5.0
                 // 渋滞している街区は住みたくない。
                 v -= Double(trafficMap[cx, cy]) / 8.0
 

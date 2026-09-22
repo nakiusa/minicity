@@ -3729,54 +3729,54 @@
         }
       }
     },
-    "マスを叩くと、土地価値・公害・犯罪・交通量・人口・活気・電力が出ます。人口は住宅区だけの値です。行を押すと、その指標が街全体に色で載ります。": {
+    "マスを叩くと、土地価値・公害・犯罪・火災リスク・交通量・人口・活気・電力が出ます。人口は住宅区だけの値です。行を押すと、その指標が街全体に色で載ります。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tap a tile to see land value, pollution, crime, traffic, population, activity and power. Population counts residential zones only. Tap a row to paint that value across the city."
+            "value": "Tap a tile to see land value, pollution, crime, fire risk, traffic, population, activity and power. Population counts residential zones only. Tap a row to paint that value across the city."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "点一格显示地价、污染、犯罪、交通、人口、活力、电力。人口只统计住宅区。点一行，该指标会为整座城市着色。"
+            "value": "点一格显示地价、污染、犯罪、火灾风险、交通、人口、活力、电力。人口只统计住宅区。点一行，该指标会为整座城市着色。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "點一格顯示地價、污染、犯罪、交通、人口、活力、電力。人口只統計住宅區。點一行，該指標會為整座城市上色。"
+            "value": "點一格顯示地價、污染、犯罪、火災風險、交通、人口、活力、電力。人口只統計住宅區。點一行，該指標會為整座城市上色。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "칸을 누르면 지가, 공해, 범죄, 교통량, 인구, 활기, 전력이 나옵니다. 인구는 주거 구역만의 값입니다. 행을 누르면 그 지표가 도시 전체에 색으로 표시됩니다."
+            "value": "칸을 누르면 지가, 공해, 범죄, 화재 위험, 교통량, 인구, 활기, 전력이 나옵니다. 인구는 주거 구역만의 값입니다. 행을 누르면 그 지표가 도시 전체에 색으로 표시됩니다."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Toca una casilla para ver valor del suelo, contaminación, crimen, tráfico, población, actividad y electricidad. La población cuenta solo zonas residenciales. Toca una fila y ese valor se pinta en toda la ciudad."
+            "value": "Toca una casilla para ver valor del suelo, contaminación, crimen, riesgo de incendio, tráfico, población, actividad y electricidad. La población cuenta solo zonas residenciales. Toca una fila y ese valor se pinta en toda la ciudad."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Touchez une case pour voir valeur foncière, pollution, criminalité, trafic, population, activité et électricité. La population ne compte que les zones résidentielles. Touchez une ligne pour peindre cette valeur sur la ville."
+            "value": "Touchez une case pour voir valeur foncière, pollution, criminalité, risque d'incendie, trafic, population, activité et électricité. La population ne compte que les zones résidentielles. Touchez une ligne pour peindre cette valeur sur la ville."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tippe auf ein Feld für Bodenwert, Verschmutzung, Kriminalität, Verkehr, Einwohner, Betrieb und Strom. Einwohner zählt nur Wohnzonen. Tippe auf eine Zeile, um den Wert über die Stadt zu malen."
+            "value": "Tippe auf ein Feld für Bodenwert, Verschmutzung, Kriminalität, Brandgefahr, Verkehr, Einwohner, Betrieb und Strom. Einwohner zählt nur Wohnzonen. Tippe auf eine Zeile, um den Wert über die Stadt zu malen."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Toque em um quadrado para ver valor do terreno, poluição, crime, trânsito, população, atividade e energia. População conta só zonas residenciais. Toque em uma linha para pintar esse valor na cidade."
+            "value": "Toque em um quadrado para ver valor do terreno, poluição, crime, risco de incêndio, trânsito, população, atividade e energia. População conta só zonas residenciais. Toque em uma linha para pintar esse valor na cidade."
           }
         }
       }
@@ -6382,54 +6382,54 @@
         }
       }
     },
-    "区画は道路に面していないと育たない。住民は道路で職場に通う。": {
+    "区画は道路に面していないと育たない。住民は道路で近い職場から順に通い、そこが埋まれば遠くまで通う。": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zonen wachsen nicht ohne Straße daneben. Einwohner pendeln über Straßen."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Zones won't grow without a road next to them. Residents commute along roads."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Las zonas no crecen sin una calle al lado. Los habitantes van al trabajo por las calles."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les zones ne poussent pas sans route à côté. Les habitants vont travailler par les routes."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "구역은 도로에 닿지 않으면 자라지 않습니다. 주민은 도로로 출근합니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zonas não crescem sem uma rua ao lado. Moradores vão ao trabalho pelas ruas."
+            "value": "Zones won't grow without a road next to them. Residents take the nearest jobs by road first, and travel farther once those fill up."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "区域不靠路就不会生长。居民沿道路通勤。"
+            "value": "区域不靠路就不会生长。居民沿道路先去最近的工作地点，满了就去更远的地方。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "區域不靠路就不會生長。居民沿道路通勤。"
+            "value": "區域不靠路就不會生長。居民沿道路先去最近的工作地點，滿了就去更遠的地方。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "구역은 도로에 닿지 않으면 자라지 않습니다. 주민은 도로로 가까운 직장부터 다니고, 그곳이 차면 더 멀리 다닙니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las zonas no crecen sin una calle al lado. Los habitantes van por la calle al empleo más cercano y, si se llena, más lejos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les zones ne poussent pas sans route à côté. Les habitants vont d'abord aux emplois les plus proches, puis plus loin quand ils sont pleins."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zonen wachsen nicht ohne Straße daneben. Einwohner pendeln zuerst zu den nächsten Arbeitsplätzen und weiter weg, wenn diese voll sind."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zonas não crescem sem uma rua ao lado. Moradores vão primeiro aos empregos mais próximos e, quando lotam, mais longe."
           }
         }
       }
@@ -7111,54 +7111,54 @@
         }
       }
     },
-    "周りの土地の値打ちを少し上げる。維持費がかかる。": {
+    "周りの火災リスクを下げる。維持費がかかる。": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hebt den Bodenwert in der Nähe leicht. Kostet Unterhalt."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Slightly raises nearby land value. Costs upkeep."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sube un poco el valor del suelo cercano. Tiene mantenimiento."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fait légèrement monter la valeur foncière voisine. Coûte de l'entretien."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "주변 지가를 조금 올립니다. 유지비가 듭니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aumenta um pouco o valor do terreno próximo. Tem custo de manutenção."
+            "value": "Lowers nearby fire risk. Costs upkeep."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "略微抬高周围地价。需要维护费。"
+            "value": "降低周围的火灾风险。需要维护费。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "略微抬高周圍地價。需要維護費。"
+            "value": "降低周圍的火災風險。需要維護費。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "주변 화재 위험을 낮춥니다. 유지비가 듭니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reduce el riesgo de incendio cercano. Tiene mantenimiento."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réduit le risque d'incendie alentour. Coûte de l'entretien."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senkt die Brandgefahr in der Nähe. Kostet Unterhalt."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reduz o risco de incêndio próximo. Tem custo de manutenção."
           }
         }
       }
@@ -11014,54 +11014,54 @@
         }
       }
     },
-    "水辺と森と公園で上がり、街の中心とにぎわいで上がり、公害と犯罪と渋滞で下がります。住宅はこれに強く反応します。": {
+    "水辺と森と公園で上がり、街の中心とにぎわいで上がり、公害と犯罪と渋滞と火災リスクで下がります。住宅はこれに強く反応します。": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Steigt durch Wasser, Wald und Parks, durch Zentrum und Betrieb. Sinkt durch Verschmutzung, Kriminalität und Verkehr. Häuser reagieren stark darauf."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rises with water, forest and parks, with the city center and activity. Falls with pollution, crime and traffic. Homes react strongly to it."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sube con agua, bosque y parques, con el centro y la actividad. Baja con contaminación, crimen y tráfico. Las casas reaccionan mucho a esto."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monte avec l'eau, la forêt et les parcs, avec le centre-ville et l'activité. Baisse avec pollution, criminalité et trafic. Les maisons y sont très sensibles."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "물가, 숲, 공원으로 오르고, 도심과 활기로 오르며, 공해, 범죄, 체증으로 떨어집니다. 주택은 이에 강하게 반응합니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sobe com água, floresta e parques, com o centro e a atividade. Cai com poluição, crime e trânsito. Casas reagem muito a isso."
+            "value": "Rises with water, forest and parks, with the city center and activity. Falls with pollution, crime, traffic and fire risk. Homes react strongly to it."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "靠水、森林和公园会升，靠市中心和活力会升；污染、犯罪、拥堵会降。住宅对它反应强烈。"
+            "value": "靠水、森林和公园会升，靠市中心和活力会升；污染、犯罪、拥堵、火灾风险会降。住宅对它反应强烈。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "靠水、森林和公園會升，靠市中心和活力會升；污染、犯罪、壅塞會降。住宅對它反應強烈。"
+            "value": "靠水、森林和公園會升，靠市中心和活力會升；污染、犯罪、壅塞、火災風險會降。住宅對它反應強烈。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "물가, 숲, 공원으로 오르고, 도심과 활기로 오르며, 공해, 범죄, 체증, 화재 위험으로 떨어집니다. 주택은 이에 강하게 반응합니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sube con agua, bosque y parques, con el centro y la actividad. Baja con contaminación, crimen, tráfico y riesgo de incendio. Las casas reaccionan mucho a esto."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monte avec l'eau, la forêt et les parcs, avec le centre-ville et l'activité. Baisse avec pollution, criminalité, trafic et risque d'incendie. Les maisons y sont très sensibles."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steigt durch Wasser, Wald und Parks, durch Zentrum und Betrieb. Sinkt durch Verschmutzung, Kriminalität, Verkehr und Brandgefahr. Häuser reagieren stark darauf."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sobe com água, floresta e parques, com o centro e a atividade. Cai com poluição, crime, trânsito e risco de incêndio. Casas reagem muito a isso."
           }
         }
       }
@@ -11482,58 +11482,6 @@
         }
       }
     },
-    "混んだ道の周りは値打ちが下がる。道を増やして分散させる": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Land an vollen Straßen verliert Wert. Mehr Straßen verteilen den Verkehr"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Land by busy roads loses value. Add roads to spread traffic"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El suelo junto a calles congestionadas pierde valor. Añade calles para repartirlo"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le terrain près des routes chargées perd de la valeur. Ajoutez des routes pour répartir"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "붐비는 길 주변은 지가가 떨어집니다. 길을 늘려 분산시킵니다"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Terreno perto de ruas cheias perde valor. Adicione ruas para espalhar"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拥堵道路周围地价下降。多修路来分流"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "壅塞道路周圍地價下降。多修路來分流"
-          }
-        }
-      }
-    },
     "渋滞": {
       "localizations": {
         "de": {
@@ -11790,6 +11738,110 @@
           "stringUnit": {
             "state": "translated",
             "value": "火力發電廠"
+          }
+        }
+      }
+    },
+    "火災の危険が高まっています": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fire risk is rising"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "火灾风险正在上升"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "火災風險正在上升"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "화재 위험이 높아지고 있습니다"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El riesgo de incendio va en aumento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le risque d'incendie augmente"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Brandgefahr steigt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O risco de incêndio está aumentando"
+          }
+        }
+      }
+    },
+    "火災リスク": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fire risk"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "火灾风险"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "火災風險"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "화재 위험"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riesgo de incendio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risque d'incendie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brandgefahr"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risco de incêndio"
           }
         }
       }
@@ -13455,6 +13507,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "職住平衡"
+          }
+        }
+      }
+    },
+    "職場が遠いと、通勤の車で間の道が混む。住宅の近くにも職場を": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Far-off jobs jam the roads in between with commuters. Put jobs near homes too"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作地点远，通勤车会堵住中间的路。住宅附近也要有工作地点"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作地點遠，通勤車會塞住中間的路。住宅附近也要有工作地點"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "직장이 멀면 출근 차량으로 사이 길이 막힙니다. 주택 가까이에도 직장을"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si el trabajo queda lejos, los coches atascan las calles intermedias. Pon empleo cerca de las casas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Des emplois lointains saturent les routes entre les deux. Placez aussi des emplois près des maisons"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ferne Arbeitsplätze verstopfen die Straßen dazwischen. Plane Arbeit auch nahe den Häusern"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empregos longe congestionam as ruas no caminho. Ponha empregos perto das casas também"
           }
         }
       }
