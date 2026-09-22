@@ -80,6 +80,13 @@ final class CityScene: SKScene {
     private var towerSprites: [Int32: SKSpriteNode] = [:]
     private var overlaySprite: SKSpriteNode!
     private var highlight: SKShapeNode!
+    /// 指の下を拡大して指の上に出す虫眼鏡。指で隠れて狙いが見えない、という声への手当て。
+    /// カメラの子にして、寄り引きに関係なく画面上の大きさを保つ。
+    private var loupe: SKCropNode!
+    private var loupeImage: SKSpriteNode!
+    private static let loupeDiameter: CGFloat = 150
+    /// 虫眼鏡に映す範囲（タイル数）。いまの倍率で2倍に見える幅にし、寄りきっていても3マスは映す。
+    private var loupeTiles: CGFloat { max(3, CityScene.loupeDiameter * cam.xScale / (2 * CityScene.tileSide)) }
     /// 地図の層をまとめて載せる親。カメラに関係なく街全体を1枚に撮るための足場。
     private let world = SKNode()
 
@@ -155,6 +162,7 @@ final class CityScene: SKScene {
             cam.setScale(CityScene.defaultScale)
             updateHighlightSize()
             cam.position = .zero
+            buildLoupe()
         }
         fullRefresh()
     }
@@ -211,6 +219,52 @@ final class CityScene: SKScene {
         previewNode = SKNode()
         previewNode.zPosition = 19
         world.addChild(previewNode)
+    }
+
+    private func buildLoupe() {
+        let d = CityScene.loupeDiameter
+        loupe = SKCropNode()
+        let mask = SKShapeNode(circleOfRadius: d / 2)
+        mask.fillColor = .white
+        loupe.maskNode = mask
+        loupeImage = SKSpriteNode(color: .black, size: CGSize(width: d, height: d))
+        loupe.addChild(loupeImage)
+        let ring = SKShapeNode(circleOfRadius: d / 2)
+        ring.strokeColor = SKColor(white: 1, alpha: 0.9)
+        ring.lineWidth = 3
+        ring.fillColor = .clear
+        ring.zPosition = 1
+        // 縁と十字は切り抜きの外に置く。切り抜くと縁が半分消える。
+        let holder = SKNode()
+        holder.zPosition = 100
+        holder.addChild(loupe)
+        holder.addChild(ring)
+        holder.isHidden = true
+        holder.name = "loupe"
+        cam.addChild(holder)
+    }
+
+    /// 指の下の 7×7 マスを撮って、指の少し上に丸く出す。
+    private func showLoupe(at touch: UITouch, tile: (Int, Int)) {
+        guard let view, let holder = cam.childNode(withName: "loupe") else { return }
+        let side = CityScene.tileSide * loupeTiles
+        let center = point(forTile: tile.0, tile.1)
+        let rect = CGRect(x: center.x - side / 2, y: center.y - side / 2, width: side, height: side)
+        loupeImage.texture = view.texture(from: world, crop: rect)
+        loupeImage.texture?.filteringMode = .nearest
+        // 指の真上、少し離した位置。画面の上端に近いときは指の下に出す。
+        let inView = touch.location(in: view)
+        let lift: CGFloat = inView.y < CityScene.loupeDiameter + 60 ? -130 : 130
+        let inScene = touch.location(in: self)
+        let inCam = convert(inScene, to: cam)
+        holder.position = CGPoint(x: inCam.x, y: inCam.y + lift)
+        holder.isHidden = false
+    }
+
+    private func hideLoupe() {
+        // 起動引数 -keepLoupe YES で、離しても消さない。見た目の確認と店頭の絵のため。
+        if UserDefaults.standard.bool(forKey: "keepLoupe") { return }
+        cam.childNode(withName: "loupe")?.isHidden = true
     }
 
     /// 街全体を1枚の絵にする。成績表の共有に使う。
@@ -635,6 +689,7 @@ final class CityScene: SKScene {
             previewTiles.removeAll()
             previewNode.removeAllChildren()
             highlight.isHidden = true
+            hideLoupe()
             return
         }
         guard let touch = touches.first else { return }
@@ -743,6 +798,7 @@ final class CityScene: SKScene {
         onPreviewChanged?(previewTiles.count)
         drawingTouch = nil
         highlight.isHidden = true
+        hideLoupe()
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -753,6 +809,7 @@ final class CityScene: SKScene {
         isZoomDragging = false
         lastTapTime = 0
         highlight.isHidden = true
+        hideLoupe()
     }
 
     /// 触っている場所から狙うマスを決める。触れた場所をそのまま狙う。
@@ -765,6 +822,7 @@ final class CityScene: SKScene {
     private func aim(at touch: UITouch) -> (Int, Int)? {
         guard let tile = tileCoordinate(at: touch.location(in: self)) else { return nil }
         showHighlight(at: tile)
+        showLoupe(at: touch, tile: tile)
         return tile
     }
 
