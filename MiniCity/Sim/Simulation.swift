@@ -24,6 +24,7 @@ final class Simulation {
         monthsElapsed = save.monthsElapsed
         termYears = save.termYears
         debt = save.debt ?? 0
+        updateLinks()
         census()
         updatePower()
         updateRoadAccess()
@@ -121,6 +122,7 @@ final class Simulation {
         census()
         updateDemand()
         growZones()
+        updateLinks()
         census()
 
         if monthsElapsed % 12 == 0 {
@@ -140,9 +142,11 @@ final class Simulation {
         density.clear()
         population.clear()
 
-        map.forEachZone { _, z in
+        map.forEachZone { id, z in
             counts[z.kind, default: 0] += 1
-            let cap = z.capacity
+            var cap = z.capacity
+            // 結ばれた街区は、ひとつの大きな建物として抱える数が跳ね上がる。
+            if linkedZones[id] != nil { cap = z.kind == .residential ? cap * 2 : cap * 3 / 2 }
             switch z.kind {
             case .residential: res += cap
             case .commercial: com += cap
@@ -209,9 +213,9 @@ final class Simulation {
         i -= taxPenalty
 
         // 急に振れると挙動が読めないので、前の値へ寄せながら動かす。
-        demandR += (min(max(r, -1), 1) - demandR) * 0.35
-        demandC += (min(max(c, -1), 1) - demandC) * 0.35
-        demandI += (min(max(i, -1), 1) - demandI) * 0.35
+        demandR += (min(max(r, -1), 1) - demandR) * 0.2
+        demandC += (min(max(c, -1), 1) - demandC) * 0.2
+        demandI += (min(max(i, -1), 1) - demandI) * 0.2
     }
 
     /// L7 以降のしきい値の積み上げ分。段が上がるほど1段の重みを増やす。
@@ -224,7 +228,7 @@ final class Simulation {
 
     private func growZones() {
         recentUpgrades.removeAll(keepingCapacity: true)
-        map.forEachZone { _, z in
+        map.forEachZone { id, z in
             guard z.kind.grows else { return }
 
             let cx = Int(z.ox) + 1, cy = Int(z.oy) + 1
@@ -274,11 +278,11 @@ final class Simulation {
 
             // 段が上がるほど、次の段まで待つ月が長くなる。条件が揃いっぱなしでも
             // L10 までおよそ30年かかる刻み。序盤の1段目だけは数か月で建つ。
-            let growChance = 0.22 / pow(Double(level + 1), 1.8)
+            let growChance = 0.14 / pow(Double(level + 1), 1.55)
             var newLevel = level
             if level < Zone.maxLevel, score > growThreshold, Double.random(in: 0..<1, using: &rng) < growChance {
                 newLevel = level + 1
-            } else if score < shrinkThreshold, Double.random(in: 0..<1, using: &rng) < 0.15 {
+            } else if score < shrinkThreshold, linkedZones[id] == nil, Double.random(in: 0..<1, using: &rng) < 0.15 {
                 newLevel = level - 1
             }
 
@@ -294,6 +298,40 @@ final class Simulation {
                 }
             }
         }
+    }
+
+    // MARK: - 街区の結び
+
+    /// 2×2 に並んだ同業種の区画が全部 L9 以上になると、ひとつの大きな建物として結ばれる。
+    /// 結ばれた区画は抱える数が跳ね上がり、段が下がらなくなる。値は左上（親）の区画の番号。
+    /// 段から毎月計算し直すだけなので、セーブには入れない。
+    private(set) var linkedZones: [Int32: Int32] = [:]
+    static let linkLevel: UInt8 = 9
+
+    /// (x, y) を左上とする区画の番号。そこが区画の左上でなければ nil。
+    private func zoneAnchored(atX x: Int, y: Int) -> Int32? {
+        guard x >= 0, y >= 0, x < CityMap.width, y < CityMap.height else { return nil }
+        let t = map.tile(x, y)
+        guard t.zoneID >= 0, t.sub == 0, let z = map.zone(t.zoneID) else { return nil }
+        return z.kind.grows && z.level >= Simulation.linkLevel ? t.zoneID : nil
+    }
+
+    private func updateLinks() {
+        var links: [Int32: Int32] = [:]
+        // forEachZone は inout で回すので、中から別の区画を読めない。番号で回す。
+        for i in map.zones.indices {
+            let z = map.zones[i]
+            guard z.alive, z.kind.grows, z.level >= Simulation.linkLevel else { continue }
+            let id = Int32(i), ox = Int(z.ox), oy = Int(z.oy)
+            guard let r = zoneAnchored(atX: ox + 3, y: oy),
+                  let d = zoneAnchored(atX: ox, y: oy + 3),
+                  let rd = zoneAnchored(atX: ox + 3, y: oy + 3),
+                  map.zone(r)?.kind == z.kind, map.zone(d)?.kind == z.kind, map.zone(rd)?.kind == z.kind
+            else { continue }
+            // すでに別の親に結ばれている区画は取らない。重なった 2×2 を二重に数えないため。
+            for m in [id, r, d, rd] where links[m] == nil { links[m] = id }
+        }
+        linkedZones = links
     }
 
     // MARK: - 会計

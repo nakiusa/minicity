@@ -286,6 +286,11 @@ final class CityScene: SKScene {
             let z = sim.map.zones[i]
             guard z.alive, TileCatalog.isTowerZone(z.kind, level: Int(z.level)) else { continue }
             let id = Int32(i)
+            // 結ばれた街区は、親の区画にだけ倍の大きさのタワーを立て、ほかの3つは描かない。
+            // 4棟が1棟に見えれば「結ばれた」と伝わる。
+            let anchor = sim.linkedZones[id]
+            if let anchor, anchor != id { continue }
+            let linked = anchor == id
             let key = "tower.\(z.kind.rawValue).\(z.level).\(z.variant)"
             guard let texture = catalog.towerTexture(key) else { continue }
             live.insert(id)
@@ -300,12 +305,19 @@ final class CityScene: SKScene {
                 towerSprites[id] = node
             }
             node.texture = texture
-            node.size = CGSize(width: CGFloat(TileArt.zoneSize),
-                               height: CGFloat(TileArt.towerCanvasHeight))
-            // 足元＝ゾーン手前の中央タイルの下端。
+            let scale: CGFloat = linked ? 2 : 1
+            node.size = CGSize(width: CGFloat(TileArt.zoneSize) * scale,
+                               height: CGFloat(TileArt.towerCanvasHeight) * scale)
+            // 足元＝ゾーン手前の中央タイルの下端。結ばれた街区は 6×6 の手前中央。
             let foot = point(forTile: Int(z.ox) + 1, Int(z.oy) + 2)
-            node.position = CGPoint(x: foot.x, y: foot.y - CityScene.tileSide / 2)
-            node.zPosition = CGFloat(z.oy)
+            if linked {
+                node.position = CGPoint(x: foot.x + CityScene.tileSide * 1.5,
+                                        y: foot.y - CityScene.tileSide * 3.5)
+                node.zPosition = CGFloat(z.oy) + 3
+            } else {
+                node.position = CGPoint(x: foot.x, y: foot.y - CityScene.tileSide / 2)
+                node.zPosition = CGFloat(z.oy)
+            }
         }
 
         for (id, node) in towerSprites where !live.contains(id) {

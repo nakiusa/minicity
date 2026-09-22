@@ -213,3 +213,26 @@ s3.funds = 1_000_000
 s3.repay()
 assert(s3.debt == 0 && s3.funds == 700_000, "返しきれない")
 print("  借入 5万 → 1年後の残高 \(45_000)、上限 30万、一括返済 OK")
+
+// --- 街区の結び。2×2 の同業種が L9 以上で結ばれ、住民が倍になる。1つ欠けると結ばれない。 ---
+print("")
+print("== 街区の結び ==")
+let s4 = Simulation(seed: 4, generateTerrain: false)
+s4.funds = 1_000_000
+for x in 8...20 { s4.apply(.road, atX: x, y: 10) }
+for (ox, oy) in [(10, 11), (13, 11), (10, 14), (13, 14)] { s4.apply(.residential, atX: ox + 1, y: oy + 1) }
+for x in 10...15 { s4.apply(.road, atX: x, y: 17) }
+s4.apply(.coalPlant, atX: 20, y: 13)
+for x in 16...18 { s4.apply(.powerLine, atX: x, y: 12) }
+s4.census()
+let ids = s4.map.zones.indices.filter { s4.map.zones[$0].kind == .residential }.map { Int32($0) }
+assert(ids.count == 4, "区画が4つでない: \(ids.count)")
+for id in ids { s4.map.updateZone(id) { $0.level = 9 } }
+s4.tick()
+let single = 4 * 680
+assert(s4.linkedZones.count == 4, "結ばれていない: \(s4.linkedZones)")
+assert(s4.residents == single * 2, "住民が倍になっていない: \(s4.residents)")
+s4.map.updateZone(ids[3]) { $0.level = 8 }
+s4.tick()
+assert(s4.linkedZones.isEmpty, "1つ欠けても結ばれている")
+print("  4つ L9 → 結び 4 / 住民 \(single * 2)、1つ L8 → 結びなし")

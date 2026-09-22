@@ -243,6 +243,8 @@ struct HelpView: View {
                 Section("街が育つ仕組み") {
                     HelpRow(symbol: "arrow.up.right", title: "区画は10段階まで育つ",
                             text: "電気と道路があり、需要があり、土地の値打ちが高いほど上の段へ進みます。段が上がるほど次まで時間がかかります。")
+                    HelpRow(symbol: "building.2.crop.circle", title: "街区を結ぶ",
+                            text: "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、ひとつの大きな建物に結ばれます。住宅なら住民が倍になり、段が下がらなくなります。")
                     HelpRow(symbol: "yensign.circle.fill", title: "土地の値打ち",
                             text: "水辺と森と公園で上がり、街の中心とにぎわいで上がり、公害と犯罪と渋滞で下がります。住宅はこれに強く反応します。")
                     HelpRow(symbol: "chart.bar.fill", title: "需要（R・C・I）",

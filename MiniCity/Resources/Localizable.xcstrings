@@ -6643,6 +6643,58 @@
         }
       }
     },
+    "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、ひとつの大きな建物に結ばれます。住宅なら住民が倍になり、段が下がらなくなります。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place four zones of the same kind in a 2×2 square and get all four to L9 or higher, and they join into one big building. Residential blocks double their residents and never shrink."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把4个同类区域摆成2×2，全部升到 L9 以上，就会合并成一座大楼。住宅的居民翻倍，且不再降级。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把4個同類區域擺成2×2，全部升到 L9 以上，就會合併成一座大樓。住宅的居民翻倍，且不再降級。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "같은 종류의 구역 4개를 2×2로 놓고 모두 L9 이상으로 키우면 하나의 큰 건물로 결합됩니다. 주거라면 주민이 두 배가 되고 단계가 내려가지 않습니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca cuatro zonas del mismo tipo en un cuadrado de 2×2 y súbelas todas a L9 o más: se unen en un gran edificio. Las residenciales duplican habitantes y ya no bajan de nivel."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placez quatre zones du même type en carré 2×2 et montez-les toutes au niveau 9 ou plus : elles fusionnent en un grand bâtiment. Les résidentielles doublent leurs habitants et ne baissent plus."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setze vier Zonen derselben Art in ein 2×2-Quadrat und bring alle auf L9 oder höher, dann verbinden sie sich zu einem großen Gebäude. Wohnblöcke verdoppeln ihre Einwohner und schrumpfen nicht mehr."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque quatro zonas do mesmo tipo em um quadrado 2×2 e leve todas a L9 ou mais: elas se unem em um grande prédio. Residenciais dobram os moradores e não baixam mais de nível."
+          }
+        }
+      }
+    },
     "名前": {
       "localizations": {
         "de": {
@@ -13351,6 +13403,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "城市名稱"
+          }
+        }
+      }
+    },
+    "街区を結ぶ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Joining blocks"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "合并街区"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "合併街區"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "블록 결합"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unir manzanas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fusionner des îlots"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blöcke verbinden"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unir quarteirões"
           }
         }
       }
