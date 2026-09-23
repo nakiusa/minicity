@@ -301,3 +301,12 @@ let far = commuteTest(nearShop: false), mixed = commuteTest(nearShop: true)
 print("  間の道の交通量: 工業だけ遠くにある → \(far.mid) / 近くに商業が1つ → \(mixed.mid)")
 precondition(far.access && far.mid >= 30, "遠い工業地への通勤で間の道が混んでいない: \(far.mid)")
 precondition(mixed.mid > 0 && mixed.mid < far.mid, "近くの職場が埋まった残りが遠くへ通っていない: \(mixed.mid)")
+
+// --- 実績。ID は Game Center と対応するので重ならず、配点の合計は 1,000 以内。 ---
+print("")
+print("== 実績 ==")
+let achievementIDs = Achievements.all.map(\.id)
+precondition(Set(achievementIDs).count == achievementIDs.count, "実績の ID が重なっている")
+let achievementPoints = Achievements.all.reduce(0) { $0 + $1.points }
+precondition(achievementPoints <= 1_000 && achievementIDs.count <= 100, "Game Center の上限を越えている")
+print("  \(achievementIDs.count) 件 / \(achievementPoints) 点")

@@ -71,7 +71,8 @@ struct Achievement: Identifiable {
     /// 何をすれば取れるか。まだ取っていないときも見せる。
     let detail: String
     let symbol: String
-    /// Game Center の配点。全実績の合計が 1,000 を超えられない。
+    /// Game Center の配点。全実績の合計が 1,000 を超えられず、公開後は変えられない。
+    /// 0点の実績は、1,000点を使い切ったあとに足した難しいもの。
     let points: Int
     let isMet: (CityStats) -> Bool
 
@@ -117,6 +118,21 @@ enum Achievements {
             $0.sim.jobsIndustrial >= 3_000
         },
 
+        Achievement(id: "pop.50000", group: .population, title: String(localized: "メガロポリス"),
+                    detail: String(localized: "人口 50,000 人"), symbol: "building.2.crop.circle.fill", points: 0) { $0.sim.residents >= 50_000 },
+
+        Achievement(id: "pop.100000", group: .population, title: String(localized: "十万都市"),
+                    detail: String(localized: "人口 100,000 人"), symbol: "globe.asia.australia.fill", points: 0) { $0.sim.residents >= 100_000 },
+
+        Achievement(id: "pop.150000", group: .population, title: String(localized: "超巨大都市"),
+                    detail: String(localized: "人口 150,000 人"), symbol: "star.fill", points: 0) { $0.sim.residents >= 150_000 },
+
+        Achievement(id: "rush.50000", group: .population, title: String(localized: "急成長"),
+                    detail: String(localized: "1950 年になる前に人口 50,000 人"), symbol: "hare.fill", points: 0) { $0.sim.year < 1950 && $0.sim.residents >= 50_000 },
+
+        Achievement(id: "jobs.50000", group: .population, title: String(localized: "働く街"),
+                    detail: String(localized: "雇用 50,000"), symbol: "briefcase.fill", points: 0) { $0.sim.jobs >= 50_000 },
+
         // MARK: 発展
 
         Achievement(id: "tower.first", group: .growth, title: String(localized: "高層のはじまり"),
@@ -154,6 +170,24 @@ enum Achievements {
                     detail: String(localized: "地価を上限まで押し上げる"), symbol: "arrow.up.right", points: 30) {
             $0.sim.landValue.maximum >= 255
         },
+
+        Achievement(id: "l10.10", group: .growth, title: String(localized: "摩天楼街"),
+                    detail: String(localized: "L10 の区画を 10 個"), symbol: "building.fill", points: 0) { $0.levelCounts[Zone.maxLevel] >= 10 },
+
+        Achievement(id: "l10.50", group: .growth, title: String(localized: "天空都市"),
+                    detail: String(localized: "L10 の区画を 50 個"), symbol: "cloud.fill", points: 0) { $0.levelCounts[Zone.maxLevel] >= 50 },
+
+        Achievement(id: "link.first", group: .growth, title: String(localized: "連結"),
+                    detail: String(localized: "街区を連結する"), symbol: "link", points: 0) { !$0.sim.linkedZones.isEmpty },
+
+        Achievement(id: "link.4", group: .growth, title: String(localized: "巨大建築群"),
+                    detail: String(localized: "連結した街区を 4 組"), symbol: "square.grid.2x2.fill", points: 0) { $0.sim.linkedZones.count >= 16 },
+
+        Achievement(id: "triple.crown", group: .growth, title: String(localized: "三冠"),
+                    detail: String(localized: "住宅・商業・工業のすべてを L10 まで育てる"), symbol: "rosette", points: 0) { s in [ZoneKind.residential, .commercial, .industrial].allSatisfy { kind in s.sim.map.zones.contains { $0.alive && $0.kind == kind && $0.level >= Zone.maxLevel } } },
+
+        Achievement(id: "zones.500", group: .growth, title: String(localized: "埋め尽くす"),
+                    detail: String(localized: "区画を 500 置く"), symbol: "square.grid.4x3.fill", points: 0) { $0.sim.map.zones.filter { $0.alive }.count >= 500 },
 
         // MARK: 街づくり
 
@@ -210,6 +244,27 @@ enum Achievements {
             $0.sim.residents >= 10_000 && $0.sim.pollution.maximum < 100 && $0.sim.crime.maximum < 50
         },
 
+        Achievement(id: "bigpark.20", group: .planning, title: String(localized: "公園都市"),
+                    detail: String(localized: "大公園を 20 置く"), symbol: "tree.circle.fill", points: 0) { $0.count(of: .bigPark) >= 20 },
+
+        Achievement(id: "clean.30000", group: .planning, title: String(localized: "青空の大都市"),
+                    detail: String(localized: "最大公害 100 未満のまま人口 30,000 人"), symbol: "cloud.sun.fill", points: 0) { $0.sim.residents >= 30_000 && $0.sim.pollution.maximum < 100 },
+
+        Achievement(id: "safe.30000", group: .planning, title: String(localized: "安心の大都市"),
+                    detail: String(localized: "最大犯罪 50 未満のまま人口 30,000 人"), symbol: "lock.shield.fill", points: 0) { $0.sim.residents >= 30_000 && $0.sim.crime.maximum < 50 },
+
+        Achievement(id: "fire.safe", group: .planning, title: String(localized: "火の用心"),
+                    detail: String(localized: "最大火災リスク 40 未満のまま人口 20,000 人"), symbol: "flame.circle.fill", points: 0) { $0.sim.residents >= 20_000 && $0.sim.fireRisk.maximum < 40 },
+
+        Achievement(id: "flow.50000", group: .planning, title: String(localized: "流れる街"),
+                    detail: String(localized: "交通量の平均を 60 未満に抑えたまま人口 50,000 人"), symbol: "arrow.triangle.branch", points: 0) { $0.sim.residents >= 50_000 && $0.sim.congestion < 60 },
+
+        Achievement(id: "bright.100000", group: .planning, title: String(localized: "不夜城"),
+                    detail: String(localized: "停電ゼロのまま人口 100,000 人"), symbol: "lightbulb.fill", points: 0) { $0.sim.residents >= 100_000 && $0.sim.unpoweredZones == 0 },
+
+        Achievement(id: "paradise", group: .planning, title: String(localized: "楽園"),
+                    detail: String(localized: "公害 100 未満・犯罪 50 未満・火災リスク 50 未満のまま人口 50,000 人"), symbol: "sun.max.fill", points: 0) { $0.sim.residents >= 50_000 && $0.sim.pollution.maximum < 100 && $0.sim.crime.maximum < 50 && $0.sim.fireRisk.maximum < 50 },
+
         // MARK: 経営
 
         Achievement(id: "funds.100k", group: .economy, title: String(localized: "蓄え"),
@@ -242,6 +297,24 @@ enum Achievements {
             $0.count(of: .coalPlant) >= 5
         },
 
+        Achievement(id: "surplus.20000", group: .economy, title: String(localized: "大黒字"),
+                    detail: String(localized: "年収支 ¥20,000 以上の黒字"), symbol: "chart.bar.xaxis", points: 0) { $0.sim.projectedIncome - $0.sim.projectedExpenses >= 20_000 },
+
+        Achievement(id: "funds.1m", group: .economy, title: String(localized: "百万長者"),
+                    detail: String(localized: "資金 ¥1,000,000"), symbol: "yensign.square.fill", points: 0) { $0.sim.funds >= 1_000_000 },
+
+        Achievement(id: "funds.5m", group: .economy, title: String(localized: "大富豪"),
+                    detail: String(localized: "資金 ¥5,000,000"), symbol: "crown", points: 0) { $0.sim.funds >= 5_000_000 },
+
+        Achievement(id: "no.debt", group: .economy, title: String(localized: "無借金"),
+                    detail: String(localized: "借入なしで人口 50,000 人"), symbol: "checkmark.seal.fill", points: 0) { $0.sim.residents >= 50_000 && $0.sim.debt == 0 },
+
+        Achievement(id: "low.tax.big", group: .economy, title: String(localized: "ほぼ無税"),
+                    detail: String(localized: "税率 3% 以下で人口 50,000 人"), symbol: "arrow.down.to.line", points: 0) { $0.sim.residents >= 50_000 && $0.sim.taxRate <= 3 },
+
+        Achievement(id: "high.tax.big", group: .economy, title: String(localized: "重税都市"),
+                    detail: String(localized: "税率 20% で人口 10,000 人"), symbol: "exclamationmark.triangle.fill", points: 0) { $0.sim.residents >= 10_000 && $0.sim.taxRate >= 20 },
+
         // MARK: 時代
 
         Achievement(id: "year.1950", group: .time, title: String(localized: "半世紀"),
@@ -252,6 +325,12 @@ enum Achievements {
 
         Achievement(id: "year.2100", group: .time, title: String(localized: "次の百年"),
                     detail: String(localized: "2100 年まで街を保つ"), symbol: "infinity", points: 30) { $0.sim.year >= 2100 },
+
+        Achievement(id: "year.2200", group: .time, title: String(localized: "三百年"),
+                    detail: String(localized: "2200 年まで街を保つ"), symbol: "clock.arrow.circlepath", points: 0) { $0.sim.year >= 2200 },
+
+        Achievement(id: "year.2400", group: .time, title: String(localized: "悠久"),
+                    detail: String(localized: "2400 年まで街を保つ"), symbol: "tortoise.fill", points: 0) { $0.sim.year >= 2400 },
     ]
 
     static func inGroup(_ group: AchievementGroup) -> [Achievement] {

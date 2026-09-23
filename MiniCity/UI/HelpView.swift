@@ -318,6 +318,13 @@ enum GoalStep {
         ("downtown", { (count($0, atLeast: 9), 10) }),
         ("pop.20000", { ($0.residents, 20_000) }),
         ("funds.500k", { ($0.funds, 500_000) }),
+        ("l10.10", { (count($0, atLeast: 10), 10) }),
+        ("pop.50000", { ($0.residents, 50_000) }),
+        ("funds.1m", { ($0.funds, 1_000_000) }),
+        ("l10.50", { (count($0, atLeast: 10), 50) }),
+        ("pop.100000", { ($0.residents, 100_000) }),
+        ("pop.150000", { ($0.residents, 150_000) }),
+        ("funds.5m", { ($0.funds, 5_000_000) }),
     ]
 
     private static func topLevel(_ sim: Simulation) -> Int {
