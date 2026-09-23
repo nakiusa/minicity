@@ -45,21 +45,24 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .crime: let v = sim.crime.atTile(x, y); return (v, v)
         case .fire: let v = sim.fireRisk.atTile(x, y); return (v, v)
         case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
-        // 人口はその区画の住民。住宅区の外は 0。
+        // 人口はその区画の住民。住宅地の外は 0。
         case .density:
             let h = sim.headcount(atX: x, y: y)
             let v = h?.kind == .residential ? h!.count : 0
             return (v, OverlayMode.headcountHeat(v))
-        // 活気はその区画の住民か雇用。住宅でも商工でも数える。
+        // 活気は人が集まってにぎわう度合い。店と事務所の商業地がいちばん高く、工場は少し、住宅地は 0。
         case .activity:
-            let v = sim.headcount(atX: x, y: y)?.count ?? 0
-            return (v, OverlayMode.headcountHeat(v))
+            guard let h = sim.headcount(atX: x, y: y) else { return (0, 0) }
+            let v = h.kind == .commercial ? h.count : h.kind == .industrial ? h.count / 3 : 0
+            return (v, OverlayMode.headcountHeat(v, full: 680))
         }
     }
 
-    /// 区画の人数を色の強さにする。L10 の住宅（980人）で赤。
+    /// 区画の人数を色の強さにする。`full`（L10 の住宅なら 980人、商業なら 680人）で赤。
     /// 比例にすると中層（100人前後）がほとんど透けて見えないので、平方根で広げる。
-    static func headcountHeat(_ v: Int) -> Int { min(255, Int((Double(v) / 980).squareRoot() * 255)) }
+    static func headcountHeat(_ v: Int, full: Int = 980) -> Int {
+        min(255, Int((Double(v) / Double(full)).squareRoot() * 255))
+    }
 
     /// 数で表せない見方に添える短い言葉。
     func note(atX x: Int, y: Int, in sim: Simulation) -> String? {
