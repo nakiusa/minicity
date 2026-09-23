@@ -1425,7 +1425,7 @@
         }
       }
     },
-    "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで値打ちを上げる。電気も道路も要らない。": {
+    "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで地価を上げる。電気も道路も要らない。": {
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1477,7 +1477,7 @@
         }
       }
     },
-    "3×3。電気の元。容量に限りがあり、街が広がると足りなくなる。煙を出す。": {
+    "3×3。電気をつくる。容量に限りがあり、街が広がると足りなくなる。煙を出す。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -1841,7 +1841,7 @@
         }
       }
     },
-    "L8 以上の区画を 5 つ": {
+    "L8 以上の区画を 5 個": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -1893,7 +1893,7 @@
         }
       }
     },
-    "L9 以上の区画を 10 つ": {
+    "L9 以上の区画を 10 個": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -2269,7 +2269,7 @@
         }
       }
     },
-    "いまの街の写しを残します。遊んでいる街はそのまま続きます。": {
+    "いまの街を保存します。遊んでいる街はそのまま続きます。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -2373,7 +2373,7 @@
         }
       }
     },
-    "いま遊んでいる街は上書きされます。残したいなら、先に名前を付けてください。": {
+    "いま遊んでいる街は上書きされます。残したいなら、先に名前を付けて保存してください。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -2581,7 +2581,7 @@
         }
       }
     },
-    "この街に名前を付けて残す": {
+    "この街に名前を付けて保存": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -2633,7 +2633,7 @@
         }
       }
     },
-    "この街を呼び出す": {
+    "この街を読み込む": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -3417,7 +3417,7 @@
         }
       }
     },
-    "まだありません。予算の「この街に名前を付けて残す」で残せます。": {
+    "まだありません。予算の「この街に名前を付けて保存」で保存できます。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -3729,7 +3729,7 @@
         }
       }
     },
-    "マスを叩くと、土地価値・公害・犯罪・火災リスク・交通量・人口・活気・電力が出ます。人口は住宅区だけの値です。行を押すと、その指標が街全体に色で載ります。": {
+    "マスを叩くと、地価・公害・犯罪・火災リスク・交通量・人口・活気・電力が出ます。人口は住宅地だけの値です。行を押すと、その指標が街全体に色で載ります。": {
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4198,7 +4198,7 @@
         }
       }
     },
-    "世界の順位": {
+    "世界ランキング": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -4458,7 +4458,59 @@
         }
       }
     },
-    "人が住む。土地の値打ちに敏感で、公害と犯罪を嫌う。": {
+    "交通量の平均を 60 未満に抑えたまま人口 8,000 人": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8.000 Einwohner bei Stau unter 60"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Population 8,000 with congestion under 60"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Población 8.000 con congestión bajo 60"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Population 8 000 avec une congestion sous 60"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "혼잡도를 60 미만으로 억제한 채 인구 8,000명"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "População 8.000 com congestionamento abaixo de 60"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "人口 8,000 人且拥堵度低于 60"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "人口 8,000 人且壅塞度低於 60"
+          }
+        }
+      }
+    },
+    "人が住む。地価に敏感で、公害と犯罪を嫌う。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -5186,7 +5238,7 @@
         }
       }
     },
-    "住宅区": {
+    "住宅地": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -5238,7 +5290,7 @@
         }
       }
     },
-    "住宅区と工業区を置く": {
+    "住宅地と工業地を置く": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -5442,6 +5494,110 @@
           "stringUnit": {
             "state": "translated",
             "value": "excesso"
+          }
+        }
+      }
+    },
+    "保存": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보관"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        }
+      }
+    },
+    "保存した街": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesicherte Städte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved cities"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudades guardadas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Villes enregistrées"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보관한 도시"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidades salvas"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已保存的城市"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已保存的城市"
           }
         }
       }
@@ -6590,7 +6746,7 @@
         }
       }
     },
-    "区画を最上段の L10 まで育てる": {
+    "区画を最高レベルの L10 まで育てる": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -6694,7 +6850,7 @@
         }
       }
     },
-    "区画を道路に面させる": {
+    "区画を道路に面して置く": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -7007,7 +7163,7 @@
         }
       }
     },
-    "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、ひとつの大きな建物に結ばれます。住宅なら住民が倍になり、段が下がらなくなります。": {
+    "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、連結してひとつの大きな建物になります。住宅なら住民が倍になり、レベルが下がらなくなります。": {
       "localizations": {
         "en": {
           "stringUnit": {
@@ -7111,7 +7267,7 @@
         }
       }
     },
-    "周りの公害を吸い、土地の値打ちを上げる。工場と住宅の間に。": {
+    "周りの公害を吸い、地価を上げる。工場と住宅の間に。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -7263,58 +7419,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "減少周圍犯罪。需要維護費。"
-          }
-        }
-      }
-    },
-    "呼び出す": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laden"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Load"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cargar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Charger"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "불러오기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Carregar"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "载入"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "載入"
           }
         }
       }
@@ -7475,7 +7579,7 @@
         }
       }
     },
-    "商業区": {
+    "商業地": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -7579,7 +7683,7 @@
         }
       }
     },
-    "土地の値打ち": {
+    "地価": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -7631,59 +7735,7 @@
         }
       }
     },
-    "土地価値": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bodenwert"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Land value"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Valor del suelo"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Valeur foncière"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "지가"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Valor do terreno"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "地价"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "地價"
-          }
-        }
-      }
-    },
-    "土地価値を上限まで押し上げる": {
+    "地価を上限まで押し上げる": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -8464,7 +8516,7 @@
         }
       }
     },
-    "工場と発電所が出す。土地の値打ちを下げる。公園が吸う": {
+    "工場と発電所が出す。地価を下げる。公園が吸う": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -8672,7 +8724,7 @@
         }
       }
     },
-    "工業区": {
+    "工業地": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -8724,7 +8776,7 @@
         }
       }
     },
-    "工業区を置く。住宅の反対側に": {
+    "工業地を置く。住宅の反対側に": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -9244,7 +9296,7 @@
         }
       }
     },
-    "店と事務所。人が住んでから需要が立ち上がる。住宅の近くに。": {
+    "店と事務所。人が住んでから需要が生まれる。住宅の近くに。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -10025,7 +10077,7 @@
         }
       }
     },
-    "新しい都市をはじめると、いまの街は消えます。残したい街は先に名前を付けてください。": {
+    "新しい都市をはじめると、いまの街は消えます。残したい街は、先に名前を付けて保存してください。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -10442,7 +10494,7 @@
         }
       }
     },
-    "最高の段": {
+    "最高レベル": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -10910,110 +10962,6 @@
         }
       }
     },
-    "残してある街": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gesicherte Städte"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Saved cities"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ciudades guardadas"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Villes enregistrées"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "보관한 도시"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cidades salvas"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已保存的城市"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已保存的城市"
-          }
-        }
-      }
-    },
-    "残す": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sichern"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enregistrer"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "보관"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salvar"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保存"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保存"
-          }
-        }
-      }
-    },
     "残り %lld年": {
       "localizations": {
         "de": {
@@ -11326,6 +11274,58 @@
         }
       }
     },
+    "沿道の地価を押し上げる。敷く値段も維持費も高い。": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hebt den Wert des angrenzenden Landes. Teurer im Bau und Unterhalt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raises the value of land along it. Costs more to build and maintain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sube el valor del suelo que la bordea. Cuesta más construirla y mantenerla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fait monter la valeur du terrain qui la borde. Plus chère à construire et à entretenir."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "인접한 땅의 지가를 올립니다. 건설비와 유지비가 비쌉니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aumenta o valor do terreno ao longo dela. Custa mais para construir e manter."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "抬高沿线地价。修建和维护都更贵。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "抬高沿線地價。修建和維護都更貴。"
+          }
+        }
+      }
+    },
     "活気": {
       "localizations": {
         "de": {
@@ -11478,58 +11478,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "消防局"
-          }
-        }
-      }
-    },
-    "混みぐあいを 60 未満に抑えたまま人口 8,000 人": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "8.000 Einwohner bei Stau unter 60"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Population 8,000 with congestion under 60"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Población 8.000 con congestión bajo 60"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Population 8 000 avec une congestion sous 60"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "혼잡도를 60 미만으로 억제한 채 인구 8,000명"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "População 8.000 com congestionamento abaixo de 60"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "人口 8,000 人且拥堵度低于 60"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "人口 8,000 人且壅塞度低於 60"
           }
         }
       }
@@ -14031,7 +13979,7 @@
         }
       }
     },
-    "街区を結ぶ": {
+    "街区の連結": {
       "localizations": {
         "en": {
           "stringUnit": {
@@ -14235,6 +14183,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajustes"
+          }
+        }
+      }
+    },
+    "読み込む": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Load"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cargar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "불러오기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "载入"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "載入"
           }
         }
       }
@@ -15957,7 +15957,7 @@
         }
       }
     },
-    "道路の脇に住宅区を置く": {
+    "道路の脇に住宅地を置く": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -16946,7 +16946,7 @@
         }
       }
     },
-    "電気と道路があり、需要があり、土地の値打ちが高いほど上の段へ進みます。段が上がるほど次まで時間がかかります。": {
+    "電気と道路があり、需要があり、地価が高いほど上のレベルへ進みます。レベルが上がるほど次まで時間がかかります。": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -17102,59 +17102,7 @@
         }
       }
     },
-    "面した土地の値打ちを押し上げる。敷く値段も維持費も高い。": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hebt den Wert des angrenzenden Landes. Teurer im Bau und Unterhalt."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Raises the value of land along it. Costs more to build and maintain."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sube el valor del suelo que la bordea. Cuesta más construirla y mantenerla."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fait monter la valeur du terrain qui la borde. Plus chère à construire et à entretenir."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "인접한 땅의 지가를 올립니다. 건설비와 유지비가 비쌉니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aumenta o valor do terreno ao longo dela. Custa mais para construir e manter."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "抬高沿线地价。修建和维护都更贵。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "抬高沿線地價。修建和維護都更貴。"
-          }
-        }
-      }
-    },
-    "首府": {
+    "首都": {
       "localizations": {
         "de": {
           "stringUnit": {

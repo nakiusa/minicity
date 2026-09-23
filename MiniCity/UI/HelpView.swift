@@ -26,7 +26,7 @@ struct IntroView: View {
                         rows: [
                             ("bolt.fill", "発電所を置く", "3×3の大きさ。煙を出すので住宅から離す"),
                             ("road.lanes", "道路を引く", "指でなぞって「決定」。区画は道路に面していないと育たない"),
-                            ("house.fill", "住宅区と工業区を置く", "道路の脇に。工業は住宅の反対側に"),
+                            ("house.fill", "住宅地と工業地を置く", "道路の脇に。工業は住宅の反対側に"),
                             ("bolt.horizontal.fill", "送電線でつなぐ", "発電所から区画まで。区画どうしは電気を通す"),
                         ]
                     ).tag(1)
@@ -46,7 +46,7 @@ struct IntroView: View {
                         title: "育たないときは",
                         body: "家がいつまでも小さいなら、たいてい近くに煙があります。",
                         rows: [
-                            ("smoke.fill", "公害", "工場と発電所が出す。土地の値打ちを下げる。公園が吸う"),
+                            ("smoke.fill", "公害", "工場と発電所が出す。地価を下げる。公園が吸う"),
                             ("shield.lefthalf.filled", "犯罪", "人が増えると増える。警察署で減る"),
                             ("car.fill", "渋滞", "職場が遠いと、通勤の車で間の道が混む。住宅の近くにも職場を"),
                             ("yensign.circle.fill", "お金", "税率7％が目安。足りなければ予算から借りられる"),
@@ -149,10 +149,10 @@ enum GuideStep: CaseIterable {
         switch self {
         case .plant: return "発電所を置く。住宅から離して"
         case .road: return "道路をなぞって「決定」"
-        case .residential: return "道路の脇に住宅区を置く"
-        case .industrial: return "工業区を置く。住宅の反対側に"
+        case .residential: return "道路の脇に住宅地を置く"
+        case .industrial: return "工業地を置く。住宅の反対側に"
         case .power: return "送電線で発電所と区画をつなぐ"
-        case .connect: return "区画を道路に面させる"
+        case .connect: return "区画を道路に面して置く"
         case .wait: return "▶ で時間を進める。人が入ってくる"
         }
     }
@@ -227,15 +227,15 @@ struct HelpView: View {
                 }
 
                 Section("置けるもの") {
-                    HelpRow(symbol: "bolt.fill", title: "発電所", text: "3×3。電気の元。容量に限りがあり、街が広がると足りなくなる。煙を出す。")
+                    HelpRow(symbol: "bolt.fill", title: "発電所", text: "3×3。電気をつくる。容量に限りがあり、街が広がると足りなくなる。煙を出す。")
                     HelpRow(symbol: "road.lanes", title: "道路", text: "区画は道路に面していないと育たない。住民は道路で近い職場から順に通い、そこが埋まれば遠くまで通う。")
-                    HelpRow(symbol: "road.lanes.curved.right", title: "大通り", text: "面した土地の値打ちを押し上げる。敷く値段も維持費も高い。")
+                    HelpRow(symbol: "road.lanes.curved.right", title: "大通り", text: "沿道の地価を押し上げる。敷く値段も維持費も高い。")
                     HelpRow(symbol: "bolt.horizontal.fill", title: "送電線", text: "発電所と区画をつなぐ。区画どうしは電気を通すので、隣り合っていればつなぎ直さなくてよい。")
-                    HelpRow(symbol: "house.fill", title: "住宅区", text: "人が住む。土地の値打ちに敏感で、公害と犯罪を嫌う。")
-                    HelpRow(symbol: "bag.fill", title: "商業区", text: "店と事務所。人が住んでから需要が立ち上がる。住宅の近くに。")
-                    HelpRow(symbol: "gearshape.fill", title: "工業区", text: "工場。注文があれば地価が低くても育つ。煙を出すので住宅から離す。")
-                    HelpRow(symbol: "tree.fill", title: "公園", text: "周りの公害を吸い、土地の値打ちを上げる。工場と住宅の間に。")
-                    HelpRow(symbol: "leaf.fill", title: "大公園", text: "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで値打ちを上げる。電気も道路も要らない。")
+                    HelpRow(symbol: "house.fill", title: "住宅地", text: "人が住む。地価に敏感で、公害と犯罪を嫌う。")
+                    HelpRow(symbol: "bag.fill", title: "商業地", text: "店と事務所。人が住んでから需要が生まれる。住宅の近くに。")
+                    HelpRow(symbol: "gearshape.fill", title: "工業地", text: "工場。注文があれば地価が低くても育つ。煙を出すので住宅から離す。")
+                    HelpRow(symbol: "tree.fill", title: "公園", text: "周りの公害を吸い、地価を上げる。工場と住宅の間に。")
+                    HelpRow(symbol: "leaf.fill", title: "大公園", text: "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで地価を上げる。電気も道路も要らない。")
                     HelpRow(symbol: "shield.lefthalf.filled", title: "警察署", text: "周りの犯罪を減らす。維持費がかかる。")
                     HelpRow(symbol: "flame.fill", title: "消防署", text: "周りの火災リスクを下げる。維持費がかかる。")
                     HelpRow(symbol: "hammer.fill", title: "撤去", text: "何でも消す。¥1。")
@@ -243,10 +243,10 @@ struct HelpView: View {
 
                 Section("街が育つ仕組み") {
                     HelpRow(symbol: "arrow.up.right", title: "区画は10段階まで育つ",
-                            text: "電気と道路があり、需要があり、土地の値打ちが高いほど上の段へ進みます。段が上がるほど次まで時間がかかります。")
-                    HelpRow(symbol: "building.2.crop.circle", title: "街区を結ぶ",
-                            text: "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、ひとつの大きな建物に結ばれます。住宅なら住民が倍になり、段が下がらなくなります。")
-                    HelpRow(symbol: "yensign.circle.fill", title: "土地の値打ち",
+                            text: "電気と道路があり、需要があり、地価が高いほど上のレベルへ進みます。レベルが上がるほど次まで時間がかかります。")
+                    HelpRow(symbol: "building.2.crop.circle", title: "街区の連結",
+                            text: "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、連結してひとつの大きな建物になります。住宅なら住民が倍になり、レベルが下がらなくなります。")
+                    HelpRow(symbol: "yensign.circle.fill", title: "地価",
                             text: "水辺と森と公園で上がり、街の中心とにぎわいで上がり、公害と犯罪と渋滞と火災リスクで下がります。住宅はこれに強く反応します。")
                     HelpRow(symbol: "chart.bar.fill", title: "需要（R・C・I）",
                             text: "左上の3本の棒。住宅・商業・工業それぞれの需要です。上に伸びていれば置けば育ち、下なら置いても埋まりません。職と住のつり合いで動きます。")
@@ -256,7 +256,7 @@ struct HelpView: View {
 
                 Section("数字の読みかた") {
                     HelpRow(symbol: "magnifyingglass", title: "調べる",
-                            text: "マスを叩くと、土地価値・公害・犯罪・火災リスク・交通量・人口・活気・電力が出ます。人口は住宅区だけの値です。行を押すと、その指標が街全体に色で載ります。")
+                            text: "マスを叩くと、地価・公害・犯罪・火災リスク・交通量・人口・活気・電力が出ます。人口は住宅地だけの値です。行を押すと、その指標が街全体に色で載ります。")
                     HelpRow(symbol: "map.fill", title: "地図の切り替え",
                             text: "右上のメニューからも同じ色分けに切り替えられます。停電している区画は「電力」で分かります。")
                 }

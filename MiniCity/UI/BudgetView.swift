@@ -172,12 +172,12 @@ struct BudgetView: View {
                         cityName = ""
                         namingCity = true
                     } label: {
-                        Label("この街に名前を付けて残す", systemImage: "square.and.arrow.down")
+                        Label("この街に名前を付けて保存", systemImage: "square.and.arrow.down")
                     }
                     NavigationLink {
                         ShelvedCitiesView(game: game)
                     } label: {
-                        Label("残してある街", systemImage: "archivebox")
+                        Label("保存した街", systemImage: "archivebox")
                     }
                     Button(role: .destructive) {
                         confirmingNewCity = true
@@ -187,18 +187,18 @@ struct BudgetView: View {
                 } header: {
                     Text("街")
                 } footer: {
-                    Text("新しい都市をはじめると、いまの街は消えます。残したい街は先に名前を付けてください。")
+                    Text("新しい都市をはじめると、いまの街は消えます。残したい街は、先に名前を付けて保存してください。")
                 }
             }
             .alert("街の名前", isPresented: $namingCity) {
                 TextField("名前", text: $cityName)
-                Button("残す") {
+                Button("保存") {
                     let name = cityName.trimmingCharacters(in: .whitespaces)
                     game.shelveCity(name: name.isEmpty ? String(localized: "\(game.sim.year)年の街") : name)
                 }
                 Button("やめる", role: .cancel) {}
             } message: {
-                Text("いまの街の写しを残します。遊んでいる街はそのまま続きます。")
+                Text("いまの街を保存します。遊んでいる街はそのまま続きます。")
             }
             .alert("購入", isPresented: Binding(get: { store.failure != nil },
                                               set: { if !$0 { store.failure = nil } })) {
@@ -307,7 +307,7 @@ struct ShelvedCitiesView: View {
     var body: some View {
         List {
             if cities.isEmpty {
-                Text("まだありません。予算の「この街に名前を付けて残す」で残せます。")
+                Text("まだありません。予算の「この街に名前を付けて保存」で保存できます。")
                     .foregroundStyle(.secondary)
             }
             ForEach(cities, id: \.url) { city in
@@ -334,10 +334,10 @@ struct ShelvedCitiesView: View {
                 cities = CityStore.shelved()
             }
         }
-        .navigationTitle("残してある街")
+        .navigationTitle("保存した街")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("この街を呼び出す", isPresented: Binding(get: { loading != nil }, set: { if !$0 { loading = nil } })) {
-            Button("呼び出す") {
+        .alert("この街を読み込む", isPresented: Binding(get: { loading != nil }, set: { if !$0 { loading = nil } })) {
+            Button("読み込む") {
                 if let url = loading, let city = cities.first(where: { $0.url == url }) {
                     game.loadCity(city.save)
                     dismiss()
@@ -346,7 +346,7 @@ struct ShelvedCitiesView: View {
             }
             Button("やめる", role: .cancel) { loading = nil }
         } message: {
-            Text("いま遊んでいる街は上書きされます。残したいなら、先に名前を付けてください。")
+            Text("いま遊んでいる街は上書きされます。残したいなら、先に名前を付けて保存してください。")
         }
     }
 }

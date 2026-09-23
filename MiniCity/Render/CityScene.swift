@@ -10,7 +10,7 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .none: return String(localized: "通常")
         case .power: return String(localized: "電力")
         case .pollution: return String(localized: "公害")
-        case .landValue: return String(localized: "土地価値")
+        case .landValue: return String(localized: "地価")
         case .crime: return String(localized: "犯罪")
         case .fire: return String(localized: "火災リスク")
         case .traffic: return String(localized: "交通量")
@@ -530,16 +530,24 @@ final class CityScene: SKScene {
         case .traffic:
             canvas = heatCanvas(sim.trafficMap)
         case .density, .activity:
-            // 区画ごとに塗る。粗い格子でならすと、区画の境目と色の境目がずれる。
-            smooth = false
-            canvas = PixelCanvas(width: CityMap.width, height: CityMap.height)
-            for y in 0..<CityMap.height {
-                for x in 0..<CityMap.width {
-                    // 0人の区画は塗らない。人口の地図で商業や工業に色が付いて見えないように。
-                    guard let r = overlayMode.reading(atX: x, y: y, in: sim), r.value > 0 else { continue }
-                    // 1区画ずつ塗ると、粗い格子の薄い塗りでは建物の上でほとんど見えない。電力の地図と同じ濃さにする。
-                    var c = CityScene.heatColor(r.heat)
-                    c.a = 170
+            // 人数は区画ごとに引き、塗るときだけ周りへにじませて、ほかの地図と同じぼんやりした見た目にする。
+            // 粗い格子で集めると、区画の中心が隣の格子に落ちて人数がずれる。
+            let w = CityMap.width, h = CityMap.height
+            var heat = [Int](repeating: 0, count: w * h)
+            for y in 0..<h {
+                for x in 0..<w {
+                    heat[y * w + x] = overlayMode.reading(atX: x, y: y, in: sim)?.heat ?? 0
+                }
+            }
+            heat = CityScene.boxBlur(CityScene.boxBlur(heat, w: w, h: h), w: w, h: h)
+            canvas = PixelCanvas(width: w, height: h)
+            for y in 0..<h {
+                for x in 0..<w {
+                    // 1区画の人数は公害などより小さな値に収まるので、そのままの濃さでは透けて見えない。
+                    // 0 から滑らかに濃くして、ぼかした縁は薄いまま残す。
+                    let v = heat[y * w + x]
+                    var c = CityScene.heatColor(v)
+                    c.a = UInt8(min(230, 30 + v * 2))
                     canvas.set(x, y, c)
                 }
             }
@@ -549,6 +557,25 @@ final class CityScene: SKScene {
         let texture = SKTexture(cgImage: image)
         texture.filteringMode = smooth ? .linear : .nearest
         return texture
+    }
+
+    /// 3×3 の平均で1回ならす。
+    private static func boxBlur(_ v: [Int], w: Int, h: Int) -> [Int] {
+        var out = v
+        for y in 0..<h {
+            for x in 0..<w {
+                var sum = 0, n = 0
+                for dy in -1...1 {
+                    for dx in -1...1 {
+                        let nx = x + dx, ny = y + dy
+                        guard nx >= 0, ny >= 0, nx < w, ny < h else { continue }
+                        sum += v[ny * w + nx]; n += 1
+                    }
+                }
+                out[y * w + x] = sum / n
+            }
+        }
+        return out
     }
 
     private func heatCanvas(_ map: CoarseMap, divisor: Int = 1) -> PixelCanvas {

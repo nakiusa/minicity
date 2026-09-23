@@ -97,7 +97,7 @@ enum Achievements {
         Achievement(id: "pop.10000", group: .population, title: String(localized: "大都市"),
                     detail: String(localized: "人口 10,000 人"), symbol: "building.columns.fill", points: 35) { $0.sim.residents >= 10_000 },
 
-        Achievement(id: "pop.20000", group: .population, title: String(localized: "首府"),
+        Achievement(id: "pop.20000", group: .population, title: String(localized: "首都"),
                     detail: String(localized: "人口 20,000 人"), symbol: "crown.fill", points: 55) { $0.sim.residents >= 20_000 },
 
         Achievement(id: "jobs.balanced", group: .population, title: String(localized: "職住のつり合い"),
@@ -123,17 +123,17 @@ enum Achievements {
                     detail: String(localized: "区画を L6 まで育てる"), symbol: "building", points: 15) { $0.topLevel >= 6 },
 
         Achievement(id: "tower.max", group: .growth, title: String(localized: "摩天楼"),
-                    detail: String(localized: "区画を最上段の L10 まで育てる"), symbol: "sparkles", points: 55) {
+                    detail: String(localized: "区画を最高レベルの L10 まで育てる"), symbol: "sparkles", points: 55) {
             $0.topLevel >= Zone.maxLevel
         },
 
         Achievement(id: "skyline", group: .growth, title: String(localized: "スカイライン"),
-                    detail: String(localized: "L8 以上の区画を 5 つ"), symbol: "chart.bar.fill", points: 35) {
+                    detail: String(localized: "L8 以上の区画を 5 個"), symbol: "chart.bar.fill", points: 35) {
             $0.zones(atLeast: 8) >= 5
         },
 
         Achievement(id: "downtown", group: .growth, title: String(localized: "都心"),
-                    detail: String(localized: "L9 以上の区画を 10 つ"), symbol: "building.2", points: 45) {
+                    detail: String(localized: "L9 以上の区画を 10 個"), symbol: "building.2", points: 45) {
             $0.zones(atLeast: 9) >= 10
         },
 
@@ -151,7 +151,7 @@ enum Achievements {
         },
 
         Achievement(id: "landvalue.max", group: .growth, title: String(localized: "一等地"),
-                    detail: String(localized: "土地価値を上限まで押し上げる"), symbol: "arrow.up.right", points: 30) {
+                    detail: String(localized: "地価を上限まで押し上げる"), symbol: "arrow.up.right", points: 30) {
             $0.sim.landValue.maximum >= 255
         },
 
@@ -194,7 +194,7 @@ enum Achievements {
         },
 
         Achievement(id: "no.jam", group: .planning, title: String(localized: "渋滞知らず"),
-                    detail: String(localized: "混みぐあいを 60 未満に抑えたまま人口 8,000 人"),
+                    detail: String(localized: "交通量の平均を 60 未満に抑えたまま人口 8,000 人"),
                     symbol: "car.fill", points: 45) {
             $0.sim.residents >= 8_000 && $0.sim.congestion < 60
         },
