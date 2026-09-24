@@ -18,33 +18,33 @@ App Store Connect にコピペして使う。
 
 「ミニシティ」は、50年で街をどこまで育てられるかに挑む、ドット絵の街づくりゲームです。
 
-区画を置き、電気を通し、時間を進める。街は勝手に育ちます。ただし工場の煙は住宅の育ちを止め、混んだ道は土地の値打ちを下げます。同じ50年で人口1万人の街と10万人の街ができるのは、置き方の差です。
+区画を置き、電気を通し、時間を進める。街は勝手に育ちます。ただし工場の煙は住宅の育ちを止め、混んだ道は地価を下げます。同じ50年で人口1万人の街と10万人の街ができるのは、置き方の差です。
 
 ■ 50年で、どこまで
-始めるときに50年・100年・200年を選びます。決めた年数が来ると時間が止まり、人口・資金・最高の段・実績をまとめた成績表が出ます。人口は Game Center のランキングに送られ、世界での順位が分かります。成績表は街全体の俯瞰と一緒に1枚の絵になるので、そのまま貼って見せられます。急がずに育てたいときは「期限なし」も選べます。
+始めるときに50年・100年・200年を選びます。決めた年数が来ると時間が止まり、人口・資金・最高レベル・実績をまとめた成績表が出ます。人口は Game Center のランキングに送られ、世界での順位が分かります。成績表は街全体の俯瞰と一緒に1枚の絵になるので、そのまま貼って見せられます。急がずに育てたいときは「期限なし」も選べます。
 
 ■ 置けるものは11種類だけ
-道路、大通り、送電線、公園、大公園、住宅区、商業区、工業区、発電所、警察署、消防署。どこに置くかを決めて、あとは街が動くのを眺めます。
+道路、大通り、送電線、公園、大公園、住宅地、商業地、工業地、発電所、警察署、消防署。どこに置くかを決めて、あとは街が動くのを眺めます。
 
 ■ 街のなかで起きていること
-・住宅がいつまでも小さいままなら、たいてい近くに煙があります。公害は土地の値打ちを下げ、値打ちの低い土地に大きな建物は建ちません
-・公園は煙を吸い、警察署は犯罪を減らし、値打ちを戻します
-・区画は10段階まで育ちます。段が上がるごとに背が伸び、最後は点滅灯つきの高層タワーになります
-・住民は道路をたどって職場へ通います。通った道は混み、混んだ区間には車が現れ、周りの値打ちが下がります
-・大通りは面した土地の値打ちを押し上げますが、敷く値段も毎年の維持費も高くつきます
+・住宅がいつまでも小さいままなら、たいてい近くに煙があります。公害は地価を下げ、地価の低い土地に大きな建物は建ちません
+・公園は煙を吸い、警察署は犯罪を減らし、地価を戻します
+・区画は10段階まで育ちます。レベルが上がるごとに背が伸び、最後は点滅灯つきの高層タワーになります
+・住民は道路をたどって職場へ通います。通った道は混み、混んだ区間には車が現れ、周りの地価が下がります
+・大通りは沿道の地価を押し上げますが、敷く値段も毎年の維持費も高くつきます
 ・発電所の容量には限りがあります。街が広がったら足りなくなります
 
 ■ 数字を地図で読む
-「調べる」でマスを叩くと、そこの土地価値、公害、犯罪、交通量、人口、活気が一覧で出ます。行を押すと、その指標が街全体に色で載ります。どこが傷んでいるのかがひと目で分かります。
+「調べる」でマスを叩くと、そこの地価、公害、犯罪、火災リスク、交通量、人口、活気が一覧で出ます。行を押すと、その指標が街全体に色で載ります。どこが傷んでいるのかがひと目で分かります。
 
 ■ 実績を集める
-34種類あります。人口や資金の目標だけでなく、「最大公害100未満のまま人口3,000人」のように街の作りを問うものも入っています。Game Center にサインインすれば、そちらにも残ります。
+60種類あります。人口や資金の目標だけでなく、「最大公害40未満のまま人口3,000人」のように街の作りを問うものも入っています。Game Center にサインインすれば、そちらにも残ります。
 
 ■ 地形
-川と湖と森は都市ごとに作られます。始める前に候補をいくつか見て、気に入った地形を選べます。水辺と森は土地の値打ちを上げるので、どこに街を寄せるかがそのまま最初の判断になります。
+川と湖と森は都市ごとに作られます。始める前に候補をいくつか見て、気に入った地形を選べます。水辺と森は地価を上げるので、どこに街を寄せるかがそのまま最初の判断になります。
 
 ■ 絵について
-画像素材を一切持たず、ドット絵はすべてコードから描き起こしています。区画が1段育った瞬間には、その場所が一瞬光ります。
+画像素材を一切持たず、ドット絵はすべてコードから描き起こしています。区画のレベルが上がった瞬間には、その場所が一瞬光ります。
 
 ■ 操作
 ・すべて1本指で完結します。地図を動かすのも、道路をなぞるのも、拡大縮小も片手でできます
@@ -52,7 +52,7 @@ App Store Connect にコピペして使う。
 ・自動保存。アプリを閉じても続きから再開します
 
 ■ 料金と広告
-本体は無料です。登録もログインも要りません。広告は実績や予算などのメニューと、街をひと区切りつけたときにだけ出ます。街を眺めている画面には広告を出しません。買い切りの「広告を消す」をご購入いただくと、以後は広告を表示しません。
+本体は無料です。登録もログインも要りません。広告は、実績や予算などのメニュー、街の画面の下の帯、街をひと区切りつけたときに出ます。買い切りの「広告を消す」をご購入いただくと、以後は広告を表示しません。
 
 50年で、あなたの街はどこまで育つでしょうか。
 
@@ -80,7 +80,22 @@ https://nakiusa.github.io/minicity/privacy.html
 - アプリ内課金：あり（買い切り「広告を消す」）
 - 年齢レーティングの質問で、広告の表示ありを申告する
 
-## このバージョンの最新情報（1.4.0・審査中）
+## このバージョンの最新情報（1.5.0・審査中）
+
+街の動きと数字を見直しました。
+
+・住民は近い職場から順に通い、そこが埋まれば遠くまで通います。住宅から遠い工業地しかないと、その間の道が混みます
+・新しい指標「火災リスク」。建物が高いほど、工場や発電所ほど上がり、消防署の近くで下がります。地価にも響きます
+・地価や公害などの数字を 0〜100 で出すようにしました
+・人口は住宅地の、活気は商業地の区画ごとに出します
+・難しい実績を26件足しました。人口15万人、住宅・商業・工業すべて L10、2400年まで など
+
+・言葉を分かりやすくしました（住宅地、レベル、地価、保存）
+・高層の街区でも、地図の色分けが隠れずに見えます
+
+いつも「ミニシティ」をご利用いただきありがとうございます。
+
+## 最新情報（1.4.0・公開済み）
 
 街を育てる手触りを増やしました。
 
@@ -273,7 +288,7 @@ Pick 50, 100, 200 years, or no limit. When the last year ends, time stops and a 
 Tap a tile with Inspect to see its land value, pollution, crime, traffic and density. Tap a row to color the whole map by that value, so you can see at a glance where the city hurts.
 
 ■ Collect achievements
-34 achievements, from population and funds targets to ones that ask how you built the city, like "3,000 residents with peak pollution under 100". Sign in to Game Center and they show up there too.
+34 achievements, from population and funds targets to ones that ask how you built the city, like "3,000 residents with peak pollution under 40". Sign in to Game Center and they show up there too.
 
 ■ Terrain
 Rivers, lakes and forests are generated for every city. Look at a few candidates before you start and pick the one you like. Water and forest raise land value, so where you put the city is your first decision.
@@ -287,7 +302,7 @@ No image assets at all. Every pixel is drawn by code. When a zone grows a level,
 • Autosave. Close the app and pick up where you left off
 
 ■ Price and ads
-The game is free. No sign-up, no login. Ads appear only in menus like achievements and budget, and between play sessions. There are no ads on the city view. A one-time "Remove Ads" purchase turns them off for good.
+The game is free. No sign-up, no login. Ads appear in menus like achievements and budget, in a banner under the tools on the city view, and between play sessions. A one-time "Remove Ads" purchase turns them off for good.
 
 Place zones, run power, and watch the city grow. That's MiniCity.
 
@@ -466,7 +481,7 @@ App 現已支援九種語言：日語、英語、簡體中文、繁體中文、�
 
 도시의 수치를 지도에서 읽을 수 있습니다.
 
-• 「조사」로 칸을 탭하면 지가, 공해, 범죄, 교통량, 인구 밀도, 전력이 나옵니다
+• 「조사」로 칸을 탭하면 지가, 공해, 범죄, 화재 위험, 교통량, 인구 밀도, 전력이 나옵니다
 • 행을 누르면 그 지표가 도시 전체에 색으로 표시됩니다. 다시 누르면 원래대로
 
 광고와, 광고를 없애는 일회성 구입.
@@ -501,10 +516,10 @@ App 現已支援九種語言：日語、英語、簡體中文、繁體中文、�
 • 발전소의 용량에는 한계가 있습니다. 도시가 넓어지면 모자라게 됩니다
 
 ■ 수치를 지도에서 읽기
-「조사」로 칸을 탭하면 그곳의 지가, 공해, 범죄, 교통량, 인구 밀도가 목록으로 나옵니다. 행을 누르면 그 지표가 도시 전체에 색으로 표시되어 어디가 상했는지 한눈에 보입니다.
+「조사」로 칸을 탭하면 그곳의 지가, 공해, 범죄, 화재 위험, 교통량, 인구 밀도가 목록으로 나옵니다. 행을 누르면 그 지표가 도시 전체에 색으로 표시되어 어디가 상했는지 한눈에 보입니다.
 
 ■ 업적 모으기
-34종류입니다. 인구와 자금 목표뿐 아니라 「최대 공해 100 미만인 채 인구 3,000명」처럼 도시의 짜임새를 묻는 것도 있습니다. Game Center에 로그인하면 그쪽에도 남습니다.
+34종류입니다. 인구와 자금 목표뿐 아니라 「최대 공해 40 미만인 채 인구 3,000명」처럼 도시의 짜임새를 묻는 것도 있습니다. Game Center에 로그인하면 그쪽에도 남습니다.
 
 ■ 지형
 강과 호수와 숲은 도시마다 새로 만들어집니다. 시작하기 전에 후보를 몇 개 보고 마음에 드는 지형을 고를 수 있습니다. 물가와 숲은 지가를 올리므로, 도시를 어디에 붙일지가 첫 번째 판단이 됩니다.
@@ -655,10 +670,10 @@ Il n'y a que dix choses à placer : routes, avenues, lignes électriques, parcs,
 • Les centrales ont une capacité limitée. Quand la ville s'étend, il en faudra d'autres
 
 ■ Lisez les chiffres sur la carte
-Touchez une case avec Inspecter pour voir sa valeur foncière, sa pollution, sa criminalité, son trafic et sa densité. Touchez une ligne pour colorer toute la carte selon cette valeur et voir d'un coup d'œil où la ville souffre.
+Touchez une case avec Inspecter pour voir sa valeur foncière, sa pollution, sa criminalité, son risque d'incendie, son trafic et sa densité. Touchez une ligne pour colorer toute la carte selon cette valeur et voir d'un coup d'œil où la ville souffre.
 
 ■ Collectionnez les succès
-34 succès, des objectifs de population et de fonds jusqu'à ceux qui interrogent votre façon de bâtir, comme « 3 000 habitants avec une pollution maximale sous 100 ». Connectez-vous à Game Center et ils y apparaissent aussi.
+34 succès, des objectifs de population et de fonds jusqu'à ceux qui interrogent votre façon de bâtir, comme « 3 000 habitants avec une pollution maximale sous 40 ». Connectez-vous à Game Center et ils y apparaissent aussi.
 
 ■ Terrain
 Rivières, lacs et forêts sont générés pour chaque ville. Regardez quelques candidats avant de commencer et choisissez celui qui vous plaît. L'eau et la forêt font monter la valeur foncière : où placer la ville est votre première décision.
@@ -735,7 +750,7 @@ Es gibt nur zehn Dinge zu setzen: Straßen, Alleen, Stromleitungen, Parks, Wohn-
 Tippe mit Prüfen auf ein Feld: Bodenwert, Verschmutzung, Kriminalität, Verkehr und Dichte. Tippe auf eine Zeile, und die ganze Karte wird nach diesem Wert eingefärbt. So siehst du auf einen Blick, wo es der Stadt weh tut.
 
 ■ Erfolge sammeln
-34 Erfolge, von Einwohner- und Kassenzielen bis zu solchen, die nach deiner Bauweise fragen, etwa „3.000 Einwohner bei höchster Verschmutzung unter 100“. Melde dich bei Game Center an, dann erscheinen sie auch dort.
+34 Erfolge, von Einwohner- und Kassenzielen bis zu solchen, die nach deiner Bauweise fragen, etwa „3.000 Einwohner bei höchster Verschmutzung unter 40“. Melde dich bei Game Center an, dann erscheinen sie auch dort.
 
 ■ Gelände
 Flüsse, Seen und Wälder werden für jede Stadt neu erzeugt. Sieh dir vor dem Start ein paar Kandidaten an und wähle den, der dir gefällt. Wasser und Wald heben den Bodenwert, also ist der Standort der Stadt deine erste Entscheidung.
@@ -812,7 +827,7 @@ Só há dez coisas para colocar: ruas, avenidas, linhas de energia, parques, zon
 Toque num quadro com Inspecionar para ver valor do terreno, poluição, crime, tráfego e densidade. Toque numa linha para colorir o mapa inteiro por esse valor e ver de relance onde a cidade está doendo.
 
 ■ Colecione conquistas
-34 conquistas, de metas de população e caixa até as que perguntam como você construiu, como "3.000 habitantes com poluição máxima abaixo de 100". Entre no Game Center e elas aparecem lá também.
+34 conquistas, de metas de população e caixa até as que perguntam como você construiu, como "3.000 habitantes com poluição máxima abaixo de 40". Entre no Game Center e elas aparecem lá também.
 
 ■ Terreno
 Rios, lagos e florestas são gerados para cada cidade. Veja alguns candidatos antes de começar e escolha o que gostar. Água e floresta aumentam o valor do terreno, então onde colocar a cidade é sua primeira decisão.
@@ -826,7 +841,7 @@ Nenhum arquivo de imagem. Cada pixel é desenhado por código. Quando uma zona s
 • Salvamento automático. Feche o app e continue de onde parou
 
 ■ Preço e anúncios
-O jogo é grátis. Sem cadastro, sem login. Os anúncios aparecem só em menus como conquistas e orçamento, e entre partidas. Não há anúncios na vista da cidade. A compra única "Remover anúncios" desliga para sempre.
+O jogo é grátis. Sem cadastro, sem login. Os anúncios aparecem em menus como conquistas e orçamento, em um banner abaixo das ferramentas na vista da cidade e entre partidas. A compra única "Remover anúncios" desliga para sempre.
 
 Coloque zonas, leve energia e veja a cidade crescer. Isso é MiniCity.
 

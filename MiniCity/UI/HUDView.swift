@@ -403,10 +403,13 @@ struct InspectorPanel: View {
                 }
                 .frame(height: 6)
 
+                // 「Powered」「Com energia」のような言葉も入るので、1行に収まらなければ字を詰める。
                 Text(reading.map { "\($0.value)" } ?? note ?? "—")
                     .font(.system(size: 11, design: .rounded))
                     .monospacedDigit()
-                    .frame(width: 38, alignment: .trailing)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                    .frame(width: 44, alignment: .trailing)
             }
             .foregroundStyle(.white)
             .padding(.horizontal, 8)

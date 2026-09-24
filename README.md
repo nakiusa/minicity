@@ -529,8 +529,13 @@ swiftc -O -o shotframe tools/shotframe/main.swift
 買い切りを持っている状態は、起動時の引数で作れる。
 
 ```bash
-xcrun simctl launch <UDID> com.shuyafukai.minicity -hasRemovedAds YES -hasSeenHelp YES
+xcrun simctl launch <UDID> com.shuyafukai.minicity -hasRemovedAds YES -hasSeenHelp YES -goalsHidden YES -guideDone YES
 ```
+
+`-goalsHidden` と `-guideDone` で、画面の上の案内と目標の帯を消す。時刻は
+`xcrun simctl status_bar <UDID> override --time "9:41"` で揃える。
+赤字の街はストアに載せたくないので、`savegen` の5つめの引数で資金を渡す
+（`./savegen city.save 7 700 0 184000`、成績表用は `./savegen last.save 7 600 50 162000`）。
 
 `defaults write` でセーブ先の plist を書き換える手は効かない。シミュレータの中の
 設定の番人が古い値を抱えていて、上書きし返してくる。
@@ -547,8 +552,8 @@ xcrun simctl launch <UDID> com.shuyafukai.minicity -hasRemovedAds YES -hasSeenHe
 判定は `Simulation` の値を見るだけで済ませてあるので、途中経過を別に持たず、
 セーブを読み直しても狂わない（`Model/Achievement.swift`）。
 
-全34種類を、人口・発展・街づくり・経営・時代の5つに分けてある。
-人口や資金の目標だけでなく、「最大公害 100 未満のまま人口 3,000」のように
+全60種類を、人口・発展・街づくり・経営・時代の5つに分けてある。
+人口や資金の目標だけでなく、「最大公害 40 未満のまま人口 3,000」のように
 街の作りを問うものを混ぜてある。数を伸ばすだけでは取れないものがあるほうが、
 集める理由になる。
 
@@ -580,7 +585,12 @@ export ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_PATH=...
 
 `--apply` は、アプリで Game Center がまだ有効になっていなければ先に有効にする。
 画面から実績を1件手で作っても同じことができるが、それだと ID を手で打つことになる。
-2026年9月9日に34件を登録済み。同じ道具をもう一度回しても、あるものは飛ばす。
+2026年9月9日に34件、9月24日（1.5.0）に26件を登録済み。同じ道具をもう一度回しても、あるものは飛ばす。
+
+Game Center の配点は合計 1,000 点までで、公開した実績の配点はあとから変えられない。
+最初の34件で使い切ったので、1.5.0 で足した難しい26件は0点にしてある。
+公開済みの実績の名前や説明を直したときは、`--localize` では書き換わらない（欄が既にあると飛ばす）。
+`--get` と `--send PATCH /v1/gameCenterAchievementLocalizations/<id>` で欄ごとに直す。
 
 実績に載せる絵も、同じ定義から作る。アプリの一覧で使っている記号をそのまま使うので、
 画面で見る実績と Game Center で見る実績が食い違わない。
