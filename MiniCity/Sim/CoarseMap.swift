@@ -67,4 +67,10 @@ struct CoarseMap {
     }
 
     var maximum: Int { cells.max() ?? 0 }
+
+    /// 画面に出す値。内部は 0...255 で持つが、255 という上限は遊ぶ人には半端なので 0...100 に直して見せる。
+    static func display(_ v: Int) -> Int { (min(max(v, 0), 255) * 100 + 127) / 255 }
+
+    /// いちばん高いところを、画面に出す 0...100 で。
+    var displayMaximum: Int { CoarseMap.display(maximum) }
 }

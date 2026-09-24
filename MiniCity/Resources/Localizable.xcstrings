@@ -4978,106 +4978,106 @@
         }
       }
     },
-    "交通量の平均を 60 未満に抑えたまま人口 50,000 人": {
+    "交通量の平均を 25 未満に抑えたまま人口 50,000 人": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "50,000 residents with average traffic under 60"
+            "value": "50,000 residents with average traffic under 25"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "平均交通量低于 60 时人口达到 50,000"
+            "value": "平均交通量低于 25 时人口达到 50,000"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "平均交通量低於 60 時人口達到 50,000"
+            "value": "平均交通量低於 25 時人口達到 50,000"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "평균 교통량 60 미만으로 인구 50,000명"
+            "value": "평균 교통량 25 미만으로 인구 50,000명"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 habitantes con tráfico medio menor de 60"
+            "value": "50.000 habitantes con tráfico medio menor de 25"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "50 000 habitants avec un trafic moyen sous 60"
+            "value": "50 000 habitants avec un trafic moyen sous 25"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 Einwohner bei durchschnittlichem Verkehr unter 60"
+            "value": "50.000 Einwohner bei durchschnittlichem Verkehr unter 25"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 moradores com trânsito médio abaixo de 60"
+            "value": "50.000 moradores com trânsito médio abaixo de 25"
           }
         }
       }
     },
-    "交通量の平均を 60 未満に抑えたまま人口 8,000 人": {
+    "交通量の平均を 25 未満に抑えたまま人口 8,000 人": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "8.000 Einwohner bei Stau unter 60"
+            "value": "8.000 Einwohner bei Stau unter 25"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 8,000 with congestion under 60"
+            "value": "Population 8,000 with congestion under 25"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Población 8.000 con congestión bajo 60"
+            "value": "Población 8.000 con congestión bajo 25"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 8 000 avec une congestion sous 60"
+            "value": "Population 8 000 avec une congestion sous 25"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "혼잡도를 60 미만으로 억제한 채 인구 8,000명"
+            "value": "혼잡도를 25 미만으로 억제한 채 인구 8,000명"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "População 8.000 com congestionamento abaixo de 60"
+            "value": "População 8.000 com congestionamento abaixo de 25"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 8,000 人且拥堵度低于 60"
+            "value": "人口 8,000 人且拥堵度低于 25"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 8,000 人且壅塞度低於 60"
+            "value": "人口 8,000 人且壅塞度低於 25"
           }
         }
       }
@@ -7162,106 +7162,106 @@
         }
       }
     },
-    "公害 100 未満・犯罪 50 未満のまま人口 10,000 人": {
+    "公害 40 未満・犯罪 20 未満のまま人口 10,000 人": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "10.000 Einwohner bei Verschmutzung unter 100 und Kriminalität unter 50"
+            "value": "10.000 Einwohner bei Verschmutzung unter 40 und Kriminalität unter 20"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 10,000 with pollution under 100 and crime under 50"
+            "value": "Population 10,000 with pollution under 40 and crime under 20"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Población 10.000 con contaminación bajo 100 y crimen bajo 50"
+            "value": "Población 10.000 con contaminación bajo 40 y crimen bajo 20"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 10 000 avec pollution sous 100 et criminalité sous 50"
+            "value": "Population 10 000 avec pollution sous 40 et criminalité sous 20"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "공해 100 미만, 범죄 50 미만인 채 인구 10,000명"
+            "value": "공해 40 미만, 범죄 20 미만인 채 인구 10,000명"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "População 10.000 com poluição abaixo de 100 e crime abaixo de 50"
+            "value": "População 10.000 com poluição abaixo de 40 e crime abaixo de 20"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 10,000 人，且污染低于 100、犯罪低于 50"
+            "value": "人口 10,000 人，且污染低于 40、犯罪低于 20"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 10,000 人，且污染低於 100、犯罪低於 50"
+            "value": "人口 10,000 人，且污染低於 40、犯罪低於 20"
           }
         }
       }
     },
-    "公害 100 未満・犯罪 50 未満・火災リスク 50 未満のまま人口 50,000 人": {
+    "公害 40 未満・犯罪 20 未満・火災リスク 20 未満のまま人口 50,000 人": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "50,000 residents with pollution under 100, crime under 50 and fire risk under 50"
+            "value": "50,000 residents with pollution under 40, crime under 20 and fire risk under 20"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "污染低于 100、犯罪低于 50、火灾风险低于 50 时人口达到 50,000"
+            "value": "污染低于 40、犯罪低于 20、火灾风险低于 20 时人口达到 50,000"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "污染低於 100、犯罪低於 50、火災風險低於 50 時人口達到 50,000"
+            "value": "污染低於 40、犯罪低於 20、火災風險低於 20 時人口達到 50,000"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "공해 100 미만, 범죄 50 미만, 화재 위험 50 미만으로 인구 50,000명"
+            "value": "공해 40 미만, 범죄 20 미만, 화재 위험 20 미만으로 인구 50,000명"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 habitantes con contaminación menor de 100, crimen menor de 50 y riesgo de incendio menor de 50"
+            "value": "50.000 habitantes con contaminación menor de 40, crimen menor de 20 y riesgo de incendio menor de 20"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "50 000 habitants avec pollution sous 100, criminalité sous 50 et risque d'incendie sous 50"
+            "value": "50 000 habitants avec pollution sous 40, criminalité sous 20 et risque d'incendie sous 20"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 Einwohner bei Verschmutzung unter 100, Kriminalität unter 50 und Brandgefahr unter 50"
+            "value": "50.000 Einwohner bei Verschmutzung unter 40, Kriminalität unter 20 und Brandgefahr unter 20"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 moradores com poluição abaixo de 100, crime abaixo de 50 e risco de incêndio abaixo de 50"
+            "value": "50.000 moradores com poluição abaixo de 40, crime abaixo de 20 e risco de incêndio abaixo de 20"
           }
         }
       }
@@ -12106,262 +12106,262 @@
         }
       }
     },
-    "最大公害 100 未満のまま人口 3,000 人": {
+    "最大公害 40 未満のまま人口 3,000 人": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "3.000 Einwohner bei höchster Verschmutzung unter 100"
+            "value": "3.000 Einwohner bei höchster Verschmutzung unter 40"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 3,000 with peak pollution under 100"
+            "value": "Population 3,000 with peak pollution under 40"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Población 3.000 con contaminación máxima bajo 100"
+            "value": "Población 3.000 con contaminación máxima bajo 40"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 3 000 avec une pollution maximale sous 100"
+            "value": "Population 3 000 avec une pollution maximale sous 40"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "최대 공해 100 미만인 채 인구 3,000명"
+            "value": "최대 공해 40 미만인 채 인구 3,000명"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "População 3.000 com poluição máxima abaixo de 100"
+            "value": "População 3.000 com poluição máxima abaixo de 40"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 3,000 人且最高污染低于 100"
+            "value": "人口 3,000 人且最高污染低于 40"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 3,000 人且最高污染低於 100"
+            "value": "人口 3,000 人且最高污染低於 40"
           }
         }
       }
     },
-    "最大公害 100 未満のまま人口 30,000 人": {
+    "最大公害 40 未満のまま人口 30,000 人": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "30,000 residents with max pollution under 100"
+            "value": "30,000 residents with max pollution under 40"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "最大污染低于 100 时人口达到 30,000"
+            "value": "最大污染低于 40 时人口达到 30,000"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "最大污染低於 100 時人口達到 30,000"
+            "value": "最大污染低於 40 時人口達到 30,000"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "최대 공해 100 미만으로 인구 30,000명"
+            "value": "최대 공해 40 미만으로 인구 30,000명"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "30.000 habitantes con contaminación máxima menor de 100"
+            "value": "30.000 habitantes con contaminación máxima menor de 40"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "30 000 habitants avec une pollution max. sous 100"
+            "value": "30 000 habitants avec une pollution max. sous 40"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "30.000 Einwohner bei max. Verschmutzung unter 100"
+            "value": "30.000 Einwohner bei max. Verschmutzung unter 40"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "30.000 moradores com poluição máxima abaixo de 100"
+            "value": "30.000 moradores com poluição máxima abaixo de 40"
           }
         }
       }
     },
-    "最大火災リスク 40 未満のまま人口 20,000 人": {
+    "最大火災リスク 15 未満のまま人口 20,000 人": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "20,000 residents with max fire risk under 40"
+            "value": "20,000 residents with max fire risk under 15"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "最大火灾风险低于 40 时人口达到 20,000"
+            "value": "最大火灾风险低于 15 时人口达到 20,000"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "最大火災風險低於 40 時人口達到 20,000"
+            "value": "最大火災風險低於 15 時人口達到 20,000"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "최대 화재 위험 40 미만으로 인구 20,000명"
+            "value": "최대 화재 위험 15 미만으로 인구 20,000명"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "20.000 habitantes con riesgo de incendio máximo menor de 40"
+            "value": "20.000 habitantes con riesgo de incendio máximo menor de 15"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "20 000 habitants avec un risque d'incendie max. sous 40"
+            "value": "20 000 habitants avec un risque d'incendie max. sous 15"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "20.000 Einwohner bei max. Brandgefahr unter 40"
+            "value": "20.000 Einwohner bei max. Brandgefahr unter 15"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "20.000 moradores com risco de incêndio máximo abaixo de 40"
+            "value": "20.000 moradores com risco de incêndio máximo abaixo de 15"
           }
         }
       }
     },
-    "最大犯罪 50 未満のまま人口 3,000 人": {
+    "最大犯罪 20 未満のまま人口 3,000 人": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "3.000 Einwohner bei höchster Kriminalität unter 50"
+            "value": "3.000 Einwohner bei höchster Kriminalität unter 20"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 3,000 with peak crime under 50"
+            "value": "Population 3,000 with peak crime under 20"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Población 3.000 con crimen máximo bajo 50"
+            "value": "Población 3.000 con crimen máximo bajo 20"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 3 000 avec une criminalité maximale sous 50"
+            "value": "Population 3 000 avec une criminalité maximale sous 20"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "최대 범죄 50 미만인 채 인구 3,000명"
+            "value": "최대 범죄 20 미만인 채 인구 3,000명"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "População 3.000 com crime máximo abaixo de 50"
+            "value": "População 3.000 com crime máximo abaixo de 20"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 3,000 人且最高犯罪低于 50"
+            "value": "人口 3,000 人且最高犯罪低于 20"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "人口 3,000 人且最高犯罪低於 50"
+            "value": "人口 3,000 人且最高犯罪低於 20"
           }
         }
       }
     },
-    "最大犯罪 50 未満のまま人口 30,000 人": {
+    "最大犯罪 20 未満のまま人口 30,000 人": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "30,000 residents with max crime under 50"
+            "value": "30,000 residents with max crime under 20"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "最大犯罪低于 50 时人口达到 30,000"
+            "value": "最大犯罪低于 20 时人口达到 30,000"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "最大犯罪低於 50 時人口達到 30,000"
+            "value": "最大犯罪低於 20 時人口達到 30,000"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "최대 범죄 50 미만으로 인구 30,000명"
+            "value": "최대 범죄 20 미만으로 인구 30,000명"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "30.000 habitantes con crimen máximo menor de 50"
+            "value": "30.000 habitantes con crimen máximo menor de 20"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "30 000 habitants avec une criminalité max. sous 50"
+            "value": "30 000 habitants avec une criminalité max. sous 20"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "30.000 Einwohner bei max. Kriminalität unter 50"
+            "value": "30.000 Einwohner bei max. Kriminalität unter 20"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "30.000 moradores com crime máximo abaixo de 50"
+            "value": "30.000 moradores com crime máximo abaixo de 20"
           }
         }
       }
@@ -18818,54 +18818,54 @@
         }
       }
     },
-    "道路（交通量 %u）": {
+    "道路（交通量 %lld）": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Straße (Verkehr %u)"
+            "value": "Straße (Verkehr %lld)"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Road (traffic %u)"
+            "value": "Road (traffic %lld)"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Carretera (tráfico %u)"
+            "value": "Carretera (tráfico %lld)"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Route (trafic %u)"
+            "value": "Route (trafic %lld)"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "도로(교통량 %u)"
+            "value": "도로(교통량 %lld)"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rua (tráfego %u)"
+            "value": "Rua (tráfego %lld)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "道路（交通量 %u）"
+            "value": "道路（交通量 %lld）"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "道路（交通量 %u）"
+            "value": "道路（交通量 %lld）"
           }
         }
       }

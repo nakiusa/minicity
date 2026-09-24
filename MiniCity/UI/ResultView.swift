@@ -34,8 +34,8 @@ struct ResultView: View {
                         row("資金", "¥\(sim.funds.formatted())")
                         row("税率", "\(sim.taxRate)%")
                         row("最高レベル", stats.topLevel == 0 ? String(localized: "なし") : "L\(stats.topLevel)")
-                        row("公害の最大", "\(sim.pollution.maximum)")
-                        row("犯罪の最大", "\(sim.crime.maximum)")
+                        row("公害の最大", "\(sim.pollution.displayMaximum)")
+                        row("犯罪の最大", "\(sim.crime.displayMaximum)")
                         row("実績", "\(game.earnedCount) / \(Achievements.all.count)")
                         if let rank, let term = sim.termYears {
                             Button { GameCenter.showLeaderboard(term: term) } label: {

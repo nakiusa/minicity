@@ -40,11 +40,12 @@ enum OverlayMode: String, CaseIterable, Identifiable {
     func reading(atX x: Int, y: Int, in sim: Simulation) -> (value: Int, heat: Int)? {
         switch self {
         case .none, .power: return nil
-        case .pollution: let v = sim.pollution.atTile(x, y); return (v, v)
-        case .landValue: let v = sim.landValue.atTile(x, y); return (v, v)
-        case .crime: let v = sim.crime.atTile(x, y); return (v, v)
-        case .fire: let v = sim.fireRisk.atTile(x, y); return (v, v)
-        case .traffic: let v = sim.trafficMap.atTile(x, y); return (v, v)
+        // 数字は 0...100 で見せ、帯の色は内部の 0...255 のまま塗る。
+        case .pollution: let v = sim.pollution.atTile(x, y); return (CoarseMap.display(v), v)
+        case .landValue: let v = sim.landValue.atTile(x, y); return (CoarseMap.display(v), v)
+        case .crime: let v = sim.crime.atTile(x, y); return (CoarseMap.display(v), v)
+        case .fire: let v = sim.fireRisk.atTile(x, y); return (CoarseMap.display(v), v)
+        case .traffic: let v = sim.trafficMap.atTile(x, y); return (CoarseMap.display(v), v)
         // 人口はその区画の住民。住宅地の外は 0。
         case .density:
             let h = sim.headcount(atX: x, y: y)

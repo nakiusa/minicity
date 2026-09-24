@@ -270,7 +270,7 @@ final class GameState: ObservableObject {
             }
         } else {
             switch t.structure {
-            case .road: parts.append(String(localized: "道路（交通量 \(t.traffic)）"))
+            case .road: parts.append(String(localized: "道路（交通量 \(CoarseMap.display(Int(t.traffic)))）"))
             case .park: parts.append(String(localized: "公園"))
             case .rubble: parts.append(String(localized: "更地"))
             case .none, .zone:

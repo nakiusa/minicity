@@ -205,14 +205,14 @@ enum Achievements {
         },
 
         Achievement(id: "clean.air", group: .planning, title: String(localized: "澄んだ空"),
-                    detail: String(localized: "最大公害 100 未満のまま人口 3,000 人"), symbol: "wind", points: 30) {
-            $0.sim.residents >= 3_000 && $0.sim.pollution.maximum < 100
+                    detail: String(localized: "最大公害 40 未満のまま人口 3,000 人"), symbol: "wind", points: 30) {
+            $0.sim.residents >= 3_000 && $0.sim.pollution.displayMaximum < 40
         },
 
         Achievement(id: "safe.city", group: .planning, title: String(localized: "安全な街"),
-                    detail: String(localized: "最大犯罪 50 未満のまま人口 3,000 人"),
+                    detail: String(localized: "最大犯罪 20 未満のまま人口 3,000 人"),
                     symbol: "shield.lefthalf.filled", points: 30) {
-            $0.sim.residents >= 3_000 && $0.sim.crime.maximum < 50
+            $0.sim.residents >= 3_000 && $0.sim.crime.displayMaximum < 20
         },
 
         Achievement(id: "no.blackout", group: .planning, title: String(localized: "灯を絶やさない"),
@@ -228,9 +228,9 @@ enum Achievements {
         },
 
         Achievement(id: "no.jam", group: .planning, title: String(localized: "渋滞知らず"),
-                    detail: String(localized: "交通量の平均を 60 未満に抑えたまま人口 8,000 人"),
+                    detail: String(localized: "交通量の平均を 25 未満に抑えたまま人口 8,000 人"),
                     symbol: "car.fill", points: 45) {
-            $0.sim.residents >= 8_000 && $0.sim.congestion < 60
+            $0.sim.residents >= 8_000 && CoarseMap.display($0.sim.congestion) < 25
         },
 
         Achievement(id: "services", group: .planning, title: String(localized: "備えあり"),
@@ -239,31 +239,31 @@ enum Achievements {
         },
 
         Achievement(id: "ideal.city", group: .planning, title: String(localized: "理想都市"),
-                    detail: String(localized: "公害 100 未満・犯罪 50 未満のまま人口 10,000 人"),
+                    detail: String(localized: "公害 40 未満・犯罪 20 未満のまま人口 10,000 人"),
                     symbol: "star.circle.fill", points: 80) {
-            $0.sim.residents >= 10_000 && $0.sim.pollution.maximum < 100 && $0.sim.crime.maximum < 50
+            $0.sim.residents >= 10_000 && $0.sim.pollution.displayMaximum < 40 && $0.sim.crime.displayMaximum < 20
         },
 
         Achievement(id: "bigpark.20", group: .planning, title: String(localized: "公園都市"),
                     detail: String(localized: "大公園を 20 置く"), symbol: "tree.circle.fill", points: 0) { $0.count(of: .bigPark) >= 20 },
 
         Achievement(id: "clean.30000", group: .planning, title: String(localized: "青空の大都市"),
-                    detail: String(localized: "最大公害 100 未満のまま人口 30,000 人"), symbol: "cloud.sun.fill", points: 0) { $0.sim.residents >= 30_000 && $0.sim.pollution.maximum < 100 },
+                    detail: String(localized: "最大公害 40 未満のまま人口 30,000 人"), symbol: "cloud.sun.fill", points: 0) { $0.sim.residents >= 30_000 && $0.sim.pollution.displayMaximum < 40 },
 
         Achievement(id: "safe.30000", group: .planning, title: String(localized: "安心の大都市"),
-                    detail: String(localized: "最大犯罪 50 未満のまま人口 30,000 人"), symbol: "lock.shield.fill", points: 0) { $0.sim.residents >= 30_000 && $0.sim.crime.maximum < 50 },
+                    detail: String(localized: "最大犯罪 20 未満のまま人口 30,000 人"), symbol: "lock.shield.fill", points: 0) { $0.sim.residents >= 30_000 && $0.sim.crime.displayMaximum < 20 },
 
         Achievement(id: "fire.safe", group: .planning, title: String(localized: "火の用心"),
-                    detail: String(localized: "最大火災リスク 40 未満のまま人口 20,000 人"), symbol: "flame.circle.fill", points: 0) { $0.sim.residents >= 20_000 && $0.sim.fireRisk.maximum < 40 },
+                    detail: String(localized: "最大火災リスク 15 未満のまま人口 20,000 人"), symbol: "flame.circle.fill", points: 0) { $0.sim.residents >= 20_000 && $0.sim.fireRisk.displayMaximum < 15 },
 
         Achievement(id: "flow.50000", group: .planning, title: String(localized: "流れる街"),
-                    detail: String(localized: "交通量の平均を 60 未満に抑えたまま人口 50,000 人"), symbol: "arrow.triangle.branch", points: 0) { $0.sim.residents >= 50_000 && $0.sim.congestion < 60 },
+                    detail: String(localized: "交通量の平均を 25 未満に抑えたまま人口 50,000 人"), symbol: "arrow.triangle.branch", points: 0) { $0.sim.residents >= 50_000 && CoarseMap.display($0.sim.congestion) < 25 },
 
         Achievement(id: "bright.100000", group: .planning, title: String(localized: "不夜城"),
                     detail: String(localized: "停電ゼロのまま人口 100,000 人"), symbol: "lightbulb.fill", points: 0) { $0.sim.residents >= 100_000 && $0.sim.unpoweredZones == 0 },
 
         Achievement(id: "paradise", group: .planning, title: String(localized: "楽園"),
-                    detail: String(localized: "公害 100 未満・犯罪 50 未満・火災リスク 50 未満のまま人口 50,000 人"), symbol: "sun.max.fill", points: 0) { $0.sim.residents >= 50_000 && $0.sim.pollution.maximum < 100 && $0.sim.crime.maximum < 50 && $0.sim.fireRisk.maximum < 50 },
+                    detail: String(localized: "公害 40 未満・犯罪 20 未満・火災リスク 20 未満のまま人口 50,000 人"), symbol: "sun.max.fill", points: 0) { $0.sim.residents >= 50_000 && $0.sim.pollution.displayMaximum < 40 && $0.sim.crime.displayMaximum < 20 && $0.sim.fireRisk.displayMaximum < 20 },
 
         // MARK: 経営
 
