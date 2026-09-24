@@ -118,13 +118,13 @@ enum Achievements {
             $0.sim.jobsIndustrial >= 3_000
         },
 
-        Achievement(id: "pop.50000", group: .population, title: String(localized: "メガロポリス"),
+        Achievement(id: "pop.50000", group: .population, title: String(localized: "巨大都市"),
                     detail: String(localized: "人口 50,000 人"), symbol: "building.2.crop.circle.fill", points: 0) { $0.sim.residents >= 50_000 },
 
         Achievement(id: "pop.100000", group: .population, title: String(localized: "十万都市"),
                     detail: String(localized: "人口 100,000 人"), symbol: "globe.asia.australia.fill", points: 0) { $0.sim.residents >= 100_000 },
 
-        Achievement(id: "pop.150000", group: .population, title: String(localized: "超巨大都市"),
+        Achievement(id: "pop.150000", group: .population, title: String(localized: "メガロポリス"),
                     detail: String(localized: "人口 150,000 人"), symbol: "star.fill", points: 0) { $0.sim.residents >= 150_000 },
 
         Achievement(id: "rush.50000", group: .population, title: String(localized: "急成長"),

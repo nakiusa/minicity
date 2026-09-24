@@ -262,6 +262,15 @@ final class GameState: ObservableObject {
                 } else {
                     parts.append(String(localized: "レベル \(z.level)・雇用 \(n)"))
                 }
+                // 連結した建物は4区画でひとつなので、1区画ぶんだけ見せると小さく見える。全体の数も添える。
+                if let parent = sim.linkedZones[t.zoneID] {
+                    let total = sim.linkedZones.filter { $0.value == parent }.keys
+                        .compactMap { id in sim.map.zone(id).map { sim.headcount($0, id: id) } }
+                        .reduce(0, +)
+                    parts.append(z.kind == .residential
+                                 ? String(localized: "連結した建物で \(total)人")
+                                 : String(localized: "連結した建物で雇用 \(total)"))
+                }
             }
             parts.append(z.powered ? String(localized: "通電") : String(localized: "停電"))
             parts.append(z.hasRoad ? String(localized: "道路あり") : String(localized: "道路なし"))
