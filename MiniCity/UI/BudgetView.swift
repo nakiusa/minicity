@@ -74,6 +74,9 @@ struct BudgetView: View {
                     row("発電所", "-¥\(game.sim.plantUpkeep)")
                     row("警察", "-¥\(game.sim.policeUpkeep)")
                     row("消防", "-¥\(game.sim.fireUpkeep)")
+                    if game.sim.railUpkeep > 0 {
+                        row("鉄道", "-¥\(game.sim.railUpkeep)")
+                    }
                     if game.sim.debt > 0 {
                         row("借入の利息", "-¥\(game.sim.debtInterest)")
                         row("借入の返済", "-¥\(game.sim.debtRepayment)")

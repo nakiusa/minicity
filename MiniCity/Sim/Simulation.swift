@@ -30,6 +30,7 @@ final class Simulation {
         census()
         updatePower()
         updateRoadAccess()
+        updateRail()
         updateTraffic()
         updateOverlays()
         census()
@@ -61,6 +62,7 @@ final class Simulation {
     private(set) var roadCount = 0
     private(set) var avenueCount = 0
     private(set) var wireCount = 0
+    private(set) var railCount = 0
     private(set) var zoneCounts: [ZoneKind: Int] = [:]
     private(set) var unpoweredZones = 0
     private(set) var disconnectedZones = 0
@@ -85,6 +87,14 @@ final class Simulation {
     var fireCover = CoarseMap()
     /// 火事の起きやすさ。建物が密で高いほど、工場や発電所ほど上がり、消防署の近くで下がる。
     var fireRisk = CoarseMap()
+
+    // 鉄道。Rail.swift が毎月作り直す。
+    /// 使える路線ごとの、駅に面した道路のマス。
+    var railLineRoads: [[Int]] = []
+    /// 駅に面した道路のマスから、その路線の番号。
+    var railRoadLine: [Int: Int] = [:]
+    /// 使える路線に載っている駅。
+    var activeStations: Set<Int32> = []
     var trafficMap = CoarseMap()
 
     /// 直近の会計年度の内訳。予算画面が読む。
@@ -120,6 +130,7 @@ final class Simulation {
 
         updatePower()
         updateRoadAccess()
+        updateRail()
         updateTraffic()
         updateOverlays()
         census()
@@ -180,17 +191,19 @@ final class Simulation {
             centerY = sumY / weight
         }
 
-        var roads = 0, avenues = 0, wires = 0
+        var roads = 0, avenues = 0, wires = 0, rails = 0
         for t in map.tiles {
             if t.structure == .road {
                 roads += 1
                 if t.isAvenue { avenues += 1 }
             }
             if t.wire { wires += 1 }
+            if t.rail { rails += 1 }
         }
         roadCount = roads
         avenueCount = avenues
         wireCount = wires
+        railCount = rails
     }
 
     /// 区画が抱える人数。住宅なら住民、商業と工業なら雇用。
@@ -408,8 +421,10 @@ final class Simulation {
     var plantUpkeep: Int { (zoneCounts[.coalPlant] ?? 0) * 200 }
     var policeUpkeep: Int { (zoneCounts[.police] ?? 0) * 400 }
     var fireUpkeep: Int { (zoneCounts[.fire] ?? 0) * 400 }
+    /// 線路1マスと駅の維持費。
+    var railUpkeep: Int { railCount * 5 + (zoneCounts[.station] ?? 0) * 300 }
 
-    var projectedExpenses: Int { roadUpkeep + plantUpkeep + policeUpkeep + fireUpkeep + debtInterest + debtRepayment }
+    var projectedExpenses: Int { roadUpkeep + plantUpkeep + policeUpkeep + fireUpkeep + railUpkeep + debtInterest + debtRepayment }
 
     /// 道路のある街区に限った平均の混み具合。
     /// 幹線が1本詰まっているだけで警告を出しても仕方がないので、最大値では測らない。

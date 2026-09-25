@@ -7,6 +7,7 @@ enum Tool: String, CaseIterable, Identifiable {
     case bulldozer
     case road
     case avenue
+    case rail
     case powerLine
     case park
     case bigPark
@@ -16,6 +17,7 @@ enum Tool: String, CaseIterable, Identifiable {
     case coalPlant
     case police
     case fire
+    case station
 
     var id: String { rawValue }
 
@@ -26,6 +28,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .bulldozer: return String(localized: "撤去")
         case .road: return String(localized: "道路")
         case .avenue: return String(localized: "大通り")
+        case .rail: return String(localized: "線路")
         case .powerLine: return String(localized: "送電線")
         case .park: return String(localized: "公園")
         case .bigPark: return String(localized: "大公園")
@@ -35,6 +38,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .coalPlant: return String(localized: "発電所")
         case .police: return String(localized: "警察署")
         case .fire: return String(localized: "消防署")
+        case .station: return String(localized: "駅")
         }
     }
 
@@ -45,6 +49,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .bulldozer: return "hammer.fill"
         case .road: return "road.lanes"
         case .avenue: return "road.lanes.curved.right"
+        case .rail: return "tram.fill"
         case .powerLine: return "bolt.fill"
         case .park: return "tree.fill"
         case .bigPark: return "leaf.fill"
@@ -54,6 +59,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .coalPlant: return "flame.fill"
         case .police: return "shield.lefthalf.filled"
         case .fire: return "flame.circle.fill"
+        case .station: return "train.side.front.car"
         }
     }
 
@@ -64,12 +70,14 @@ enum Tool: String, CaseIterable, Identifiable {
         case .bulldozer: return 2
         case .road: return 25
         case .avenue: return 90
+        case .rail: return 30
         case .powerLine: return 6
         case .park: return 15
         case .bigPark: return 400
         case .residential, .commercial, .industrial: return 120
         case .coalPlant: return 2800
         case .police, .fire: return 450
+        case .station: return 650
         }
     }
 
@@ -78,6 +86,7 @@ enum Tool: String, CaseIterable, Identifiable {
         switch self {
         case .road: return 120
         case .avenue: return 320
+        case .rail: return 150
         case .powerLine: return 25
         default: return nil
         }
@@ -89,7 +98,7 @@ enum Tool: String, CaseIterable, Identifiable {
     /// 一辺のタイル数。
     var footprint: Int {
         switch self {
-        case .residential, .commercial, .industrial, .coalPlant, .police, .fire, .bigPark: return 3
+        case .residential, .commercial, .industrial, .coalPlant, .police, .fire, .bigPark, .station: return 3
         default: return 1
         }
     }
@@ -97,7 +106,7 @@ enum Tool: String, CaseIterable, Identifiable {
     /// なぞって連続で置ける道具か。
     var isDraggable: Bool {
         switch self {
-        case .road, .avenue, .powerLine, .bulldozer, .park: return true
+        case .road, .avenue, .rail, .powerLine, .bulldozer, .park: return true
         default: return false
         }
     }
@@ -111,6 +120,7 @@ enum Tool: String, CaseIterable, Identifiable {
         case .police: return .police
         case .fire: return .fire
         case .bigPark: return .bigPark
+        case .station: return .station
         default: return nil
         }
     }
@@ -137,6 +147,8 @@ extension Simulation {
             return buildRoad(x, y, avenue: false)
         case .avenue:
             return buildRoad(x, y, avenue: true)
+        case .rail:
+            return buildRail(x, y)
         case .powerLine:
             return buildWire(x, y)
         case .park:
@@ -159,15 +171,17 @@ extension Simulation {
         guard map.inBounds(x, y) else { return .nothingToDo }
         let t = map.tile(x, y)
 
-        let hasSomething = t.hasZone || t.structure != .none || t.wire || t.terrain == .forest
+        let hasSomething = t.hasZone || t.structure != .none || t.wire || t.rail || t.terrain == .forest
         guard hasSomething else { return .nothingToDo }
-        guard charge(1) else { return .insufficientFunds(needed: 1) }
+        let cost = Tool.bulldozer.cost
+        guard charge(cost) else { return .insufficientFunds(needed: cost) }
 
         if t.hasZone {
             map.removeZone(t.zoneID)
         } else {
             map.mutateTile(x, y) { tile in
                 tile.wire = false
+                tile.rail = false
                 tile.isAvenue = false
                 if tile.structure != .none {
                     tile.structure = tile.terrain == .water ? .none : .rubble
@@ -177,7 +191,7 @@ extension Simulation {
             }
         }
         refreshNeighbors(x, y)
-        return .built(cost: 1)
+        return .built(cost: cost)
     }
 
     /// 道路を敷く。`avenue` が真なら大通りにする。
@@ -197,6 +211,25 @@ extension Simulation {
             if tile.terrain == .forest { tile.terrain = .dirt }
             tile.structure = .road
             tile.isAvenue = avenue
+        }
+        refreshNeighbors(x, y)
+        return .built(cost: cost)
+    }
+
+    /// 線路を敷く。道路の上に敷けば踏切になり、道路としても使える。
+    private func buildRail(_ x: Int, _ y: Int) -> BuildResult {
+        guard map.inBounds(x, y) else { return .nothingToDo }
+        let t = map.tile(x, y)
+        guard !t.rail else { return .nothingToDo }
+        guard !t.hasZone else { return .blocked(String(localized: "区画の上には敷けません")) }
+
+        let cost = t.terrain == .water ? (Tool.rail.waterCost ?? Tool.rail.cost) : Tool.rail.cost
+        guard charge(cost) else { return .insufficientFunds(needed: cost) }
+
+        map.mutateTile(x, y) { tile in
+            if tile.terrain == .forest { tile.terrain = .dirt }
+            if tile.structure != .road { tile.structure = .rail }
+            tile.rail = true
         }
         refreshNeighbors(x, y)
         return .built(cost: cost)
@@ -223,7 +256,7 @@ extension Simulation {
         guard map.inBounds(x, y) else { return .nothingToDo }
         let t = map.tile(x, y)
         guard t.terrain != .water else { return .blocked(String(localized: "水面には置けません")) }
-        guard !t.hasZone, t.structure != .road, t.structure != .park else {
+        guard !t.hasZone, t.structure != .road, t.structure != .park, !t.rail else {
             return .blocked(String(localized: "その場所はふさがっています"))
         }
         guard charge(Tool.park.cost) else { return .insufficientFunds(needed: Tool.park.cost) }

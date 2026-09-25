@@ -88,6 +88,8 @@ final class CityScene: SKScene {
     private var terrainLayer: SKTileMapNode!
     private var structureLayer: SKTileMapNode!
     private var wireLayer: SKTileMapNode!
+    /// 線路。道路の上に重ねて踏切を描くので、建物の層と送電線の層のあいだに置く。
+    private var railLayer: SKTileMapNode!
     private var trafficLayer: SKTileMapNode!
     private var markerLayer: SKTileMapNode!
     /// 高層タワーを載せる層。タイルの外へはみ出せるよう、スプライトを直接ぶら下げる。
@@ -200,6 +202,7 @@ final class CityScene: SKScene {
 
         terrainLayer = makeLayer(0)
         structureLayer = makeLayer(1)
+        railLayer = makeLayer(1.5)
         wireLayer = makeLayer(2)
         trafficLayer = makeLayer(3)
 
@@ -451,6 +454,12 @@ final class CityScene: SKScene {
             structureLayer.setTileGroup(catalog.group(key), forColumn: x, row: row)
         } else {
             structureLayer.setTileGroup(nil, forColumn: x, row: row)
+        }
+
+        if let key = catalog.railKey(tile, x: x, y: y, map: sim.map) {
+            railLayer.setTileGroup(catalog.group(key), forColumn: x, row: row)
+        } else {
+            railLayer.setTileGroup(nil, forColumn: x, row: row)
         }
 
         if let key = catalog.wireKey(tile, x: x, y: y, map: sim.map) {

@@ -230,6 +230,8 @@ struct HelpView: View {
                     HelpRow(symbol: "bolt.fill", title: "発電所", text: "3×3。電気をつくる。容量に限りがあり、街が広がると足りなくなる。煙を出す。")
                     HelpRow(symbol: "road.lanes", title: "道路", text: "区画は道路に面していないと育たない。住民は道路で近い職場から順に通い、そこが埋まれば遠くまで通う。")
                     HelpRow(symbol: "road.lanes.curved.right", title: "大通り", text: "沿道の地価を押し上げる。敷く値段も維持費も高い。")
+                    HelpRow(symbol: "tram.fill", title: "線路", text: "線路をなぞって敷く。道路と交われば踏切になる。駅と駅を結ぶと、住民は電車で通勤し、あいだの道路が空く。")
+                    HelpRow(symbol: "train.side.front.car", title: "駅", text: "3×3。線路の脇に置き、同じ線路にもう1つ駅があると動く。駅の周りは地価が大きく上がり、道路も空く。電気と道路が要る。")
                     HelpRow(symbol: "bolt.horizontal.fill", title: "送電線", text: "発電所と区画をつなぐ。区画どうしは電気を通すので、隣り合っていればつなぎ直さなくてよい。")
                     HelpRow(symbol: "house.fill", title: "住宅地", text: "人が住む。地価に敏感で、公害と犯罪を嫌う。")
                     HelpRow(symbol: "bag.fill", title: "商業地", text: "店と事務所。人が住んでから需要が生まれる。住宅の近くに。")

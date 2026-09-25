@@ -333,3 +333,36 @@ let calm = linkedAfter(industry: false), smoky = linkedAfter(industry: true)
 print("  5年後の連結: 工業なし \(calm) / 隣に工業地 \(smoky)")
 precondition(calm == 4, "公害のない連結が崩れた: \(calm)")
 precondition(smoky < 4, "公害の中でも連結が崩れない")
+
+// --- 鉄道。住宅と遠い工業地を駅と線路で結ぶと、間の道路が空き、駅の周りの地価が上がる。 ---
+print("")
+print("== 鉄道 ==")
+func railTest(withRail: Bool) -> (mid: Int, land: Int, access: Bool) {
+    let s = Simulation(seed: 7, generateTerrain: false)
+    s.funds = 1_000_000
+    for x in 5...100 { s.apply(.road, atX: x, y: 20) }
+    for cx in stride(from: 7, through: 16, by: 3) { s.apply(.residential, atX: cx, y: 22) }
+    for cx in stride(from: 88, through: 97, by: 3) { s.apply(.industrial, atX: cx, y: 22) }
+    if withRail {
+        s.apply(.station, atX: 22, y: 18)
+        s.apply(.station, atX: 82, y: 18)
+        for x in 21...83 { s.apply(.rail, atX: x, y: 16) }
+    }
+    s.census()
+    for i in s.map.zones.indices {
+        let k = s.map.zones[i].kind
+        if k.grows { s.map.updateZone(Int32(i)) { $0.level = 5 } }
+        s.map.updateZone(Int32(i)) { $0.hasRoad = true; $0.powered = true }
+    }
+    s.census()
+    s.updateRail()
+    s.updateTraffic()
+    s.updateOverlays()
+    let first = s.map.zones.firstIndex { $0.kind == .residential }!
+    return (Int(s.map.tile(50, 20).traffic), s.landValue.atTile(22, 18), s.map.zones[first].hasJobAccess)
+}
+let byRoad = railTest(withRail: false), byRail = railTest(withRail: true)
+print("  間の道の交通量: 道路だけ \(byRoad.mid) / 鉄道あり \(byRail.mid)、駅前の地価: \(byRoad.land) → \(byRail.land)")
+precondition(byRail.access, "鉄道で通えていない")
+precondition(byRail.mid < byRoad.mid / 2, "鉄道で間の道路が空いていない")
+precondition(byRail.land > byRoad.land + 20, "駅前の地価が上がっていない")

@@ -277,11 +277,17 @@ final class GameState: ObservableObject {
             if z.kind == .residential && z.level > 0 {
                 parts.append(z.hasJobAccess ? String(localized: "通勤可") : String(localized: "職場に行けない"))
             }
+            if z.kind == .station {
+                parts.append(sim.activeStations.contains(t.zoneID)
+                             ? String(localized: "運行中")
+                             : String(localized: "線路でほかの駅とつなぐと動く"))
+            }
         } else {
             switch t.structure {
             case .road: parts.append(String(localized: "道路（交通量 \(CoarseMap.display(Int(t.traffic)))）"))
             case .park: parts.append(String(localized: "公園"))
             case .rubble: parts.append(String(localized: "更地"))
+            case .rail: parts.append(String(localized: "線路"))
             case .none, .zone:
                 switch t.terrain {
                 case .water: parts.append(String(localized: "水面"))
@@ -289,6 +295,7 @@ final class GameState: ObservableObject {
                 case .dirt: parts.append(String(localized: "空き地"))
                 }
             }
+            if t.rail && t.structure == .road { parts.append(String(localized: "踏切")) }
             if t.wire { parts.append(String(localized: "送電線")) }
         }
 

@@ -154,6 +154,11 @@ extension Simulation {
         for z in map.zones where z.alive && z.kind == .bigPark {
             emit(&amenity, tileX: Int(z.ox) + 1, tileY: Int(z.oy) + 1, strength: 90, radius: 3)
         }
+        // 使える路線の駅は、大公園より強く、駅前の地価を押し上げる。
+        for sid in activeStations {
+            guard let z = map.zone(sid) else { continue }
+            emit(&amenity, tileX: Int(z.ox) + 1, tileY: Int(z.oy) + 1, strength: 120, radius: 3)
+        }
         amenity.blur()
         // 隣の街区までは表通りの効き目が届く。
         frontage.blur()

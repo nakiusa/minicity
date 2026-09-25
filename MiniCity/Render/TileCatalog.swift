@@ -72,6 +72,8 @@ final class TileCatalog {
             register("road.\(mask)", TileArt.road(mask: mask))
             register("avenue.\(mask)", TileArt.avenue(mask: mask))
             register("wire.\(mask)", TileArt.wire(mask: mask))
+            register("rail.\(mask)", TileArt.rail(mask: mask, crossing: false))
+            register("railx.\(mask)", TileArt.rail(mask: mask, crossing: true))
             for level in 1...2 {
                 let frames = (0..<TileArt.trafficFrameCount).map {
                     TileArt.trafficCars(mask: mask, level: level, frame: $0)
@@ -89,7 +91,7 @@ final class TileCatalog {
                 }
             }
         }
-        for kind in [ZoneKind.coalPlant, .police, .fire, .bigPark] {
+        for kind in [ZoneKind.coalPlant, .police, .fire, .bigPark, .station] {
             registerZone("z.\(kind.rawValue).0.0", TileArt.zoneArt(kind: kind, level: 0, variant: 0))
         }
 
@@ -154,8 +156,14 @@ final class TileCatalog {
             return "\(tile.isAvenue ? "avenue" : "road").\(map.roadMask(x, y))"
         case .park: return "park"
         case .rubble: return "rubble"
-        case .none, .zone: return nil
+        case .none, .zone, .rail: return nil
         }
+    }
+
+    /// 線路は道路の上にも重なる（踏切）ので、建物とは別の層に置く。
+    func railKey(_ tile: Tile, x: Int, y: Int, map: CityMap) -> String? {
+        guard tile.rail else { return nil }
+        return "\(tile.structure == .road ? "railx" : "rail").\(map.railMask(x, y))"
     }
 
     func wireKey(_ tile: Tile, x: Int, y: Int, map: CityMap) -> String? {

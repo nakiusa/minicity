@@ -157,6 +157,16 @@ final class CityMap {
         return m
     }
 
+    /// 線路の接続方向。駅の敷地には曲げ込まない。線路は駅の脇をホームに沿って通る。
+    func railMask(_ x: Int, _ y: Int) -> Int {
+        var m = 0
+        if tile(x, y - 1).rail { m |= 1 }
+        if tile(x + 1, y).rail { m |= 2 }
+        if tile(x, y + 1).rail { m |= 4 }
+        if tile(x - 1, y).rail { m |= 8 }
+        return m
+    }
+
     /// 送電線の接続方向。発電所やゾーンの敷地も接続先として数える。
     func wireMask(_ x: Int, _ y: Int) -> Int {
         var m = 0

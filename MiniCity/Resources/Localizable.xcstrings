@@ -1527,6 +1527,58 @@
         }
       }
     },
+    "3×3。線路の脇に置き、同じ線路にもう1つ駅があると動く。駅の周りは地価が大きく上がり、道路も空く。電気と道路が要る。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Place it beside the track; it runs once another station is on the same line. Land value rises strongly around it and roads get quieter. Needs power and a road."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3。放在铁路旁，同一条线路上还有别的车站时开始运行。车站周围地价大幅上涨，道路也会变空。需要电力和道路。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3。放在鐵路旁，同一條路線上還有別的車站時開始運行。車站周圍地價大幅上漲，道路也會變空。需要電力和道路。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. 선로 옆에 두고, 같은 선로에 역이 하나 더 있으면 운행합니다. 역 주변은 지가가 크게 오르고 도로도 비워집니다. 전기와 도로가 필요합니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Colócala junto a las vías; funciona cuando hay otra estación en la misma línea. El valor del suelo sube mucho a su alrededor y las calles se despejan. Necesita electricidad y calle."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Placez-la au bord de la voie ; elle fonctionne dès qu'une autre gare est sur la même ligne. La valeur foncière monte fortement autour et les routes se libèrent. Il faut du courant et une route."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Neben das Gleis setzen; er fährt, sobald ein weiterer Bahnhof an derselben Strecke liegt. Der Bodenwert rundum steigt stark und die Straßen werden ruhiger. Braucht Strom und eine Straße."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3×3. Coloque ao lado dos trilhos; funciona quando há outra estação na mesma linha. O valor do terreno sobe muito ao redor e as ruas esvaziam. Precisa de energia e rua."
+          }
+        }
+      }
+    },
     "3×3。電気をつくる。容量に限りがあり、街が広がると足りなくなる。煙を出す。": {
       "localizations": {
         "de": {
@@ -15693,6 +15745,162 @@
         }
       }
     },
+    "線路": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rail"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "铁路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鐵路"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선로"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vías"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voie ferrée"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gleise"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trilhos"
+          }
+        }
+      }
+    },
+    "線路でほかの駅とつなぐと動く": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect to another station by rail to run"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用铁路连接另一个车站后开始运行"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用鐵路連接另一個車站後開始運行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선로로 다른 역과 이으면 운행합니다"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Únela por vías a otra estación para que funcione"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reliez-la à une autre gare par la voie pour la faire circuler"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verbinde ihn per Gleis mit einem anderen Bahnhof, damit er fährt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligue a outra estação por trilhos para funcionar"
+          }
+        }
+      }
+    },
+    "線路をなぞって敷く。道路と交われば踏切になる。駅と駅を結ぶと、住民は電車で通勤し、あいだの道路が空く。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trace to lay track. Where it meets a road it becomes a level crossing. Link stations and residents commute by train, freeing the roads in between."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖动铺设铁路。与道路相交处会成为道口。把车站连起来，居民就会坐电车通勤，中间的道路也会空出来。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖動鋪設鐵路。與道路相交處會成為平交道。把車站連起來，居民就會搭電車通勤，中間的道路也會空出來。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "따라 그어 선로를 깝니다. 도로와 만나면 건널목이 됩니다. 역과 역을 이으면 주민이 전철로 출근해 사이 도로가 비워집니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traza para tender vías. Donde cruzan una calle se forma un paso a nivel. Une estaciones y los habitantes irán en tren, liberando las calles intermedias."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tracez pour poser la voie. Là où elle croise une route, elle devient un passage à niveau. Reliez des gares et les habitants prennent le train, ce qui libère les routes entre les deux."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziehe, um Gleise zu legen. Wo sie eine Straße kreuzen, entsteht ein Bahnübergang. Verbinde Bahnhöfe, dann pendeln die Einwohner mit dem Zug und die Straßen dazwischen werden frei."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arraste para assentar trilhos. Onde cruzam uma rua viram passagem de nível. Ligue estações e os moradores vão de trem, liberando as ruas no caminho."
+          }
+        }
+      }
+    },
     "置けるもの": {
       "localizations": {
         "de": {
@@ -17461,6 +17669,58 @@
         }
       }
     },
+    "踏切": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level crossing"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "道口"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "平交道"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "건널목"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paso a nivel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passage à niveau"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bahnübergang"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passagem de nível"
+          }
+        }
+      }
+    },
     "軽い税": {
       "localizations": {
         "de": {
@@ -18291,6 +18551,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "遊玩年數"
+          }
+        }
+      }
+    },
+    "運行中": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In service"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行中"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "運行中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "운행 중"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En servicio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En service"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Betrieb"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Em operação"
           }
         }
       }
@@ -19388,6 +19700,58 @@
         }
       }
     },
+    "鉄道": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rail"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "铁路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鐵路"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "철도"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ferrocarril"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rail"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bahn"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ferrovia"
+          }
+        }
+      }
+    },
     "閉じる": {
       "localizations": {
         "de": {
@@ -19956,6 +20320,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "首府"
+          }
+        }
+      }
+    },
+    "駅": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Station"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "车站"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "車站"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "역"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gare"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bahnhof"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estação"
           }
         }
       }

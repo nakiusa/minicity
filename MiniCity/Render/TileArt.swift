@@ -51,6 +51,12 @@ enum Palette {
     static let rubble = RGBA(126, 114, 96)
     static let shadow = RGBA(0, 0, 0, 70)
 
+    // 線路。砂利の道床、焦げ茶の枕木、明るい鋼のレール。
+    static let ballast = RGBA(128, 120, 108)
+    static let ballastDark = RGBA(104, 96, 86)
+    static let sleeper = RGBA(92, 66, 48)
+    static let railSteel = RGBA(196, 200, 206)
+
     static let wire = RGBA(46, 46, 52)
     static let pylon = RGBA(128, 126, 118)
 
@@ -179,6 +185,52 @@ enum TileArt {
             for x in stride(from: 1, to: 16, by: 4) { c.rect(x, 7, 2, 1, Palette.roadLine) }
         } else if straightNS {
             for y in stride(from: 1, to: 16, by: 4) { c.rect(7, y, 1, 2, Palette.roadLine) }
+        }
+        return c
+    }
+
+    // MARK: - 線路
+
+    /// 線路。`crossing` が真なら道路の上に重ねる踏切で、道床を敷かずにレールだけを描く。
+    static func rail(mask: Int, crossing: Bool) -> PixelCanvas {
+        var c = PixelCanvas(width: tileSize, height: tileSize)
+        let n = mask & 1 != 0, e = mask & 2 != 0, s = mask & 4 != 0, w = mask & 8 != 0
+        // つながりがなければ東西に通す。
+        let ew = e || w || mask == 0
+        let ns = n || s
+
+        // 向きごとに、中心から伸ばす範囲。
+        func span(_ a: Bool, _ b: Bool, whole: Bool) -> (Int, Int) {
+            whole ? (0, 16) : (a ? 0 : 5, b ? 16 : 11)
+        }
+        if ew {
+            let (x0, x1) = span(w || mask == 0, e || mask == 0, whole: false)
+            if !crossing {
+                c.rect(x0, 4, x1 - x0, 8, Palette.ballast)
+                c.hLine(x0, 4, x1 - x0, Palette.ballastDark)
+                c.hLine(x0, 11, x1 - x0, Palette.ballastDark)
+                for x in stride(from: x0 + 1, to: x1, by: 3) { c.rect(x, 5, 2, 6, Palette.sleeper) }
+            }
+            c.hLine(x0, 6, x1 - x0, Palette.railSteel)
+            c.hLine(x0, 9, x1 - x0, Palette.railSteel)
+        }
+        if ns {
+            let (y0, y1) = span(n, s, whole: false)
+            if !crossing {
+                c.rect(4, y0, 8, y1 - y0, Palette.ballast)
+                c.vLine(4, y0, y1 - y0, Palette.ballastDark)
+                c.vLine(11, y0, y1 - y0, Palette.ballastDark)
+                for y in stride(from: y0 + 1, to: y1, by: 3) { c.rect(5, y, 6, 2, Palette.sleeper) }
+            }
+            c.vLine(6, y0, y1 - y0, Palette.railSteel)
+            c.vLine(9, y0, y1 - y0, Palette.railSteel)
+        }
+        if crossing {
+            // 踏切の遮断機の縞。道路の縁に小さく置く。
+            for i in 0..<3 {
+                c.set(1 + i * 2, 1, RGBA(240, 200, 60)); c.set(2 + i * 2, 1, outline)
+                c.set(9 + i * 2, 14, RGBA(240, 200, 60)); c.set(10 + i * 2, 14, outline)
+            }
         }
         return c
     }
@@ -1200,6 +1252,30 @@ enum TileArt {
         return c
     }
 
+    /// 駅。上下の縁に屋根つきのホームを通し、真ん中に駅舎を置く。
+    /// 線路は駅の脇を通るので、上下どちらに敷いてもホームに電車が着くように見える。
+    static func station() -> PixelCanvas {
+        var rng = SplitMix64(seed: 1435)
+        var c = pavementGround(77)
+        let canopy = RGBA(86, 110, 118)
+        for (edge, top) in [(1, true), (39, false)] {
+            c.rect(2, edge, zoneSize - 4, 8, Palette.wall.shaded(0.9))
+            // ホームの縁の黄色い線は線路の側に引く。
+            c.hLine(2, top ? edge : edge + 7, zoneSize - 4, RGBA(240, 200, 60))
+            c.rect(5, edge + 2, zoneSize - 10, 3, canopy)
+            c.hLine(5, edge + 5, zoneSize - 10, canopy.shaded(0.7))
+            for x in stride(from: 8, to: zoneSize - 6, by: 8) { c.vLine(x, edge + 5, 2, Palette.steel) }
+        }
+        box(&c, x: 11, baseY: 35, w: 26, depth: 7, height: 9,
+            wall: Palette.wall, roof: canopy,
+            windows: Palette.window, rng: &rng)
+        // 時計。
+        c.disc(24, 16, 2, RGBA(245, 245, 240))
+        c.set(24, 15, outline); c.set(25, 16, outline)
+        zoneBorder(&c, Palette.serviceLine)
+        return c
+    }
+
     // MARK: - 足りないものを知らせる印
 
     /// 電気が来ていない区画に出す稲妻。
@@ -1246,6 +1322,8 @@ enum TileArt {
             return fireStation()
         case .bigPark:
             return bigPark()
+        case .station:
+            return station()
         }
     }
 

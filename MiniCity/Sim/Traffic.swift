@@ -55,6 +55,7 @@ extension Simulation {
         var queue = [Int]()
         queue.reserveCapacity(Simulation.commuteSearchLimit + 8)
         var generation: Int32 = 0
+        var lineStamp = [Int32](repeating: 0, count: railLineRoads.count)
 
         // ponytail: 区画の番号順に割り振るので、先に建った住宅ほど近い職場を取る。偏りが目立てば順番を毎月まわす。
         for id in map.zones.indices {
@@ -105,6 +106,12 @@ extension Simulation {
                     if workers == 0 { break }
                 }
 
+                // 駅に着いたら、同じ路線のほかの駅まで電車で運ぶ。そのあいだの道路は混まない。
+                if let l = railRoadLine[i], lineStamp[l] != generation {
+                    lineStamp[l] = generation
+                    for r in railLineRoads[l] { pushRoad(r, from: i, generation, &stamp, &parent, &queue) }
+                }
+
                 let x = i % w, y = i / w
                 if x > 0 { pushRoad(i - 1, from: i, generation, &stamp, &parent, &queue) }
                 if x < w - 1 { pushRoad(i + 1, from: i, generation, &stamp, &parent, &queue) }
@@ -113,6 +120,20 @@ extension Simulation {
             }
 
             map.updateZone(Int32(id)) { $0.hasJobAccess = reached }
+        }
+
+        // 駅の近くは、車を使わずに歩いて電車に乗る人が多い。駅から8マス以内の道路は交通量を4割減らす。
+        var eased = Set<Int>()
+        for sid in activeStations {
+            guard let z = map.zone(sid) else { continue }
+            let cx = Int(z.ox) + 1, cy = Int(z.oy) + 1
+            for y in max(0, cy - 8)...min(h - 1, cy + 8) {
+                for x in max(0, cx - 8)...min(w - 1, cx + 8) {
+                    let i = y * w + x
+                    guard map.tiles[i].structure == .road, eased.insert(i).inserted else { continue }
+                    map.mutateTileQuietly(i) { $0.traffic = UInt8(Int($0.traffic) * 6 / 10) }
+                }
+            }
         }
 
         // 街区ごとの混み具合は、道路の本数ではなく1本あたりの混雑で測る。

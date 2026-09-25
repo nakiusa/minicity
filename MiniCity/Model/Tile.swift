@@ -16,6 +16,8 @@ enum Structure: UInt8, Codable {
     case road = 2
     case park = 3
     case zone = 4
+    /// 線路だけが敷かれたマス。道路と交わるマス（踏切）は道路のまま `rail` を立てる。
+    case rail = 5
 }
 
 /// ゾーンの種類。R/C/I は成長し、残りは施設として置くだけ。
@@ -28,6 +30,8 @@ enum ZoneKind: UInt8, CaseIterable, Codable {
     case fire = 5
     /// 3×3 の大きな公園。小さな公園を9つ並べるより遠くまで効く。
     case bigPark = 6
+    /// 3×3 の駅。線路に接していて、同じ線路にもう1つ駅があると働く。
+    case station = 7
 
     /// 需要に応じて育つゾーンか。
     var grows: Bool {
@@ -46,6 +50,7 @@ enum ZoneKind: UInt8, CaseIterable, Codable {
         case .police: return String(localized: "警察署")
         case .fire: return String(localized: "消防署")
         case .bigPark: return String(localized: "大公園")
+        case .station: return String(localized: "駅")
         }
     }
 }
@@ -62,6 +67,8 @@ struct Tile: Codable {
     /// 道路の等級。大通りなら true。`structure` は道路のままにしてあるので、
     /// 接続・通勤・道路に面しているかの判定は等級を意識しなくてよい。
     var isAvenue: Bool = false
+    /// 線路が通っているか。道路の上なら踏切。
+    var rail: Bool = false
 
     init() {}
 
@@ -81,6 +88,7 @@ struct Tile: Codable {
         powered = try c.decodeIfPresent(Bool.self, forKey: .powered) ?? false
         zoneID = try c.decodeIfPresent(Int32.self, forKey: .zoneID) ?? -1
         isAvenue = try c.decodeIfPresent(Bool.self, forKey: .isAvenue) ?? false
+        rail = try c.decodeIfPresent(Bool.self, forKey: .rail) ?? false
     }
 
     var hasZone: Bool { zoneID >= 0 }
