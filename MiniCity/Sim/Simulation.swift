@@ -252,6 +252,7 @@ final class Simulation {
 
             // 何を嫌い何を求めるかは業種で違う。住宅は土地の良し悪しに敏感で、
             // 工業は煙や地価をほとんど気にせず、注文があるかどうかで決まる。
+            let linked = linkedZones[id] != nil
             var score: Double
             switch z.kind {
             case .residential:
@@ -296,7 +297,11 @@ final class Simulation {
             var newLevel = level
             if level < Zone.maxLevel, score > growThreshold, Double.random(in: 0..<1, using: &rng) < growChance {
                 newLevel = level + 1
-            } else if score < shrinkThreshold, linkedZones[id] == nil, Double.random(in: 0..<1, using: &rng) < 0.15 {
+            } else if linked ? (CoarseMap.display(pol) >= Simulation.linkBreakPollution || !z.powered || !z.hasRoad)
+                                  && Double.random(in: 0..<1, using: &rng) < 0.05
+                             : score < shrinkThreshold && Double.random(in: 0..<1, using: &rng) < 0.15 {
+                // 連結した建物は、需要の波や犯罪では崩れない。公害がひどいときと、電気か道路を失ったときだけ崩れる。
+                // 絶対に崩れないことにしていたころは、隣に工業地を並べても、停電しても L9 のまま居座った。
                 newLevel = level - 1
             }
 
@@ -317,10 +322,12 @@ final class Simulation {
     // MARK: - 街区の結び
 
     /// 2×2 に並んだ同業種の区画が全部 L9 以上になると、ひとつの大きな建物として結ばれる。
-    /// 結ばれた区画は抱える数が跳ね上がり、段が下がらなくなる。値は左上（親）の区画の番号。
+    /// 結ばれた区画は抱える数が跳ね上がり、レベルが下がりにくくなる。値は左上（親）の区画の番号。
     /// 段から毎月計算し直すだけなので、セーブには入れない。
     private(set) var linkedZones: [Int32: Int32] = [:]
     static let linkLevel: UInt8 = 9
+    /// 連結した建物が崩れはじめる公害（画面の 0...100 で）。
+    static let linkBreakPollution = 40
 
     /// (x, y) を左上とする区画の番号。そこが区画の左上でなければ nil。
     private func zoneAnchored(atX x: Int, y: Int) -> Int32? {

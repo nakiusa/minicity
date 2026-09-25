@@ -310,3 +310,26 @@ precondition(Set(achievementIDs).count == achievementIDs.count, "実績の ID �
 let achievementPoints = Achievements.all.reduce(0) { $0 + $1.points }
 precondition(achievementPoints <= 1_000 && achievementIDs.count <= 100, "Game Center の上限を越えている")
 print("  \(achievementIDs.count) 件 / \(achievementPoints) 点")
+
+// --- 連結した建物は、需要の波では崩れず、公害がひどければ崩れる。 ---
+print("")
+print("== 連結と公害 ==")
+func linkedAfter(industry: Bool) -> Int {
+    let s = Simulation(seed: 8, generateTerrain: false)
+    s.funds = 1_000_000
+    for x in 8...30 { s.apply(.road, atX: x, y: 10); s.apply(.road, atX: x, y: 17) }
+    for (ox, oy) in [(10, 11), (13, 11), (10, 14), (13, 14)] { s.apply(.residential, atX: ox + 1, y: oy + 1) }
+    s.apply(.coalPlant, atX: 26, y: 13)
+    for x in 16...24 { s.apply(.powerLine, atX: x, y: 12) }
+    if industry { for cx in stride(from: 10, through: 22, by: 3) { s.apply(.industrial, atX: cx, y: 19) } }
+    s.census()
+    for i in s.map.zones.indices where s.map.zones[i].kind == .residential { s.map.updateZone(Int32(i)) { $0.level = 9 } }
+    for i in s.map.zones.indices where s.map.zones[i].kind == .industrial { s.map.updateZone(Int32(i)) { $0.level = 10 } }
+    s.updateLinks(); s.census()
+    for _ in 1...(5 * 12) { s.tick() }
+    return s.linkedZones.count
+}
+let calm = linkedAfter(industry: false), smoky = linkedAfter(industry: true)
+print("  5年後の連結: 工業なし \(calm) / 隣に工業地 \(smoky)")
+precondition(calm == 4, "公害のない連結が崩れた: \(calm)")
+precondition(smoky < 4, "公害の中でも連結が崩れない")
