@@ -170,9 +170,9 @@ print("== 都市計画の比較（同じ年数・同じ区画数） ==")
 print("  分けて建てた都市: 人口 \(sim.residents), 最大公害 \(sim.pollution.maximum), 最大地価 \(sim.landValue.maximum)")
 print("  混ぜて建てた都市（消防なし）: 火災リスク最大 \(sprawl.fireRisk.maximum), 人口 \(sprawl.residents), 最大公害 \(sprawl.pollution.maximum), 最大地価 \(sprawl.landValue.maximum)")
 
-// --- 序盤の資金繰り。初期資金2万で、ふつうに始めた都市が続けられるか。 ---
+// --- 序盤の資金繰り。初期資金2万1千で、ふつうに始めた都市が続けられるか。 ---
 print("")
-print("== 序盤（初期資金 20,000、税率10%） ==")
+print("== 序盤（初期資金 21,000、税率10%） ==")
 let s2 = Simulation(seed: 7, generateTerrain: false)
 for x in 20...44 { s2.apply(.road, atX: x, y: 30) }
 for cx in stride(from: 22, through: 32, by: 3) {

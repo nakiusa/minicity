@@ -238,7 +238,7 @@ struct HelpView: View {
                     HelpRow(symbol: "leaf.fill", title: "大公園", text: "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで地価を上げる。電気も道路も要らない。")
                     HelpRow(symbol: "shield.lefthalf.filled", title: "警察署", text: "周りの犯罪を減らす。維持費がかかる。")
                     HelpRow(symbol: "flame.fill", title: "消防署", text: "周りの火災リスクを下げる。維持費がかかる。")
-                    HelpRow(symbol: "hammer.fill", title: "撤去", text: "何でも消す。¥1。")
+                    HelpRow(symbol: "hammer.fill", title: "撤去", text: "何でも消す。¥2。")
                 }
 
                 Section("街が育つ仕組み") {

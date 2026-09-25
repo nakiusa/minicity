@@ -6172,54 +6172,54 @@
         }
       }
     },
-    "何でも消す。¥1。": {
+    "何でも消す。¥2。": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Entfernt alles. ¥1."
+            "value": "Entfernt alles. ¥2."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Removes anything. ¥1."
+            "value": "Removes anything. ¥2."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Elimina cualquier cosa. ¥1."
+            "value": "Elimina cualquier cosa. ¥2."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Supprime n'importe quoi. ¥1."
+            "value": "Supprime n'importe quoi. ¥2."
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "무엇이든 지웁니다. ¥1."
+            "value": "무엇이든 지웁니다. ¥2."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Remove qualquer coisa. ¥1."
+            "value": "Remove qualquer coisa. ¥2."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "清除任何东西。¥1。"
+            "value": "清除任何东西。¥2。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "清除任何東西。¥1。"
+            "value": "清除任何東西。¥2。"
           }
         }
       }

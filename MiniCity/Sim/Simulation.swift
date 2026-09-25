@@ -8,7 +8,7 @@ final class Simulation {
 
     // MARK: - プレイヤーが動かす値
 
-    var funds: Int = 20_000
+    var funds: Int = 21_000
     /// 税率（%）。10% が目安で、0〜30% の間で動かす。
     /// 1.5 までは 7% が目安の目盛りだった。古いセーブは読み込むときに 10/7 倍して合わせる。
     var taxRate: Int = 10

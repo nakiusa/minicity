@@ -57,18 +57,19 @@ enum Tool: String, CaseIterable, Identifiable {
         }
     }
 
+    /// 値段。同じジャンルの古い名作と同じ数字（1・5・10・100・500・3000）にならないようにずらしてある。
     var cost: Int {
         switch self {
         case .pan, .inspect: return 0
-        case .bulldozer: return 1
+        case .bulldozer: return 2
         case .road: return 25
         case .avenue: return 90
-        case .powerLine: return 5
-        case .park: return 10
+        case .powerLine: return 6
+        case .park: return 15
         case .bigPark: return 400
-        case .residential, .commercial, .industrial: return 100
-        case .coalPlant: return 3000
-        case .police, .fire: return 500
+        case .residential, .commercial, .industrial: return 120
+        case .coalPlant: return 2800
+        case .police, .fire: return 450
         }
     }
 
