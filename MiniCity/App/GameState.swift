@@ -347,7 +347,7 @@ final class GameState: ObservableObject {
     }
 
     func setTaxRate(_ rate: Int) {
-        sim.taxRate = min(max(rate, 0), 20)
+        sim.taxRate = min(max(rate, 0), 30)
         revision &+= 1
     }
 

@@ -161,107 +161,106 @@
         }
       }
     },
-    "%@年 %@": {
-      "comment": "年と月。%1$@ が年、%2$@ が月の名前",
+    "%@年目 %@": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$@ %1$@"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%2$@ %1$@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$@ %1$@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$@ %1$@"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@년 %2$@"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$@ %1$@"
+            "value": "Year %1$@, %2$@"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$@年 %2$@"
+            "value": "第%1$@年 %2$@"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$@年 %2$@"
+            "value": "第%1$@年 %2$@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@년차 %2$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Año %1$@, %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An %1$@, %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jahr %1$@, %2$@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ano %1$@, %2$@"
           }
         }
       }
     },
-    "%@年 · 人口 %@人 · ¥%@": {
+    "%@年目 · 人口 %@人 · ¥%@": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Einwohner %2$@ · ¥%3$@"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$@ · Population %2$@ · ¥%3$@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Población %2$@ · ¥%3$@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Population %2$@ · ¥%3$@"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@년 · 인구 %2$@명 · ¥%3$@"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · População %2$@ · ¥%3$@"
+            "value": "Year %1$@ · Population %2$@ · ¥%3$@"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$@年 · 人口 %2$@ · ¥%3$@"
+            "value": "第%1$@年 · 人口 %2$@ · ¥%3$@"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$@年 · 人口 %2$@ · ¥%3$@"
+            "value": "第%1$@年 · 人口 %2$@ · ¥%3$@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@년차 · 인구 %2$@명 · ¥%3$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Año %1$@ · Población %2$@ · ¥%3$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An %1$@ · Population %2$@ · ¥%3$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jahr %1$@ · Einwohner %2$@ · ¥%3$@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ano %1$@ · População %2$@ · ¥%3$@"
           }
         }
       }
@@ -481,58 +480,6 @@
         }
       }
     },
-    "%lld年の街": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stadt von %lld"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "City of %lld"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ciudad de %lld"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ville de %lld"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld년의 도시"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cidade de %lld"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld年的城市"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld年的城市"
-          }
-        }
-      }
-    },
     "%lld年の記録": {
       "localizations": {
         "de": {
@@ -637,61 +584,216 @@
         }
       }
     },
+    "%lld年目の街": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City in year %lld"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第%lld年的城市"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第%lld年的城市"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld년차의 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad del año %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ville de l'an %lld"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stadt im Jahr %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade do ano %lld"
+          }
+        }
+      }
+    },
+    "%lld年遊ぶ。最後の年を越えると成績が出る（そのあとも続けられる）。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play for %lld years. When the last year ends you get a report card (and can keep playing)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "玩 %lld 年。最后一年结束后会显示成绩单（之后也可以继续）。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "玩 %lld 年。最後一年結束後會顯示成績單（之後也可以繼續）。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld년 동안 플레이합니다. 마지막 해가 지나면 성적표가 나옵니다(그 뒤에도 계속할 수 있습니다)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Juega %lld años. Al terminar el último año verás un informe (y podrás seguir jugando)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouez %lld ans. À la fin de la dernière année, un bilan s'affiche (et vous pouvez continuer)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spiele %lld Jahre. Nach dem letzten Jahr gibt es eine Bilanz (danach kannst du weiterspielen)."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jogue %lld anos. Ao fim do último ano aparece um boletim (e você pode continuar)."
+          }
+        }
+      }
+    },
     "+¥%lld": {
       "shouldTranslate": false
     },
     "-¥%lld": {
       "shouldTranslate": false
     },
-    "0000年 00月": {
-      "comment": "日付の幅の型紙。いちばん長い月名で",
+    "000年目 00月": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sept. 0000"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sep 0000"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "sep 0000"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "sept. 0000"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "0000년 00월"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "set. 0000"
+            "value": "Year 000, Sep"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "0000年 00月"
+            "value": "第000年 00月"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "0000年 00月"
+            "value": "第000年 00月"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "000년차 00월"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Año 000, sep"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An 000, sept."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jahr 000, Sept."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ano 000, set."
+          }
+        }
+      }
+    },
+    "100 年続ける": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the city going for 100 years"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让城市延续 100 年"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓城市延續 100 年"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100년 동안 도시 유지하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén la ciudad 100 años"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire vivre la ville 100 ans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Stadt 100 Jahre am Laufen halten"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter a cidade por 100 anos"
           }
         }
       }
@@ -748,6 +850,58 @@
         }
       }
     },
+    "10％が目安。上げると収入は増えますが需要が下がり、街が縮みます。下げると育ちますが赤字になります。": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 % sind der Richtwert. Höher bringt mehr Geld, senkt aber die Nachfrage, die Stadt schrumpft. Niedriger lässt sie wachsen, aber mit Defizit."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10% is the baseline. Higher brings more income but lowers demand and shrinks the city. Lower grows it but runs a deficit."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El 10% es la referencia. Más alto da más ingresos pero baja la demanda y encoge la ciudad. Más bajo la hace crecer pero da déficit."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 % est le repère. Plus haut, plus de revenus mais moins de demande, la ville rétrécit. Plus bas, elle grandit mais en déficit."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10%가 기준. 올리면 수입은 늘지만 수요가 떨어져 도시가 줄어듭니다. 내리면 자라지만 적자가 납니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10% é a referência. Mais alto dá mais renda, mas baixa a demanda e encolhe a cidade. Mais baixo faz crescer, mas dá déficit."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10%是基准。调高收入增加但需求下降，城市萎缩。调低会生长但出现赤字。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10%是基準。調高收入增加但需求下降，城市萎縮。調低會生長但出現赤字。"
+          }
+        }
+      }
+    },
     "12月に1年ぶんの税収が入り、道路・発電所・警察・消防の維持費が引かれます。予算画面に見込みが出ます。": {
       "localizations": {
         "de": {
@@ -800,210 +954,54 @@
         }
       }
     },
-    "1900年から%@年まで": {
+    "1年目から%@年目まで": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1900 bis %@"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "1900 to %@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De 1900 a %@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De 1900 à %@"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1900년부터 %@년까지"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De 1900 a %@"
+            "value": "Years 1–%@"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "1900年至%@年"
+            "value": "第1年至第%@年"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "1900年至%@年"
-          }
-        }
-      }
-    },
-    "1900年から%@年まで。最後の年を越えると成績が出る（そのあとも続けられる）。": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Von 1900 bis %@. Nach dem letzten Jahr gibt es eine Bilanz (danach kannst du weiterspielen)."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "From 1900 to %@. When the last year ends you get a report card (and can keep playing)."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De 1900 a %@. Al terminar el último año verás un informe (y podrás seguir jugando)."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De 1900 à %@. À la fin de la dernière année, un bilan s'affiche (et vous pouvez continuer)."
+            "value": "第1年至第%@年"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "1900년부터 %@년까지. 마지막 해가 지나면 성적표가 나옵니다(그 뒤에도 계속할 수 있습니다)."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De 1900 a %@. Ao fim do último ano aparece um boletim (e você pode continuar)."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "从1900年到%@年。最后一年结束后会显示成绩单（之后也可以继续）。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "從1900年到%@年。最後一年結束後會顯示成績單（之後也可以繼續）。"
-          }
-        }
-      }
-    },
-    "1950 年になる前に人口 50,000 人": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "50,000 residents before 1950"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1950 年之前人口达到 50,000"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1950 年之前人口達到 50,000"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1950년이 되기 전에 인구 50,000명"
+            "value": "1년차부터 %@년차까지"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 habitantes antes de 1950"
+            "value": "Años 1 a %@"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "50 000 habitants avant 1950"
+            "value": "Années 1 à %@"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 Einwohner vor 1950"
+            "value": "Jahr 1 bis %@"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 moradores antes de 1950"
-          }
-        }
-      }
-    },
-    "1950 年まで街を保つ": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Stadt bis 1950 am Laufen halten"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep the city going until 1950"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantén la ciudad hasta 1950"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Faire vivre la ville jusqu'en 1950"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1950년까지 도시를 유지하기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Manter a cidade até 1950"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "让城市延续到1950年"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "讓城市延續到1950年"
+            "value": "Anos 1 a %@"
           }
         }
       }
@@ -1113,54 +1111,54 @@
         }
       }
     },
-    "2000 年まで街を保つ": {
+    "200 年続ける": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Stadt bis 2000 am Laufen halten"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep the city going until 2000"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantén la ciudad hasta 2000"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Faire vivre la ville jusqu'en 2000"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "2000년까지 도시를 유지하기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Manter a cidade até 2000"
+            "value": "Keep the city going for 200 years"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "让城市延续到2000年"
+            "value": "让城市延续 200 年"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "讓城市延續到2000年"
+            "value": "讓城市延續 200 年"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "200년 동안 도시 유지하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén la ciudad 200 años"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire vivre la ville 200 ans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Stadt 200 Jahre am Laufen halten"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter a cidade por 200 anos"
           }
         }
       }
@@ -1213,162 +1211,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "200年"
-          }
-        }
-      }
-    },
-    "2100 年まで街を保つ": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Stadt bis 2100 am Laufen halten"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep the city going until 2100"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantén la ciudad hasta 2100"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Faire vivre la ville jusqu'en 2100"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "2100년까지 도시를 유지하기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Manter a cidade até 2100"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "让城市延续到2100年"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "讓城市延續到2100年"
-          }
-        }
-      }
-    },
-    "2200 年まで街を保つ": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep the city until 2200"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "让城市延续到 2200 年"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "讓城市延續到 2200 年"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "2200년까지 도시 유지"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantén la ciudad hasta 2200"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Maintenez la ville jusqu'en 2200"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halte die Stadt bis 2200"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantenha a cidade até 2200"
-          }
-        }
-      }
-    },
-    "2400 年まで街を保つ": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep the city until 2400"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "让城市延续到 2400 年"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "讓城市延續到 2400 年"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "2400년까지 도시 유지"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantén la ciudad hasta 2400"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Maintenez la ville jusqu'en 2400"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halte die Stadt bis 2400"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantenha a cidade até 2400"
           }
         }
       }
@@ -1473,6 +1315,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "雙指"
+          }
+        }
+      }
+    },
+    "300 年続ける": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the city going for 300 years"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让城市延续 300 年"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓城市延續 300 年"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "300년 동안 도시 유지하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén la ciudad 300 años"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire vivre la ville 300 ans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Stadt 300 Jahre am Laufen halten"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter a cidade por 300 anos"
           }
         }
       }
@@ -1789,6 +1683,162 @@
         }
       }
     },
+    "50 年以内に人口 50,000 人": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50,000 residents within 50 years"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50 年内人口达到 50,000"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50 年內人口達到 50,000"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50년 안에 인구 50,000명"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50.000 habitantes en 50 años"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50 000 habitants en 50 ans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50.000 Einwohner in 50 Jahren"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50.000 moradores em 50 anos"
+          }
+        }
+      }
+    },
+    "50 年続ける": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the city going for 50 years"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让城市延续 50 年"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓城市延續 50 年"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50년 동안 도시 유지하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén la ciudad 50 años"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire vivre la ville 50 ans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Stadt 50 Jahre am Laufen halten"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter a cidade por 50 anos"
+          }
+        }
+      }
+    },
+    "500 年続ける": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the city going for 500 years"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让城市延续 500 年"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓城市延續 500 年"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "500년 동안 도시 유지하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén la ciudad 500 años"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire vivre la ville 500 ans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Stadt 500 Jahre am Laufen halten"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter a cidade por 500 anos"
+          }
+        }
+      }
+    },
     "50年": {
       "localizations": {
         "de": {
@@ -1941,58 +1991,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "從50年、100年、200年或無期限中選擇。到期後時間停止，出成績單。人口會提交到 Game Center 排行榜。"
-          }
-        }
-      }
-    },
-    "7％が目安。上げると収入は増えますが需要が下がり、街が縮みます。下げると育ちますが赤字になります。": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "7 % sind der Richtwert. Höher bringt mehr Geld, senkt aber die Nachfrage, die Stadt schrumpft. Niedriger lässt sie wachsen, aber mit Defizit."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "7% is the baseline. Higher brings more income but lowers demand and shrinks the city. Lower grows it but runs a deficit."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El 7% es la referencia. Más alto da más ingresos pero baja la demanda y encoge la ciudad. Más bajo la hace crecer pero da déficit."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "7 % est le repère. Plus haut, plus de revenus mais moins de demande, la ville rétrécit. Plus bas, elle grandit mais en déficit."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "7%가 기준. 올리면 수입은 늘지만 수요가 떨어져 도시가 줄어듭니다. 내리면 자라지만 적자가 납니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "7% é a referência. Mais alto dá mais renda, mas baixa a demanda e encolhe a cidade. Mais baixo faz crescer, mas dá déficit."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "7%是基准。调高收入增加但需求下降，城市萎缩。调低会生长但出现赤字。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "7%是基準。調高收入增加但需求下降，城市萎縮。調低會生長但出現赤字。"
           }
         }
       }
@@ -10336,54 +10334,54 @@
         }
       }
     },
-    "左上の3本の棒。住宅・商業・工業それぞれの需要です。上に伸びていれば置けば育ち、下なら置いても埋まりません。職と住のつり合いで動きます。": {
+    "左上の3本の帯。家・袋・歯車の順に、住宅・商業・工業の需要です。右に伸びていれば置けば育ち、左なら置いても埋まりません。職と住のつり合いで動きます。": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die drei Balken oben links: Wohn-, Gewerbe-, Industrienachfrage. Nach oben füllen sich neue Zonen, nach unten nicht. Hängt vom Verhältnis von Arbeit und Wohnen ab."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The three bars at top left: residential, commercial, industrial demand. Up means new zones will fill; down means they won't. Driven by the balance of jobs and homes."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Las tres barras arriba a la izquierda: demanda residencial, comercial e industrial. Arriba, las zonas nuevas se llenan; abajo, no. Depende del equilibrio entre empleos y viviendas."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les trois barres en haut à gauche : demande résidentielle, commerciale, industrielle. Vers le haut, les nouvelles zones se remplissent ; vers le bas, non. Dépend de l'équilibre emplois-logements."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "왼쪽 위의 막대 세 개: 주거, 상업, 공업의 수요. 위로 뻗으면 놓으면 자라고, 아래면 놓아도 채워지지 않습니다. 직장과 주거의 균형으로 움직입니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "As três barras no canto superior esquerdo: demanda residencial, comercial e industrial. Para cima, zonas novas se enchem; para baixo, não. Movida pelo equilíbrio entre empregos e moradias."
+            "value": "The three strips at top left: house, bag and gear show residential, commercial and industrial demand. Stretching right means new zones will fill; left means they won't. Driven by the balance of jobs and homes."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "左上的三根柱：住宅、商业、工业的需求。向上表示放了就会长，向下表示放了也填不满。由职住平衡决定。"
+            "value": "左上的三条带：房子、袋子、齿轮依次是住宅、商业、工业的需求。向右伸表示放了就会长，向左表示放了也填不满。由职住平衡决定。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "左上的三根柱：住宅、商業、工業的需求。向上表示放了就會長，向下表示放了也填不滿。由職住平衡決定。"
+            "value": "左上的三條帶：房子、袋子、齒輪依次是住宅、商業、工業的需求。向右伸表示放了就會長，向左表示放了也填不滿。由職住平衡決定。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "왼쪽 위의 띠 세 개: 집, 가방, 톱니바퀴 순으로 주거, 상업, 공업의 수요입니다. 오른쪽으로 뻗으면 놓으면 자라고, 왼쪽이면 놓아도 채워지지 않습니다. 직장과 주거의 균형으로 움직입니다."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las tres franjas arriba a la izquierda: casa, bolsa y engranaje muestran la demanda residencial, comercial e industrial. Hacia la derecha, las zonas nuevas se llenan; hacia la izquierda, no. Depende del equilibrio entre empleos y viviendas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les trois bandes en haut à gauche : maison, sac et engrenage indiquent la demande résidentielle, commerciale et industrielle. Vers la droite, les nouvelles zones se remplissent ; vers la gauche, non. Dépend de l'équilibre emplois-logements."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die drei Streifen oben links: Haus, Tasche und Zahnrad zeigen die Nachfrage nach Wohnen, Gewerbe und Industrie. Nach rechts füllen sich neue Zonen, nach links nicht. Hängt vom Verhältnis von Arbeit und Wohnen ab."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As três faixas no canto superior esquerdo: casa, sacola e engrenagem mostram a demanda residencial, comercial e industrial. Para a direita, zonas novas se enchem; para a esquerda, não. Movida pelo equilíbrio entre empregos e moradias."
           }
         }
       }
@@ -15123,262 +15121,262 @@
         }
       }
     },
-    "税率 15% 以上で人口 3,000 人": {
+    "税率 20% 以上で人口 3,000 人": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "3.000 Einwohner bei 15 % Steuern oder mehr"
+            "value": "3.000 Einwohner bei 20 % Steuern oder mehr"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 3,000 at 15% tax or more"
+            "value": "Population 3,000 at 20% tax or more"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Población 3.000 con impuestos del 15% o más"
+            "value": "Población 3.000 con impuestos del 20% o más"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 3 000 avec des impôts à 15 % ou plus"
+            "value": "Population 3 000 avec des impôts à 20 % ou plus"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "세율 15% 이상으로 인구 3,000명"
+            "value": "세율 20% 이상으로 인구 3,000명"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "População 3.000 com impostos de 15% ou mais"
+            "value": "População 3.000 com impostos de 20% ou mais"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "税率 15% 以上且人口 3,000 人"
+            "value": "税率 20% 以上且人口 3,000 人"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "稅率 15% 以上且人口 3,000 人"
+            "value": "稅率 20% 以上且人口 3,000 人"
           }
         }
       }
     },
-    "税率 20% で人口 10,000 人": {
+    "税率 30% で人口 10,000 人": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "10,000 residents at a 20% tax rate"
+            "value": "10,000 residents at a 30% tax rate"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "税率 20% 时人口达到 10,000"
+            "value": "税率 30% 时人口达到 10,000"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "稅率 20% 時人口達到 10,000"
+            "value": "稅率 30% 時人口達到 10,000"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "세율 20%로 인구 10,000명"
+            "value": "세율 30%로 인구 10,000명"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "10.000 habitantes con impuesto del 20%"
+            "value": "10.000 habitantes con impuesto del 30%"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "10 000 habitants avec un taux de 20 %"
+            "value": "10 000 habitants avec un taux de 30 %"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "10.000 Einwohner bei 20 % Steuern"
+            "value": "10.000 Einwohner bei 30 % Steuern"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "10.000 moradores com imposto de 20%"
+            "value": "10.000 moradores com imposto de 30%"
           }
         }
       }
     },
-    "税率 3% 以下で人口 50,000 人": {
+    "税率 4% 以下で人口 50,000 人": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "50,000 residents at a tax rate of 3% or less"
+            "value": "50,000 residents at a tax rate of 4% or less"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "税率 3% 以下时人口达到 50,000"
+            "value": "税率 4% 以下时人口达到 50,000"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "稅率 3% 以下時人口達到 50,000"
+            "value": "稅率 4% 以下時人口達到 50,000"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "세율 3% 이하로 인구 50,000명"
+            "value": "세율 4% 이하로 인구 50,000명"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 habitantes con impuesto del 3% o menos"
+            "value": "50.000 habitantes con impuesto del 4% o menos"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "50 000 habitants avec un taux de 3 % ou moins"
+            "value": "50 000 habitants avec un taux de 4 % ou moins"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 Einwohner bei höchstens 3 % Steuern"
+            "value": "50.000 Einwohner bei höchstens 4 % Steuern"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "50.000 moradores com imposto de 3% ou menos"
+            "value": "50.000 moradores com imposto de 4% ou menos"
           }
         }
       }
     },
-    "税率 5% 以下で人口 5,000 人": {
+    "税率 7% 以下で人口 5,000 人": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "5.000 Einwohner bei 5 % Steuern oder weniger"
+            "value": "5.000 Einwohner bei 7 % Steuern oder weniger"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 5,000 at 5% tax or less"
+            "value": "Population 5,000 at 7% tax or less"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Población 5.000 con impuestos del 5% o menos"
+            "value": "Población 5.000 con impuestos del 7% o menos"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Population 5 000 avec des impôts à 5 % ou moins"
+            "value": "Population 5 000 avec des impôts à 7 % ou moins"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "세율 5% 이하로 인구 5,000명"
+            "value": "세율 7% 이하로 인구 5,000명"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "População 5.000 com impostos de 5% ou menos"
+            "value": "População 5.000 com impostos de 7% ou menos"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "税率 5% 以下且人口 5,000 人"
+            "value": "税率 7% 以下且人口 5,000 人"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "稅率 5% 以下且人口 5,000 人"
+            "value": "稅率 7% 以下且人口 5,000 人"
           }
         }
       }
     },
-    "税率7％が目安。足りなければ予算から借りられる": {
+    "税率10％が目安。足りなければ予算から借りられる": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "7 % Steuern sind ein guter Richtwert. Knapp? Im Budget leihen"
+            "value": "10 % Steuern sind ein guter Richtwert. Knapp? Im Budget leihen"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "7% tax is a good baseline. Short on cash? Borrow in Budget"
+            "value": "10% tax is a good baseline. Short on cash? Borrow in Budget"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El 7% de impuestos es la referencia. Si falta, pide un préstamo en Presupuesto"
+            "value": "El 10% de impuestos es la referencia. Si falta, pide un préstamo en Presupuesto"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "7 % d'impôts est un bon repère. À court ? Empruntez dans Budget"
+            "value": "10 % d'impôts est un bon repère. À court ? Empruntez dans Budget"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "세율 7%가 기준. 부족하면 예산에서 빌릴 수 있습니다"
+            "value": "세율 10%가 기준. 부족하면 예산에서 빌릴 수 있습니다"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "7% de imposto é a referência. Faltou? Pegue empréstimo em Orçamento"
+            "value": "10% de imposto é a referência. Faltou? Pegue empréstimo em Orçamento"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "税率7%是基准。钱不够可在预算中借款"
+            "value": "税率10%是基准。钱不够可在预算中借款"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "稅率7%是基準。錢不夠可在預算中借款"
+            "value": "稅率10%是基準。錢不夠可在預算中借款"
           }
         }
       }
@@ -19754,6 +19752,58 @@
         }
       }
     },
+    "需要": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demand"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需求"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需求"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "수요"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demanda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demande"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nachfrage"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demanda"
+          }
+        }
+      }
+    },
     "需要 住宅：%@ 商業：%@ 工業：%@": {
       "localizations": {
         "en": {
@@ -19802,58 +19852,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Demanda  R: %@  C: %@  I: %@"
-          }
-        }
-      }
-    },
-    "需要（R・C・I）": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nachfrage (R · C · I)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Demand (R · C · I)"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Demanda (R · C · I)"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Demande (R · C · I)"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "수요 (R · C · I)"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Demanda (R · C · I)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需求（R · C · I）"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需求（R · C · I）"
           }
         }
       }

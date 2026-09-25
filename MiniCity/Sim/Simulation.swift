@@ -9,7 +9,9 @@ final class Simulation {
     // MARK: - プレイヤーが動かす値
 
     var funds: Int = 20_000
-    var taxRate: Int = 7
+    /// 税率（%）。10% が目安で、0〜30% の間で動かす。
+    /// 1.5 までは 7% が目安の目盛りだった。古いセーブは読み込むときに 10/7 倍して合わせる。
+    var taxRate: Int = 10
     private(set) var monthsElapsed: Int = 0
     /// 借入の残高。年度末に利息と元本の一部を返す。
     /// 赤字が続いて手が打てなくなった街の逃げ道。撤去も建て直しも金が要る。
@@ -20,7 +22,7 @@ final class Simulation {
         self.init(generateTerrain: false)
         map.restore(tiles: save.tiles, zones: save.zones)
         funds = save.funds
-        taxRate = save.taxRate
+        taxRate = save.version >= 2 ? save.taxRate : Int((Double(save.taxRate) * 10 / 7).rounded())
         monthsElapsed = save.monthsElapsed
         termYears = save.termYears
         debt = save.debt ?? 0
@@ -33,14 +35,15 @@ final class Simulation {
         census()
     }
 
-    var year: Int { 1900 + monthsElapsed / 12 }
+    /// 何年目か。暦の年（1900年から、など）は使わず、始めてからの年数で数える。
+    var year: Int { monthsElapsed / 12 + 1 }
     var month: Int { monthsElapsed % 12 + 1 }
 
     /// 遊ぶと決めた年数。`nil` なら期限なしで、いつまでも続けられる。
     var termYears: Int?
 
-    /// 期限の最後の年。1900年から100年なら 1999年まで遊んで終わる。
-    var lastYear: Int? { termYears.map { 1900 + $0 - 1 } }
+    /// 期限の最後の年。100年なら 100年目まで遊んで終わる。
+    var lastYear: Int? { termYears }
 
     /// 期限まで残り何年か。最後の1年のあいだは 1 を返す。
     var yearsLeft: Int? {
@@ -218,7 +221,7 @@ final class Simulation {
         var c = (Double(residents) * 0.30 - Double(jobsCommercial)) / scale
         var i = (Double(residents) * 0.34 + 140 - Double(jobsIndustrial)) / scale
 
-        let taxPenalty = Double(taxRate - 7) * 0.045
+        let taxPenalty = Double(taxRate - 10) * 0.0315
         r -= taxPenalty
         c -= taxPenalty
         i -= taxPenalty
@@ -386,8 +389,9 @@ final class Simulation {
     }
 
     /// 年度が変わる前でも、いま決算したらどうなるかを予算画面に出す。
-    var incomeFromResidents: Int { Int(Double(residents) * Double(taxRate) * 0.065) }
-    var incomeFromBusiness: Int { Int(Double(jobs) * Double(taxRate) * 0.038) }
+    // 係数は、目盛りを 7% 目安から 10% 目安に変えたときに 0.7 倍して、収入が変わらないようにしてある。
+    var incomeFromResidents: Int { Int(Double(residents) * Double(taxRate) * 0.0455) }
+    var incomeFromBusiness: Int { Int(Double(jobs) * Double(taxRate) * 0.0266) }
 
     var projectedIncome: Int { incomeFromResidents + incomeFromBusiness }
 

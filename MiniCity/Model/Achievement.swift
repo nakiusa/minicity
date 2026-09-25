@@ -128,7 +128,7 @@ enum Achievements {
                     detail: String(localized: "人口 150,000 人"), symbol: "star.fill", points: 0) { $0.sim.residents >= 150_000 },
 
         Achievement(id: "rush.50000", group: .population, title: String(localized: "急成長"),
-                    detail: String(localized: "1950 年になる前に人口 50,000 人"), symbol: "hare.fill", points: 0) { $0.sim.year < 1950 && $0.sim.residents >= 50_000 },
+                    detail: String(localized: "50 年以内に人口 50,000 人"), symbol: "hare.fill", points: 0) { $0.sim.monthsElapsed <= 50 * 12 && $0.sim.residents >= 50_000 },
 
         Achievement(id: "jobs.50000", group: .population, title: String(localized: "働く街"),
                     detail: String(localized: "雇用 50,000"), symbol: "briefcase.fill", points: 0) { $0.sim.jobs >= 50_000 },
@@ -283,13 +283,13 @@ enum Achievements {
         },
 
         Achievement(id: "low.tax", group: .economy, title: String(localized: "軽い税"),
-                    detail: String(localized: "税率 5% 以下で人口 5,000 人"), symbol: "arrow.down.circle", points: 40) {
-            $0.sim.residents >= 5_000 && $0.sim.taxRate <= 5
+                    detail: String(localized: "税率 7% 以下で人口 5,000 人"), symbol: "arrow.down.circle", points: 40) {
+            $0.sim.residents >= 5_000 && $0.sim.taxRate <= 7
         },
 
         Achievement(id: "high.tax", group: .economy, title: String(localized: "重税に耐える"),
-                    detail: String(localized: "税率 15% 以上で人口 3,000 人"), symbol: "arrow.up.circle", points: 40) {
-            $0.sim.residents >= 3_000 && $0.sim.taxRate >= 15
+                    detail: String(localized: "税率 20% 以上で人口 3,000 人"), symbol: "arrow.up.circle", points: 40) {
+            $0.sim.residents >= 3_000 && $0.sim.taxRate >= 20
         },
 
         Achievement(id: "power.5", group: .economy, title: String(localized: "電力自給"),
@@ -310,27 +310,27 @@ enum Achievements {
                     detail: String(localized: "借入なしで人口 50,000 人"), symbol: "checkmark.seal.fill", points: 0) { $0.sim.residents >= 50_000 && $0.sim.debt == 0 },
 
         Achievement(id: "low.tax.big", group: .economy, title: String(localized: "ほぼ無税"),
-                    detail: String(localized: "税率 3% 以下で人口 50,000 人"), symbol: "arrow.down.to.line", points: 0) { $0.sim.residents >= 50_000 && $0.sim.taxRate <= 3 },
+                    detail: String(localized: "税率 4% 以下で人口 50,000 人"), symbol: "arrow.down.to.line", points: 0) { $0.sim.residents >= 50_000 && $0.sim.taxRate <= 4 },
 
         Achievement(id: "high.tax.big", group: .economy, title: String(localized: "重税都市"),
-                    detail: String(localized: "税率 20% で人口 10,000 人"), symbol: "exclamationmark.triangle.fill", points: 0) { $0.sim.residents >= 10_000 && $0.sim.taxRate >= 20 },
+                    detail: String(localized: "税率 30% で人口 10,000 人"), symbol: "exclamationmark.triangle.fill", points: 0) { $0.sim.residents >= 10_000 && $0.sim.taxRate >= 30 },
 
         // MARK: 時代
 
         Achievement(id: "year.1950", group: .time, title: String(localized: "半世紀"),
-                    detail: String(localized: "1950 年まで街を保つ"), symbol: "clock.fill", points: 10) { $0.sim.year >= 1950 },
+                    detail: String(localized: "50 年続ける"), symbol: "clock.fill", points: 10) { $0.sim.monthsElapsed >= 50 * 12 },
 
         Achievement(id: "year.2000", group: .time, title: String(localized: "世紀を越えて"),
-                    detail: String(localized: "2000 年まで街を保つ"), symbol: "hourglass", points: 20) { $0.sim.year >= 2000 },
+                    detail: String(localized: "100 年続ける"), symbol: "hourglass", points: 20) { $0.sim.monthsElapsed >= 100 * 12 },
 
         Achievement(id: "year.2100", group: .time, title: String(localized: "次の百年"),
-                    detail: String(localized: "2100 年まで街を保つ"), symbol: "infinity", points: 30) { $0.sim.year >= 2100 },
+                    detail: String(localized: "200 年続ける"), symbol: "infinity", points: 30) { $0.sim.monthsElapsed >= 200 * 12 },
 
         Achievement(id: "year.2200", group: .time, title: String(localized: "三百年"),
-                    detail: String(localized: "2200 年まで街を保つ"), symbol: "clock.arrow.circlepath", points: 0) { $0.sim.year >= 2200 },
+                    detail: String(localized: "300 年続ける"), symbol: "clock.arrow.circlepath", points: 0) { $0.sim.monthsElapsed >= 300 * 12 },
 
         Achievement(id: "year.2400", group: .time, title: String(localized: "悠久"),
-                    detail: String(localized: "2400 年まで街を保つ"), symbol: "tortoise.fill", points: 0) { $0.sim.year >= 2400 },
+                    detail: String(localized: "500 年続ける"), symbol: "tortoise.fill", points: 0) { $0.sim.monthsElapsed >= 500 * 12 },
     ]
 
     static func inGroup(_ group: AchievementGroup) -> [Achievement] {

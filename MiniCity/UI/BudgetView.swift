@@ -62,7 +62,7 @@ struct BudgetView: View {
                                 get: { Double(game.sim.taxRate) },
                                 set: { game.setTaxRate(Int($0.rounded())) }
                             ),
-                            in: 0...20, step: 1
+                            in: 0...30, step: 1
                         )
                     }
                 }
@@ -194,7 +194,7 @@ struct BudgetView: View {
                 TextField("名前", text: $cityName)
                 Button("保存") {
                     let name = cityName.trimmingCharacters(in: .whitespaces)
-                    game.shelveCity(name: name.isEmpty ? String(localized: "\(game.sim.year)年の街") : name)
+                    game.shelveCity(name: name.isEmpty ? String(localized: "\(game.sim.year)年目の街") : name)
                 }
                 Button("やめる", role: .cancel) {}
             } message: {
@@ -219,9 +219,9 @@ struct BudgetView: View {
 
     private var taxAdvice: String {
         switch game.sim.taxRate {
-        case 0...4: return String(localized: "誰もが喜ぶが、財政は持たない")
-        case 5...8: return String(localized: "成長を妨げない範囲")
-        case 9...12: return String(localized: "そろそろ嫌がられる")
+        case 0...6: return String(localized: "誰もが喜ぶが、財政は持たない")
+        case 7...11: return String(localized: "成長を妨げない範囲")
+        case 12...17: return String(localized: "そろそろ嫌がられる")
         default: return String(localized: "高すぎる。人も企業も出ていく")
         }
     }
@@ -317,7 +317,7 @@ struct ShelvedCitiesView: View {
                     VStack(alignment: .leading, spacing: 3) {
                         Text(city.save.name ?? "—")
                             .font(.system(size: 15, weight: .semibold))
-                        Text("\(String(city.save.year))年 · 人口 \(city.save.residents.formatted())人 · ¥\(city.save.funds.formatted())")
+                        Text("\(String(city.save.year))年目 · 人口 \(city.save.residents.formatted())人 · ¥\(city.save.funds.formatted())")
                             .font(.system(size: 12))
                             .foregroundStyle(.secondary)
                         if let at = city.save.savedAt {

@@ -20,7 +20,7 @@ struct ResultView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("1900年から\(String(sim.year - 1))年まで")
+                        Text("1年目から\(String(sim.year - 1))年目まで")
                             .font(.system(size: 12))
                             .foregroundStyle(.secondary)
                         Text("\(years)年の記録")
@@ -114,7 +114,7 @@ struct ResultView: View {
     }
 
     /// 遊んだ年数。期限つきなら期限、なければ 1900 年からの経過年。
-    private var years: Int { game.sim.termYears ?? game.sim.year - 1900 }
+    private var years: Int { game.sim.termYears ?? game.sim.year - 1 }
 
     private func row(_ label: LocalizedStringKey, _ value: String) -> some View {
         HStack {

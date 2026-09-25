@@ -35,7 +35,7 @@ struct MapSelectView: View {
                             Text("終わりはない。好きなだけ育てられる。")
                         } else {
                             // 年に桁区切りが入らないよう、数のままにしない。
-                            Text("1900年から\(String(1900 + termYears - 1))年まで。最後の年を越えると成績が出る（そのあとも続けられる）。")
+                            Text("\(termYears)年遊ぶ。最後の年を越えると成績が出る（そのあとも続けられる）。")
                         }
                     }
                     .font(.system(size: 11))

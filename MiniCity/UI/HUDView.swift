@@ -35,8 +35,8 @@ struct TopBar: View {
                     // 月が2桁に変わるたびに、右にある資金や速度のボタンがまとめてずれる。
                     // いちばん長い日付を型紙として敷いておき、幅を固定する。
                     ZStack(alignment: .leading) {
-                        Text("0000年 00月", comment: "日付の幅の型紙。いちばん長い月名で").hidden()
-                        Text("\(String(sim.year))年 \(monthNames[sim.month - 1])", comment: "年と月。%1$@ が年、%2$@ が月の名前")
+                        Text("000年目 00月", comment: "日付の幅の型紙。いちばん長い月名で").hidden()
+                        Text("\(String(sim.year))年目 \(monthNames[sim.month - 1])", comment: "何年目と月。%1$@ が年数、%2$@ が月の名前")
                     }
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .monospacedDigit()
@@ -126,18 +126,20 @@ struct TopBar: View {
 struct DemandIndicator: View {
     @ObservedObject var game: GameState
 
-    private let height: CGFloat = 34
+    private let width: CGFloat = 40
 
     var body: some View {
-        HStack(alignment: .center, spacing: 7) {
-            bar("R", game.sim.demandR, .green)
-            bar("C", game.sim.demandC, .blue)
-            bar("I", game.sim.demandI, .yellow)
+        // 業種ごとに1行。記号と、真ん中から左右へ伸びる帯で需要を見せる。
+        // 文字の略号を縦の棒に並べる形は、同じジャンルの古い名作の顔そのものなので避ける。
+        VStack(alignment: .leading, spacing: 5) {
+            row("house.fill", game.sim.demandR, Palette.zoneR)
+            row("bag.fill", game.sim.demandC, Palette.zoneC)
+            row("gearshape.fill", game.sim.demandI, Palette.zoneI)
         }
         .panel()
         .contentShape(Rectangle())
         .onTapGesture {
-            // 棒だけでは何の値か分からない、という声への手当て。押せば言葉で出す。
+            // 帯だけでは何の値か分からない、という声への手当て。押せば言葉で出す。
             game.show(String(localized: "需要 住宅：\(word(game.sim.demandR)) 商業：\(word(game.sim.demandC)) 工業：\(word(game.sim.demandI))"))
         }
     }
@@ -149,27 +151,24 @@ struct DemandIndicator: View {
         return String(localized: "余っている")
     }
 
-    private func bar(_ label: String, _ value: Double, _ color: Color) -> some View {
-        VStack(spacing: 3) {
-            ZStack(alignment: .center) {
-                Rectangle()
-                    .fill(Color.white.opacity(0.14))
-                    .frame(width: 13, height: height)
-                Rectangle()
-                    .fill(Color.white.opacity(0.35))
-                    .frame(width: 13, height: 1)
-                Rectangle()
-                    .fill(color)
-                    .frame(width: 13, height: max(1, CGFloat(abs(value)) * height / 2))
-                    .offset(y: value >= 0
-                            ? -CGFloat(abs(value)) * height / 4
-                            : CGFloat(abs(value)) * height / 4)
+    private func row(_ symbol: String, _ value: Double, _ tint: RGBA) -> some View {
+        let color = Color(red: Double(tint.r) / 255, green: Double(tint.g) / 255, blue: Double(tint.b) / 255)
+        let half = CGFloat(min(abs(value), 1)) * width / 2
+        return HStack(spacing: 5) {
+            Image(systemName: symbol)
+                .font(.system(size: 9, weight: .bold))
+                .foregroundStyle(color)
+                .frame(width: 11)
+            ZStack {
+                Capsule().fill(Color.white.opacity(0.14))
+                Rectangle().fill(Color.white.opacity(0.35)).frame(width: 1)
+                // 足りなければ右、余っていれば左へ伸ばす。
+                Capsule()
+                    .fill(value >= 0 ? color : color.opacity(0.45))
+                    .frame(width: max(2, half))
+                    .offset(x: value >= 0 ? half / 2 : -half / 2)
             }
-            .frame(width: 13, height: height)
-            .clipped()
-            Text(label)
-                .font(.system(size: 9, weight: .bold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.8))
+            .frame(width: width, height: 6)
         }
     }
 }

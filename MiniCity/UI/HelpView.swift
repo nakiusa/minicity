@@ -49,7 +49,7 @@ struct IntroView: View {
                             ("smoke.fill", "公害", "工場と発電所が出す。地価を下げる。公園が吸う"),
                             ("shield.lefthalf.filled", "犯罪", "人が増えると増える。警察署で減る"),
                             ("car.fill", "渋滞", "職場が遠いと、通勤の車で間の道が混む。住宅の近くにも職場を"),
-                            ("yensign.circle.fill", "お金", "税率7％が目安。足りなければ予算から借りられる"),
+                            ("yensign.circle.fill", "お金", "税率10％が目安。足りなければ予算から借りられる"),
                         ]
                     ).tag(3)
                 }
@@ -248,8 +248,8 @@ struct HelpView: View {
                             text: "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、連結してひとつの大きな建物になります。住宅なら住民が倍になり、レベルが下がらなくなります。")
                     HelpRow(symbol: "yensign.circle.fill", title: "地価",
                             text: "水辺と森と公園で上がり、街の中心とにぎわいで上がり、公害と犯罪と渋滞と火災リスクで下がります。住宅はこれに強く反応します。")
-                    HelpRow(symbol: "chart.bar.fill", title: "需要（R・C・I）",
-                            text: "左上の3本の棒。住宅・商業・工業それぞれの需要です。上に伸びていれば置けば育ち、下なら置いても埋まりません。職と住のつり合いで動きます。")
+                    HelpRow(symbol: "chart.bar.fill", title: "需要",
+                            text: "左上の3本の帯。家・袋・歯車の順に、住宅・商業・工業の需要です。右に伸びていれば置けば育ち、左なら置いても埋まりません。職と住のつり合いで動きます。")
                     HelpRow(symbol: "smoke.fill", title: "公害",
                             text: "工場と発電所が出し、風に流れず周りに広がります。家が育たないときは、まずこれを疑ってください。")
                 }
@@ -263,7 +263,7 @@ struct HelpView: View {
 
                 Section("お金") {
                     HelpRow(symbol: "percent", title: "税率",
-                            text: "7％が目安。上げると収入は増えますが需要が下がり、街が縮みます。下げると育ちますが赤字になります。")
+                            text: "10％が目安。上げると収入は増えますが需要が下がり、街が縮みます。下げると育ちますが赤字になります。")
                     HelpRow(symbol: "banknote.fill", title: "年度末の決算",
                             text: "12月に1年ぶんの税収が入り、道路・発電所・警察・消防の維持費が引かれます。予算画面に見込みが出ます。")
                     HelpRow(symbol: "creditcard.fill", title: "借入",

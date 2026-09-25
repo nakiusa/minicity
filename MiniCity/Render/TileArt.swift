@@ -54,13 +54,15 @@ enum Palette {
     static let wire = RGBA(46, 46, 52)
     static let pylon = RGBA(128, 126, 118)
 
-    static let zoneR = RGBA(74, 200, 100)
-    static let zoneC = RGBA(84, 154, 232)
-    static let zoneI = RGBA(228, 192, 72)
+    // 区画の色。住宅は暖かいオレンジ、商業は紫、工業は冷たい灰青。
+    // 緑・青・黄の組み合わせは同じジャンルの古い名作と重なるので使わない。
+    static let zoneR = RGBA(240, 138, 75)
+    static let zoneC = RGBA(155, 107, 224)
+    static let zoneI = RGBA(111, 143, 166)
     // 建物が建ったあとも残す枠。目立ちすぎないよう一段落とす。
-    static let zoneRLine = RGBA(58, 164, 82)
-    static let zoneCLine = RGBA(66, 128, 198)
-    static let zoneILine = RGBA(198, 164, 56)
+    static let zoneRLine = RGBA(206, 110, 56)
+    static let zoneCLine = RGBA(126, 84, 192)
+    static let zoneILine = RGBA(88, 116, 138)
     static let serviceLine = RGBA(170, 170, 176)
 
     // 渋滞の車。軽い渋滞は控えめな色、詰まっている区間は目立つ色にする。

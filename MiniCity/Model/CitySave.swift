@@ -2,7 +2,8 @@ import Foundation
 
 /// セーブデータ。地形も含めて丸ごと持つので、続きから同じ都市を再開できる。
 struct CitySave: Codable {
-    var version: Int = 1
+    /// 2 から税率の目盛りが 10% 目安になった。1 のセーブの税率は 7% 目安。
+    var version: Int = 2
     var tiles: [Tile]
     var zones: [Zone]
     var funds: Int
@@ -19,7 +20,7 @@ struct CitySave: Codable {
     /// 一覧に出すための要約。地形まで読まずに済ませたいところだが、
     /// 保存の数はたかだか十数件なので、まとめて読んでも間に合う。
     var residents: Int { zones.filter { $0.alive && $0.kind == .residential }.reduce(0) { $0 + $1.capacity } }
-    var year: Int { 1900 + monthsElapsed / 12 }
+    var year: Int { monthsElapsed / 12 + 1 }
 }
 
 enum CityStore {
