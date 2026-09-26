@@ -15849,6 +15849,58 @@
         }
       }
     },
+    "線路をなぞって、駅と駅をつなごう": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trace rail to link one station to another"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖动铁路，把车站连起来"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖動鐵路，把車站連起來"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선로를 그어 역과 역을 이어 보세요"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traza vías para unir una estación con otra"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tracez la voie pour relier les gares"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziehe Gleise, um Bahnhöfe zu verbinden"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arraste trilhos para ligar uma estação a outra"
+          }
+        }
+      }
+    },
     "線路をなぞって敷く。道路と交われば踏切になる。駅と駅を結ぶと、住民は電車で通勤し、あいだの道路が空く。": {
       "localizations": {
         "en": {

@@ -40,6 +40,10 @@ targets:
       path: MiniCity/Info.plist
       properties:
         GADApplicationIdentifier: ca-app-pub-9780206641404014~1923613809
+        # App Store のイベントから開く入口（minicity://rail）。
+        CFBundleURLTypes:
+          - CFBundleURLName: com.shuyafukai.minicity
+            CFBundleURLSchemes: [minicity]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.shuyafukai.minicity
@@ -49,7 +53,7 @@ targets:
         MARKETING_VERSION: "1.6.0"
         # ビルド番号は、同じアプリで一度使うと再利用できない。
         # 送り直すたびに上げる。
-        CURRENT_PROJECT_VERSION: "19"
+        CURRENT_PROJECT_VERSION: "21"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ミニシティ
         # 暗号化を使っていないことを宣言しておく。

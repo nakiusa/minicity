@@ -141,6 +141,7 @@ struct ContentView: View {
         }) {
             ResultView(game: game)
         }
+        .onOpenURL { game.open($0) }
         .onChange(of: game.reviewAsks) { _, _ in
             // 実績の知らせや成績表の閉じる動きと重ならないよう、少し間を置く。
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { requestReview() }

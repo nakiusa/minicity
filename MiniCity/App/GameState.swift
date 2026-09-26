@@ -187,6 +187,16 @@ final class GameState: ObservableObject {
     /// 一覧の見出しに出す「取った数」。
     @Published var earnedCount = AchievementStore.shared.earnedCount
 
+    /// `minicity://rail` のような入口から開かれたとき。App Store のイベントから来た人に、
+    /// その話題の道具を持たせて街を見せる。
+    func open(_ url: URL) {
+        guard url.scheme == "minicity" else { return }
+        if url.host == "rail" {
+            tool = .rail
+            show(String(localized: "線路をなぞって、駅と駅をつなごう"))
+        }
+    }
+
     /// 評価を頼む合図。ContentView がこれを見て StoreKit の依頼を出す。
     @Published private(set) var reviewAsks = 0
 
