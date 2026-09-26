@@ -64,6 +64,13 @@ for y in (y0 - 2)...(y1 + 2) { put(.powerLine, x1 + 5, y) }
 // 扱いになり、HUD に警告が出たままになる。
 for y in (y0 - 2)...(y1 + 6) { put(.road, x1 + 1, y) }
 
+// 商業と工業のあいだに鉄道を1本通し、両端に駅を置く。駅は街路（58 の列）に面して電気と道路を受け、
+// 線路（62 の列）はその下の縁をかすめる。縦の街路と交わるところは踏切になる。
+// 地形によっては水面にかかるので、候補の中で置けた左端と右端に駅を建てる。
+for x in x0...x1 { put(.rail, x, 62) }
+let stationSpots = [x0 + 6, x0 + 18, x0 + 30, x1 - 10].filter { sim.map.canPlaceZone(ox: $0 - 1, oy: 59) }
+for x in Set([stationSpots.first, stationSpots.last].compactMap { $0 }) { put(.station, x, 60) }
+
 // 発電所は工業側の風下へまとめる。
 for i in 0..<4 { put(.coalPlant, x1 + 3, 62 + i * 5) }
 

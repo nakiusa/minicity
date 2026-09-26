@@ -23,14 +23,15 @@ App Store Connect にコピペして使う。
 ■ 50年で、どこまで
 始めるときに50年・100年・200年を選びます。決めた年数が来ると時間が止まり、人口・資金・最高レベル・実績をまとめた成績表が出ます。人口は Game Center のランキングに送られ、世界での順位が分かります。成績表は街全体の俯瞰と一緒に1枚の絵になるので、そのまま貼って見せられます。急がずに育てたいときは「期限なし」も選べます。
 
-■ 置けるものは11種類だけ
-道路、大通り、送電線、公園、大公園、住宅地、商業地、工業地、発電所、警察署、消防署。どこに置くかを決めて、あとは街が動くのを眺めます。
+■ 置けるものは13種類だけ
+道路、大通り、線路、駅、送電線、公園、大公園、住宅地、商業地、工業地、発電所、警察署、消防署。どこに置くかを決めて、あとは街が動くのを眺めます。
 
 ■ 街のなかで起きていること
 ・住宅がいつまでも小さいままなら、たいてい近くに煙があります。公害は地価を下げ、地価の低い土地に大きな建物は建ちません
 ・公園は煙を吸い、警察署は犯罪を減らし、地価を戻します
 ・区画は10段階まで育ちます。レベルが上がるごとに背が伸び、最後は点滅灯つきの高層タワーになります
 ・住民は道路をたどって職場へ通います。通った道は混み、混んだ区間には車が現れ、周りの地価が下がります
+・駅と駅を線路で結ぶと、住民は電車で通います。あいだの道路は空き、駅の周りは地価が上がります
 ・大通りは沿道の地価を押し上げますが、敷く値段も毎年の維持費も高くつきます
 ・発電所の容量には限りがあります。街が広がったら足りなくなります
 
@@ -80,7 +81,21 @@ https://nakiusa.github.io/minicity/privacy.html
 - アプリ内課金：あり（買い切り「広告を消す」）
 - 年齢レーティングの質問で、広告の表示ありを申告する
 
-## このバージョンの最新情報（1.5.1・審査中）
+## このバージョンの最新情報（1.6.0・審査中）
+
+鉄道と駅が走り出しました。
+
+・線路をなぞって敷けます。道路と交わるところは踏切になります
+・駅（3×3）を線路の脇に置き、同じ線路に2つ以上つなぐと運行します
+・住民は駅から駅へ電車で通い、そのあいだの道路は空きます。住宅と遠い工業地を結ぶと渋滞がほどけます
+・駅の周りは地価が大きく上がり、近くの道路の混雑も和らぎます
+
+・よく育って連結した建物も、公害がひどいときや、電気・道路を失ったときは崩れるようにしました
+・撤去の値段が表示どおりに引かれていなかった不具合を直しました
+
+いつも「ミニシティ」をご利用いただきありがとうございます。
+
+## 最新情報（1.5.1・公開済み）
 
 見た目と数え方を新しくしました。
 
@@ -295,6 +310,7 @@ Pick 50, 100, 200 years, or no limit. When the last year ends, time stops and a 
 • Zones grow through ten levels. Each level gets taller, ending in a skyscraper with blinking lights
 • Residential zones care about land value; industrial zones care about demand
 • Residents commute along roads to work. Busy roads get congested, and cars appear on the busiest stretches
+• Link stations by rail and residents commute by train. The roads in between empty out, and land around stations gains value
 • Land next to congested roads loses value. More highways is not always better
 • Avenues raise the value of the land they front, but cost more to build and maintain
 • Power plants have limited capacity. As the city spreads, you will need more
@@ -517,7 +533,7 @@ App 現已支援九種語言：日語、英語、簡體中文、繁體中文、�
 
 주택이 좀처럼 커지지 않는다면 대개 근처에 연기가 있습니다. 공장과 발전소는 공해를 내고, 공해는 지가를 떨어뜨리며, 싼 땅에는 큰 건물이 서지 않습니다. 공원을 깔면 연기를 흡수하고, 경찰서를 두면 범죄가 줄어 지가가 돌아옵니다. 도시 안에서는 이런 수치들이 늘 서로를 밀고 당깁니다.
 
-놓을 수 있는 것은 열 가지뿐입니다. 도로, 대로, 송전선, 공원, 주거 구역, 상업 구역, 공업 구역, 발전소, 경찰서, 소방서. 어디에 둘지만 정하고, 나머지는 도시가 움직이는 것을 지켜봅니다.
+놓을 수 있는 것은 열 가지뿐입니다. 도로, 대로, 선로, 역, 송전선, 공원, 주거 구역, 상업 구역, 공업 구역, 발전소, 경찰서, 소방서. 어디에 둘지만 정하고, 나머지는 도시가 움직이는 것을 지켜봅니다.
 
 ■ 플레이 기간을 정하고 시작
 50년, 100년, 200년, 무제한 중에서 고릅니다. 마지막 해가 지나면 시간이 멈추고 인구, 자금, 업적을 정리한 성적표가 나옵니다. 거기서 끝내도, 기한을 풀고 계속 키워도 됩니다.
@@ -603,6 +619,7 @@ Elige 50, 100 o 200 años, o sin límite. Al terminar el último año el tiempo 
 • Las zonas crecen en diez niveles. Cada nivel es más alto, hasta un rascacielos con luces parpadeantes
 • Las zonas residenciales miran el valor del suelo; las industriales, si hay demanda
 • Los habitantes van al trabajo por las carreteras. Las vías concurridas se atascan y aparecen coches en los tramos más cargados
+• Une estaciones con vías y los habitantes irán en tren. Las calles intermedias se vacían y el suelo junto a las estaciones sube de valor
 • El suelo junto a vías atascadas pierde valor. Más autopistas no siempre es mejor
 • Las avenidas suben el valor del suelo que bordean, pero cuestan más de construir y mantener
 • Las centrales tienen capacidad limitada. Cuando la ciudad crece, harán falta más
@@ -680,6 +697,7 @@ Il n'y a que dix choses à placer : routes, avenues, lignes électriques, parcs,
 • Les zones grandissent sur dix niveaux. Chaque niveau est plus haut, jusqu'au gratte-ciel aux lumières clignotantes
 • Les zones résidentielles regardent la valeur foncière ; les industrielles, la demande
 • Les habitants vont travailler par les routes. Les axes fréquentés se bouchent et des voitures apparaissent sur les tronçons les plus chargés
+• Reliez des gares par la voie et les habitants prennent le train. Les routes entre les deux se vident et le terrain autour des gares prend de la valeur
 • Le terrain le long des routes bouchées perd de la valeur. Plus d'autoroutes n'est pas toujours mieux
 • Les avenues font monter la valeur du terrain qu'elles bordent, mais coûtent plus cher à construire et à entretenir
 • Les centrales ont une capacité limitée. Quand la ville s'étend, il en faudra d'autres
@@ -748,7 +766,7 @@ MiniCity ist ein kleines Aufbauspiel: Du legst Zonen an und siehst der Stadt bei
 
 Wenn Häuser nie größer werden, ist meist Rauch in der Nähe. Fabriken und Kraftwerke verschmutzen, Verschmutzung drückt den Bodenwert, und auf billigem Boden entstehen keine großen Gebäude. Parks schlucken Rauch, Polizeiwachen senken die Kriminalität, und der Wert kehrt zurück. In der Stadt schieben sich diese Zahlen ständig gegenseitig an.
 
-Es gibt nur zehn Dinge zu setzen: Straßen, Alleen, Stromleitungen, Parks, Wohn-, Gewerbe- und Industriezonen, Kraftwerke, Polizei- und Feuerwachen. Entscheide, wohin sie kommen, und sieh zu, wie sich die Stadt bewegt.
+Es gibt nur zehn Dinge zu setzen: Straßen, Alleen, Gleise, Bahnhöfe, Stromleitungen, Parks, Wohn-, Gewerbe- und Industriezonen, Kraftwerke, Polizei- und Feuerwachen. Entscheide, wohin sie kommen, und sieh zu, wie sich die Stadt bewegt.
 
 ■ Spieldauer wählen
 50, 100 oder 200 Jahre, oder unbegrenzt. Nach dem letzten Jahr bleibt die Zeit stehen und eine Bilanz fasst Einwohner, Kasse und Erfolge zusammen. Dort aufhören, oder die Grenze aufheben und weiterbauen.
@@ -757,6 +775,7 @@ Es gibt nur zehn Dinge zu setzen: Straßen, Alleen, Stromleitungen, Parks, Wohn-
 • Zonen wachsen über zehn Stufen. Jede Stufe ist höher, am Ende steht ein Wolkenkratzer mit Blinklichtern
 • Wohnzonen achten auf den Bodenwert, Industriezonen auf die Nachfrage
 • Einwohner pendeln über Straßen zur Arbeit. Viel befahrene Straßen stauen sich, auf den vollsten Abschnitten tauchen Autos auf
+• Verbinde Bahnhöfe per Gleis, dann pendeln die Einwohner mit dem Zug. Die Straßen dazwischen leeren sich, und der Boden um die Bahnhöfe gewinnt an Wert
 • Land an verstopften Straßen verliert an Wert. Mehr Schnellstraßen sind nicht immer besser
 • Alleen heben den Wert des Landes daneben, kosten aber mehr im Bau und Unterhalt
 • Kraftwerke haben begrenzte Kapazität. Wächst die Stadt, braucht sie mehr
@@ -834,6 +853,7 @@ Só há dez coisas para colocar: ruas, avenidas, linhas de energia, parques, zon
 • As zonas crescem em dez níveis. Cada nível é mais alto, até virar um arranha-céu com luzes piscando
 • Zonas residenciais olham o valor do terreno; as industriais, se há demanda
 • Os moradores vão ao trabalho pelas ruas. Vias movimentadas congestionam, e carros aparecem nos trechos mais cheios
+• Ligue estações por trilhos e os moradores vão de trem. As ruas no caminho esvaziam e o terreno ao redor das estações se valoriza
 • O terreno ao lado de vias congestionadas perde valor. Mais rodovias nem sempre é melhor
 • Avenidas aumentam o valor do terreno que margeiam, mas custam mais para construir e manter
 • As usinas têm capacidade limitada. Quando a cidade se espalha, vai precisar de mais
