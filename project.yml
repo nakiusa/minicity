@@ -40,6 +40,8 @@ targets:
       path: MiniCity/Info.plist
       properties:
         GADApplicationIdentifier: ca-app-pub-9780206641404014~1923613809
+        # 見出しに使うドットの書体（SIL Open Font License）。
+        UIAppFonts: [DotGothic16-Regular.ttf]
         # App Store のイベントから開く入口（minicity://rail）。
         CFBundleURLTypes:
           - CFBundleURLName: com.shuyafukai.minicity

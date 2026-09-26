@@ -12,98 +12,85 @@ struct AchievementsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 10) {
-                    HStack {
-                        Text("\(earned) / \(total)")
-                            .font(.system(size: 22, weight: .bold, design: .rounded))
-                            .monospacedDigit()
-                        Text("達成")
-                            .font(.system(size: 13))
-                            .foregroundStyle(.secondary)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 4)
-
-                    ForEach(AchievementGroup.allCases, id: \.self) { group in
+                VStack(alignment: .leading, spacing: 0) {
+                    header
+                    ForEach(Array(AchievementGroup.allCases.enumerated()), id: \.element) { index, group in
                         let items = Achievements.inGroup(group)
                         if !items.isEmpty {
-                            HStack {
-                                Text(group.title)
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundStyle(.secondary)
-                                Spacer()
-                                Text("\(items.filter { $0.isEarned }.count) / \(items.count)")
-                                    .font(.system(size: 11, design: .rounded))
-                                    .monospacedDigit()
-                                    .foregroundStyle(.secondary)
-                            }
-                            .padding(.horizontal, 4)
-                            .padding(.top, 8)
-
-                            ForEach(items) { item in
-                                row(item)
+                            SectionTitle(number: index + 1, title: LocalizedStringKey(group.title),
+                                         trailing: "\(items.filter { $0.isEarned }.count) / \(items.count)")
+                            LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
+                                ForEach(items) { tile($0) }
                             }
                         }
                     }
                 }
-                .padding(16)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 170)
             }
+            .background(NightBackground())
+            .toolbar(.hidden, for: .navigationBar)
             .safeAreaInset(edge: .bottom) { AdBanner() }
-            .navigationTitle("実績")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("閉じる") { dismiss() }
-                }
-                // Game Center にサインインしているときだけ、あちらの一覧も開けるようにする。
-                if GameCenter.isAuthenticated {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button {
-                            dismiss()
-                            GameCenter.showDashboard()
-                        } label: {
-                            Image(systemName: "gamecontroller.fill")
-                        }
-                    }
-                }
-            }
         }
         .preferredColorScheme(.dark)
     }
 
-    private func row(_ item: Achievement) -> some View {
-        let earned = item.isEarned
-        return HStack(spacing: 12) {
-            Image(systemName: earned ? item.symbol : "lock.fill")
-                .font(.system(size: 16, weight: .semibold))
-                .frame(width: 34, height: 34)
-                .foregroundStyle(earned ? Color.yellow : Color.white.opacity(0.35))
-                .background(
-                    Circle().fill(earned ? Color.yellow.opacity(0.18) : Color.white.opacity(0.07))
-                )
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(item.title)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(earned ? .white : .white.opacity(0.55))
-                Text(item.detail)
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("実績").font(.dot(28)).foregroundStyle(Theme.ink)
+                Spacer()
+                // Game Center にサインインしているときだけ、あちらの一覧も開けるようにする。
+                if GameCenter.isAuthenticated {
+                    Button {
+                        dismiss()
+                        GameCenter.showDashboard()
+                    } label: {
+                        Image(systemName: "gamecontroller.fill")
+                            .foregroundStyle(Theme.ink)
+                            .padding(8)
+                            .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1.5))
+                    }
+                    .buttonStyle(.plain)
+                }
+                CloseButton { dismiss() }
             }
-
-            Spacer(minLength: 4)
-
-            if earned {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(.green)
+            .padding(.top, 18)
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text("\(earned)").font(.dot(44)).foregroundStyle(Theme.gold)
+                Text("/ \(total)").font(.dot(20)).foregroundStyle(Theme.mute)
+                Text("達成").font(.system(size: 12)).foregroundStyle(Theme.mute)
             }
+            .padding(.top, 12)
+            PixelProgress(value: Double(earned) / Double(max(1, total)))
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(Color.white.opacity(earned ? 0.10 : 0.05))
-        )
+    }
+
+    /// 実績ひとつの升。取ったものは金の縁で光らせ、まだのものは鍵をかけて沈める。
+    private func tile(_ item: Achievement) -> some View {
+        let earned = item.isEarned
+        return VStack(alignment: .leading, spacing: 8) {
+            Image(systemName: earned ? item.symbol : "lock.fill")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(earned ? Theme.gold : Theme.mute.opacity(0.6))
+                .frame(width: 34, height: 34)
+                .background(RoundedRectangle(cornerRadius: 3).fill(earned ? Theme.gold.opacity(0.14) : Color.white.opacity(0.05)))
+                .overlay(RoundedRectangle(cornerRadius: 3).stroke(earned ? Theme.gold.opacity(0.8) : Theme.rule, lineWidth: 1.5))
+                .shadow(color: earned ? Theme.gold.opacity(0.45) : .clear, radius: 6)
+            Text(item.title)
+                .font(.dot(14))
+                .foregroundStyle(earned ? Theme.ink : Theme.ink.opacity(0.55))
+                .lineLimit(2)
+                .minimumScaleFactor(0.8)
+            Text(item.detail)
+                .font(.system(size: 11))
+                .foregroundStyle(Theme.mute)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, minHeight: 104, alignment: .topLeading)
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 4).fill(Theme.plate))
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(earned ? Theme.gold.opacity(0.35) : Theme.rule, lineWidth: 1))
     }
 }

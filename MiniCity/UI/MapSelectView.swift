@@ -19,17 +19,44 @@ struct MapSelectView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("遊ぶ年数")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(.secondary)
-                    Picker("遊ぶ年数", selection: $termYears) {
-                        Text("50年").tag(50)
-                        Text("100年").tag(100)
-                        Text("200年").tag(200)
-                        Text("期限なし").tag(0)
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(alignment: .firstTextBaseline, spacing: 10) {
+                        Text("マップを選ぶ").font(.dot(26)).foregroundStyle(Theme.ink)
+                        Spacer()
+                        Button { reroll() } label: {
+                            Image(systemName: "arrow.clockwise")
+                                .foregroundStyle(Theme.ink)
+                                .padding(8)
+                                .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1.5))
+                        }
+                        .buttonStyle(.plain)
+                        if allowsCancel {
+                            Button { dismiss() } label: {
+                                Text("キャンセル").font(.dot(14)).foregroundStyle(Theme.ink)
+                                    .padding(.horizontal, 12).padding(.vertical, 7)
+                                    .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1.5))
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
-                    .pickerStyle(.segmented)
+                    .padding(.top, 18)
+
+                    SectionTitle(number: 1, title: "遊ぶ年数")
+                    // 年数の切り替え。標準の切り替えの部品ではなく、角の立った札を並べる。
+                    HStack(spacing: 6) {
+                        ForEach([(50, "50年"), (100, "100年"), (200, "200年"), (0, "期限なし")], id: \.0) { value, label in
+                            Button { termYears = value } label: {
+                                Text(LocalizedStringKey(label))
+                                    .font(.dot(14))
+                                    .foregroundStyle(termYears == value ? Theme.skyTop : Theme.ink)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 9)
+                                    .background(RoundedRectangle(cornerRadius: 4).fill(termYears == value ? Theme.gold : Theme.plate))
+                                    .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
                     Group {
                         if termYears == 0 {
                             Text("終わりはない。好きなだけ育てられる。")
@@ -39,54 +66,43 @@ struct MapSelectView: View {
                         }
                     }
                     .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 12)
+                    .foregroundStyle(Theme.mute)
+                    .padding(.top, 8)
 
-                LazyVGrid(columns: columns, spacing: 14) {
-                    ForEach(candidates, id: \.self) { seed in
-                        Button {
-                            onSelect(seed, termYears == 0 ? nil : termYears)
-                            dismiss()
-                        } label: {
-                            VStack(spacing: 6) {
-                                thumbnailView(for: seed)
-                                    .aspectRatio(CGFloat(CityMap.width) / CGFloat(CityMap.height),
-                                                contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                            .stroke(Color.white.opacity(0.25))
-                                    )
-                                Text("この地形ではじめる")
-                                    .font(.system(size: 11, weight: .medium))
-                                    .foregroundStyle(.white.opacity(0.85))
+                    SectionTitle(number: 2, title: "地形を選ぶ")
+                    LazyVGrid(columns: columns, spacing: 14) {
+                        ForEach(Array(candidates.enumerated()), id: \.element) { index, seed in
+                            Button {
+                                onSelect(seed, termYears == 0 ? nil : termYears)
+                                dismiss()
+                            } label: {
+                                VStack(alignment: .leading, spacing: 6) {
+                                    thumbnailView(for: seed)
+                                        .aspectRatio(CGFloat(CityMap.width) / CGFloat(CityMap.height),
+                                                    contentMode: .fit)
+                                        .frame(maxWidth: .infinity)
+                                        .clipShape(RoundedRectangle(cornerRadius: 3))
+                                        .overlay(RoundedRectangle(cornerRadius: 3).stroke(Theme.rule, lineWidth: 1.5))
+                                    HStack(spacing: 6) {
+                                        Text(String(format: "%02d", index + 1))
+                                            .font(.system(size: 10, design: .monospaced))
+                                            .foregroundStyle(Theme.gold)
+                                        Text("この地形ではじめる")
+                                            .font(.dot(12))
+                                            .foregroundStyle(Theme.ink)
+                                    }
+                                }
                             }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
                 }
-                .padding(16)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 170)
             }
+            .background(NightBackground())
+            .toolbar(.hidden, for: .navigationBar)
             .safeAreaInset(edge: .bottom) { AdBanner() }
-            .navigationTitle("マップを選ぶ")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        reroll()
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
-                if allowsCancel {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("キャンセル") { dismiss() }
-                    }
-                }
-            }
             .onAppear {
                 if candidates.isEmpty { reroll() }
             }

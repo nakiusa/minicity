@@ -18,79 +18,69 @@ struct ResultView: View {
         let stats = CityStats(sim)
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("1年目から\(String(sim.year - 1))年目まで")
-                            .font(.system(size: 12))
-                            .foregroundStyle(.secondary)
-                        Text("\(years)年の記録")
-                            .font(.system(size: 24, weight: .heavy, design: .rounded))
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(isFinal ? "期限まで遊びました" : "いまの成績").font(.dot(20)).foregroundStyle(Theme.gold)
+                        Spacer()
+                        if !isFinal { CloseButton { dismiss() } }
                     }
+                    .padding(.top, 18)
+                    Text("1年目から\(String(sim.year - 1))年目まで")
+                        .font(.system(size: 12, design: .monospaced))
+                        .foregroundStyle(Theme.mute)
+                        .padding(.top, 16)
+                    Text("\(years)年の記録").font(.dot(30)).foregroundStyle(Theme.ink)
+                    // いちばん大きく見せたいのは人口。ランキングもこの数で競う。
+                    Text("人口").font(.system(size: 11, weight: .medium, design: .monospaced)).foregroundStyle(Theme.mute)
+                        .padding(.top, 18)
+                    Text(String(localized: "\(sim.residents.formatted())人"))
+                        .font(.dot(44)).foregroundStyle(Theme.gold)
+                        .minimumScaleFactor(0.6).lineLimit(1)
 
+                    SectionTitle(number: 1, title: "内訳")
                     VStack(spacing: 0) {
                         // HUD と同じく桁区切りを入れる。ここだけ素の数字だと落ち着かない。
-                        row("人口", String(localized: "\(sim.residents.formatted())人"))
-                        row("雇用", String(localized: "jobs.count", defaultValue: "\(sim.jobs.formatted())人"))
-                        row("資金", "¥\(sim.funds.formatted())")
-                        row("税率", "\(sim.taxRate)%")
-                        row("最高レベル", stats.topLevel == 0 ? String(localized: "なし") : "L\(stats.topLevel)")
-                        row("公害の最大", "\(sim.pollution.displayMaximum)")
-                        row("犯罪の最大", "\(sim.crime.displayMaximum)")
-                        row("実績", "\(game.earnedCount) / \(Achievements.all.count)")
+                        LedgerRow("雇用", value: String(localized: "jobs.count", defaultValue: "\(sim.jobs.formatted())人"))
+                        LedgerRow("資金", value: "¥\(sim.funds.formatted())")
+                        LedgerRow("税率", value: "\(sim.taxRate)%")
+                        LedgerRow("最高レベル", value: stats.topLevel == 0 ? String(localized: "なし") : "L\(stats.topLevel)")
+                        LedgerRow("公害の最大", value: "\(sim.pollution.displayMaximum)")
+                        LedgerRow("犯罪の最大", value: "\(sim.crime.displayMaximum)")
+                        LedgerRow("実績", value: "\(game.earnedCount) / \(Achievements.all.count)")
                         if let rank, let term = sim.termYears {
                             Button { GameCenter.showLeaderboard(term: term) } label: {
-                                row("世界ランキング", String(localized: "\(rank.formatted())位"))
+                                LedgerRow("世界ランキング", value: String(localized: "\(rank.formatted())位"), tint: Theme.gold)
                             }
                             .buttonStyle(.plain)
                         }
                     }
-                    .background(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(Color.white.opacity(0.07))
-                    )
 
-                    if let card {
-                        ShareLink(item: Image(uiImage: card),
-                                  preview: SharePreview(Text("\(years)年の記録"), image: Image(uiImage: card))) {
-                            Label("記録を共有する", systemImage: "square.and.arrow.up")
-                                .font(.system(size: 15, weight: .semibold))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 11)
-                                .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.12)))
-                                .foregroundStyle(.white)
+                    VStack(spacing: 10) {
+                        if let card {
+                            ShareLink(item: Image(uiImage: card),
+                                      preview: SharePreview(Text("\(years)年の記録"), image: Image(uiImage: card))) {
+                                Label("記録を共有する", systemImage: "square.and.arrow.up")
+                            }
+                            .buttonStyle(PixelButtonStyle())
+                        }
+                        Button {
+                            if isFinal { game.keepPlaying() } else { dismiss() }
+                        } label: {
+                            Text(isFinal ? "このまま続ける" : "閉じる")
+                        }
+                        .buttonStyle(PixelButtonStyle(tint: Theme.gold, filled: true))
+                        if isFinal {
+                            Button { showMapSelect = true } label: { Text("新しい都市を始める") }
+                                .buttonStyle(PixelButtonStyle())
                         }
                     }
-
-                    Button {
-                        if isFinal { game.keepPlaying() } else { dismiss() }
-                    } label: {
-                        Text(isFinal ? "このまま続ける" : "閉じる")
-                            .font(.system(size: 16, weight: .bold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.accentColor))
-                            .foregroundStyle(.white)
-                    }
-                    .buttonStyle(.plain)
-
-                    if isFinal {
-                    Button {
-                        showMapSelect = true
-                    } label: {
-                        Text("新しい都市を始める")
-                            .font(.system(size: 15, weight: .semibold))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 11)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.12)))
-                            .foregroundStyle(.white)
-                    }
-                    .buttonStyle(.plain)
-                    }
+                    .padding(.top, 24)
                 }
-                .padding(18)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 170)
             }
-            .navigationTitle(isFinal ? "期限まで遊びました" : "いまの成績")
-            .navigationBarTitleDisplayMode(.inline)
+            .background(NightBackground())
+            .toolbar(.hidden, for: .navigationBar)
         }
         .interactiveDismissDisabled(isFinal)
         .preferredColorScheme(.dark)
@@ -116,20 +106,4 @@ struct ResultView: View {
     /// 遊んだ年数。期限つきなら期限、なければ 1900 年からの経過年。
     private var years: Int { game.sim.termYears ?? game.sim.year - 1 }
 
-    private func row(_ label: LocalizedStringKey, _ value: String) -> some View {
-        HStack {
-            Text(label)
-                .font(.system(size: 13))
-                .foregroundStyle(.secondary)
-            Spacer()
-            Text(value)
-                .font(.system(size: 14, weight: .semibold, design: .rounded))
-                .monospacedDigit()
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 9)
-        .overlay(alignment: .bottom) {
-            Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.horizontal, 10)
-        }
-    }
 }

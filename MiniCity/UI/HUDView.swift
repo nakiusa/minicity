@@ -4,7 +4,8 @@ import SwiftUI
 private let monthNames = Calendar.current.shortMonthSymbols
 
 /// HUD の下地。半透明にすると地面の色を拾って濁るので、不透明の暗色で塗る。
-let panelFill = Color(red: 0.07, green: 0.075, blue: 0.095)
+// 真っ黒に近い色だと、街の上に黒い箱が浮いて見える。メニューと同じ夜空の藍を帯びさせる。
+let panelFill = Color(red: 0.06, green: 0.07, blue: 0.14)
 
 struct PanelBackground: ViewModifier {
     func body(content: Content) -> some View {

@@ -10,7 +10,7 @@ struct IntroView: View {
 
     var body: some View {
         ZStack {
-            Color(white: 0.09).ignoresSafeArea()
+            NightBackground()
             VStack(spacing: 0) {
                 TabView(selection: $page) {
                     introPage(
@@ -64,13 +64,8 @@ struct IntroView: View {
                     }
                 } label: {
                     Text(page < 3 ? "つぎへ" : "はじめる")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 13)
-                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.accentColor))
-                        .foregroundStyle(.white)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PixelButtonStyle(tint: Theme.gold, filled: true))
                 .padding(.horizontal, 24)
                 .padding(.bottom, 24)
             }
@@ -83,14 +78,16 @@ struct IntroView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 Image(systemName: symbol)
-                    .font(.system(size: 40))
-                    .foregroundStyle(Color.accentColor)
+                    .font(.system(size: 34))
+                    .foregroundStyle(Theme.gold)
+                    .shadow(color: Theme.gold.opacity(0.5), radius: 8)
                     .padding(.top, 36)
                 Text(title)
-                    .font(.system(size: 24, weight: .heavy, design: .rounded))
+                    .font(.dot(26))
+                    .foregroundStyle(Theme.ink)
                 Text(body)
                     .font(.system(size: 15))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.mute)
                     .fixedSize(horizontal: false, vertical: true)
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
@@ -109,18 +106,33 @@ struct HelpRow: View {
     let symbol: String
     let title: LocalizedStringKey
     let text: LocalizedStringKey
+    /// 渡すと、記号の代わりに街に置いたときと同じ絵を出す。
+    var tool: Tool? = nil
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: symbol)
-                .font(.system(size: 15, weight: .semibold))
-                .frame(width: 30, height: 30)
-                .background(RoundedRectangle(cornerRadius: 8).fill(Color.white.opacity(0.12)))
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.system(size: 14, weight: .bold, design: .rounded))
-                Text(text).font(.system(size: 13)).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+        VStack(spacing: 0) {
+            HStack(alignment: .top, spacing: 14) {
+                Group {
+                    if let tool, let art = ToolArt.image(tool) {
+                        Image(uiImage: art).interpolation(.none).resizable().scaledToFit()
+                    } else {
+                        Image(systemName: symbol)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(Theme.gold)
+                    }
+                }
+                .frame(width: 44, height: 44)
+                .background(RoundedRectangle(cornerRadius: 3).fill(Theme.plate))
+                .overlay(RoundedRectangle(cornerRadius: 3).stroke(Theme.rule, lineWidth: 1))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title).font(.dot(15)).foregroundStyle(Theme.ink)
+                    Text(text).font(.system(size: 13)).foregroundStyle(Theme.mute)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
             }
+            .padding(.vertical, 12)
+            Rectangle().fill(Theme.rule).frame(height: 1)
         }
     }
 }
@@ -216,38 +228,48 @@ struct HelpView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                Section("目標") {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text("遊びかた").font(.dot(28)).foregroundStyle(Theme.ink)
+                    Spacer()
+                    CloseButton { dismiss() }
+                }
+                .padding(.top, 18)
+                SectionTitle(number: 1, title: "目標")
+                VStack(spacing: 0) {
                     HelpRow(symbol: "flag.checkered", title: "決めた年数まで街を育てる",
                             text: "50年・100年・200年・期限なしから選びます。期限が来ると時間が止まり、成績表が出ます。人口は Game Center のランキングに送られます。")
                     HelpRow(symbol: "square.and.arrow.up", title: "記録を共有する",
                             text: "成績表から、街全体の絵に人口と年数を添えた1枚の画像を作れます。")
                     HelpRow(symbol: "trophy.fill", title: "実績を集める",
-                            text: "34種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。")
+                            text: "60種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。")
                 }
 
-                Section("置けるもの") {
-                    HelpRow(symbol: "bolt.fill", title: "発電所", text: "3×3。電気をつくる。容量に限りがあり、街が広がると足りなくなる。煙を出す。")
-                    HelpRow(symbol: "road.lanes", title: "道路", text: "区画は道路に面していないと育たない。住民は道路で近い職場から順に通い、そこが埋まれば遠くまで通う。")
-                    HelpRow(symbol: "road.lanes.curved.right", title: "大通り", text: "沿道の地価を押し上げる。敷く値段も維持費も高い。")
-                    HelpRow(symbol: "tram.fill", title: "線路", text: "線路をなぞって敷く。道路と交われば踏切になる。駅と駅を結ぶと、住民は電車で通勤し、あいだの道路が空く。")
-                    HelpRow(symbol: "train.side.front.car", title: "駅", text: "3×3。線路の脇に置き、同じ線路にもう1つ駅があると動く。駅の周りは地価が大きく上がり、道路も空く。電気と道路が要る。")
-                    HelpRow(symbol: "bolt.horizontal.fill", title: "送電線", text: "発電所と区画をつなぐ。区画どうしは電気を通すので、隣り合っていればつなぎ直さなくてよい。")
-                    HelpRow(symbol: "house.fill", title: "住宅地", text: "人が住む。地価に敏感で、公害と犯罪を嫌う。")
-                    HelpRow(symbol: "bag.fill", title: "商業地", text: "店と事務所。人が住んでから需要が生まれる。住宅の近くに。")
-                    HelpRow(symbol: "gearshape.fill", title: "工業地", text: "工場。注文があれば地価が低くても育つ。煙を出すので住宅から離す。")
-                    HelpRow(symbol: "tree.fill", title: "公園", text: "周りの公害を吸い、地価を上げる。工場と住宅の間に。")
-                    HelpRow(symbol: "leaf.fill", title: "大公園", text: "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで地価を上げる。電気も道路も要らない。")
-                    HelpRow(symbol: "shield.lefthalf.filled", title: "警察署", text: "周りの犯罪を減らす。維持費がかかる。")
-                    HelpRow(symbol: "flame.fill", title: "消防署", text: "周りの火災リスクを下げる。維持費がかかる。")
-                    HelpRow(symbol: "hammer.fill", title: "撤去", text: "何でも消す。¥2。")
+                SectionTitle(number: 2, title: "置けるもの")
+                VStack(spacing: 0) {
+                    HelpRow(symbol: "bolt.fill", title: "発電所", text: "3×3。電気をつくる。容量に限りがあり、街が広がると足りなくなる。煙を出す。", tool: .coalPlant)
+                    HelpRow(symbol: "road.lanes", title: "道路", text: "区画は道路に面していないと育たない。住民は道路で近い職場から順に通い、そこが埋まれば遠くまで通う。", tool: .road)
+                    HelpRow(symbol: "road.lanes.curved.right", title: "大通り", text: "沿道の地価を押し上げる。敷く値段も維持費も高い。", tool: .avenue)
+                    HelpRow(symbol: "tram.fill", title: "線路", text: "線路をなぞって敷く。道路と交われば踏切になる。駅と駅を結ぶと、住民は電車で通勤し、あいだの道路が空く。", tool: .rail)
+                    HelpRow(symbol: "train.side.front.car", title: "駅", text: "3×3。線路の脇に置き、同じ線路にもう1つ駅があると動く。駅の周りは地価が大きく上がり、道路も空く。電気と道路が要る。", tool: .station)
+                    HelpRow(symbol: "bolt.horizontal.fill", title: "送電線", text: "発電所と区画をつなぐ。区画どうしは電気を通すので、隣り合っていればつなぎ直さなくてよい。", tool: .powerLine)
+                    HelpRow(symbol: "house.fill", title: "住宅地", text: "人が住む。地価に敏感で、公害と犯罪を嫌う。", tool: .residential)
+                    HelpRow(symbol: "bag.fill", title: "商業地", text: "店と事務所。人が住んでから需要が生まれる。住宅の近くに。", tool: .commercial)
+                    HelpRow(symbol: "gearshape.fill", title: "工業地", text: "工場。注文があれば地価が低くても育つ。煙を出すので住宅から離す。", tool: .industrial)
+                    HelpRow(symbol: "tree.fill", title: "公園", text: "周りの公害を吸い、地価を上げる。工場と住宅の間に。", tool: .park)
+                    HelpRow(symbol: "leaf.fill", title: "大公園", text: "3×3。小さな公園を9つ並べるより遠くまで公害を吸い、数街区先まで地価を上げる。電気も道路も要らない。", tool: .bigPark)
+                    HelpRow(symbol: "shield.lefthalf.filled", title: "警察署", text: "周りの犯罪を減らす。維持費がかかる。", tool: .police)
+                    HelpRow(symbol: "flame.fill", title: "消防署", text: "周りの火災リスクを下げる。維持費がかかる。", tool: .fire)
+                    HelpRow(symbol: "hammer.fill", title: "撤去", text: "何でも消す。¥2。", tool: .bulldozer)
                 }
 
-                Section("街が育つ仕組み") {
+                SectionTitle(number: 3, title: "街が育つ仕組み")
+                VStack(spacing: 0) {
                     HelpRow(symbol: "arrow.up.right", title: "区画は10段階まで育つ",
                             text: "電気と道路があり、需要があり、地価が高いほど上のレベルへ進みます。レベルが上がるほど次まで時間がかかります。")
                     HelpRow(symbol: "building.2.crop.circle", title: "街区の連結",
-                            text: "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、連結してひとつの大きな建物になります。住宅なら住民が倍になり、レベルが下がらなくなります。")
+                            text: "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、連結してひとつの大きな建物になります。住宅なら住民が倍になり、レベルが下がりにくくなります。公害がひどいときや、電気か道路を失ったときは崩れます。")
                     HelpRow(symbol: "yensign.circle.fill", title: "地価",
                             text: "水辺と森と公園で上がり、街の中心とにぎわいで上がり、公害と犯罪と渋滞と火災リスクで下がります。住宅はこれに強く反応します。")
                     HelpRow(symbol: "chart.bar.fill", title: "需要",
@@ -256,14 +278,16 @@ struct HelpView: View {
                             text: "工場と発電所が出し、風に流れず周りに広がります。家が育たないときは、まずこれを疑ってください。")
                 }
 
-                Section("数字の読みかた") {
+                SectionTitle(number: 4, title: "数字の読みかた")
+                VStack(spacing: 0) {
                     HelpRow(symbol: "magnifyingglass", title: "調べる",
                             text: "マスを叩くと、地価・公害・犯罪・火災リスク・交通量・人口・活気・電力が出ます。人口は住宅地だけの値です。活気は商業地でいちばん高く、工業地では少しで、住宅地では 0 です。行を押すと、その指標が街全体に色で載ります。")
                     HelpRow(symbol: "map.fill", title: "地図の切り替え",
                             text: "右上のメニューからも同じ色分けに切り替えられます。停電している区画は「電力」で分かります。")
                 }
 
-                Section("お金") {
+                SectionTitle(number: 5, title: "お金")
+                VStack(spacing: 0) {
                     HelpRow(symbol: "percent", title: "税率",
                             text: "10％が目安。上げると収入は増えますが需要が下がり、街が縮みます。下げると育ちますが赤字になります。")
                     HelpRow(symbol: "banknote.fill", title: "年度末の決算",
@@ -272,31 +296,33 @@ struct HelpView: View {
                             text: "資金が尽きたら予算画面から5万円ずつ借りられます。年5％の利息と残高の1割を毎年返します。")
                 }
 
-                Section("操作") {
+                SectionTitle(number: 6, title: "操作")
+                VStack(spacing: 0) {
                     HelpRow(symbol: "hand.draw.fill", title: "1本指", text: "選んだ道具でマスを塗る。「移動」の道具を選べば地図が動く。")
                     HelpRow(symbol: "hand.point.up.left.and.text.fill", title: "2本指", text: "どの道具でも地図が動く。つまめば拡大縮小。")
                     HelpRow(symbol: "arrow.uturn.backward", title: "やり直し", text: "道路・送電線・公園・撤去は「決定」を押すまで確定しない。なぞり戻せば消える。")
                     HelpRow(symbol: "forward.fill", title: "速度", text: "等倍・2倍・4倍。等倍で1年が24秒。成績表や予算を開いている間は止まる。")
                 }
 
-                Section {
+                VStack(spacing: 10) {
                     Button("はじめの案内をもう一度見る") {
                         dismiss()
                         onReplayIntro()
                     }
+                    .buttonStyle(PixelButtonStyle(tint: Theme.gold))
                     Button("次にやることの案内を出し直す") {
                         dismiss()
                         onResetGuide()
                     }
+                    .buttonStyle(PixelButtonStyle())
                 }
-            }
-            .navigationTitle("遊びかた")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("閉じる") { dismiss() }
+                .padding(.top, 24)
                 }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 170)
             }
+            .background(NightBackground())
+            .toolbar(.hidden, for: .navigationBar)
         }
         .preferredColorScheme(.dark)
     }

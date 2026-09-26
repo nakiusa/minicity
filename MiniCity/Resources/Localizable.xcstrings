@@ -1371,58 +1371,6 @@
         }
       }
     },
-    "34種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "34 insgesamt. Neben Einwohnern und Geld fragen manche, wie du gebaut hast, etwa Wachstum bei wenig Verschmutzung."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "34 in all. Beyond population and money, some ask how you built, like growing while keeping pollution down."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "34 en total. Además de población y dinero, algunos preguntan cómo construiste, como crecer con poca contaminación."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "34 au total. Au-delà de la population et de l'argent, certains portent sur votre façon de bâtir, comme grandir en limitant la pollution."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "34가지. 인구와 자금뿐 아니라 공해를 억제하며 키우는 등 만듦새를 묻는 것도 있습니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "34 no total. Além de população e dinheiro, alguns perguntam como você construiu, como crescer mantendo a poluição baixa."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共34个。除了人口和资金，还有考验建法的，比如在控制污染的同时发展。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共34個。除了人口和資金，還有考驗建法的，比如在控制污染的同時發展。"
-          }
-        }
-      }
-    },
     "3x3 の空き地が必要です": {
       "localizations": {
         "de": {
@@ -2043,6 +1991,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "從50年、100年、200年或無期限中選擇。到期後時間停止，出成績單。人口會提交到 Game Center 排行榜。"
+          }
+        }
+      }
+    },
+    "60種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60 insgesamt. Neben Einwohnern und Geld fragen manche, wie du gebaut hast, etwa Wachstum bei wenig Verschmutzung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60 in all. Beyond population and money, some ask how you built, like growing while keeping pollution down."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60 en total. Además de población y dinero, algunos preguntan cómo construiste, como crecer con poca contaminación."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60 au total. Au-delà de la population et de l'argent, certains portent sur votre façon de bâtir, comme grandir en limitant la pollution."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60가지. 인구와 자금뿐 아니라 공해를 억제하며 키우는 등 만듦새를 묻는 것도 있습니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60 no total. Além de população e dinheiro, alguns perguntam como você construiu, como crescer mantendo a poluição baixa."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共60个。除了人口和资金，还有考验建法的，比如在控制污染的同时发展。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共60個。除了人口和資金，還有考驗建法的，比如在控制污染的同時發展。"
           }
         }
       }
@@ -8357,54 +8357,54 @@
         }
       }
     },
-    "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、連結してひとつの大きな建物になります。住宅なら住民が倍になり、レベルが下がらなくなります。": {
+    "同じ種類の区画を2×2に並べ、4つとも L9 以上にすると、連結してひとつの大きな建物になります。住宅なら住民が倍になり、レベルが下がりにくくなります。公害がひどいときや、電気か道路を失ったときは崩れます。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Place four zones of the same kind in a 2×2 square and get all four to L9 or higher, and they join into one big building. Residential blocks double their residents and never shrink."
+            "value": "Place four zones of the same kind in a 2×2 square and get all four to L9 or higher, and they join into one big building. Residential blocks double their residents and rarely shrink, but heavy pollution or losing power or road access brings them down."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "把4个同类区域摆成2×2，全部升到 L9 以上，就会合并成一座大楼。住宅的居民翻倍，且不再降级。"
+            "value": "把4个同类区域摆成2×2，全部升到 L9 以上，就会合并成一座大楼。住宅的居民翻倍，也不容易降级。但污染严重或失去电力、道路时会衰退。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "把4個同類區域擺成2×2，全部升到 L9 以上，就會合併成一座大樓。住宅的居民翻倍，且不再降級。"
+            "value": "把4個同類區域擺成2×2，全部升到 L9 以上，就會合併成一座大樓。住宅的居民翻倍，也不容易降級。但污染嚴重或失去電力、道路時會衰退。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "같은 종류의 구역 4개를 2×2로 놓고 모두 L9 이상으로 키우면 하나의 큰 건물로 결합됩니다. 주거라면 주민이 두 배가 되고 단계가 내려가지 않습니다."
+            "value": "같은 종류의 구역 4개를 2×2로 놓고 모두 L9 이상으로 키우면 하나의 큰 건물로 결합됩니다. 주거라면 주민이 두 배가 되고 레벨이 잘 내려가지 않습니다. 다만 공해가 심하거나 전기·도로를 잃으면 무너집니다."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Coloca cuatro zonas del mismo tipo en un cuadrado de 2×2 y súbelas todas a L9 o más: se unen en un gran edificio. Las residenciales duplican habitantes y ya no bajan de nivel."
+            "value": "Coloca cuatro zonas del mismo tipo en un cuadrado de 2×2 y súbelas todas a L9 o más: se unen en un gran edificio. Las residenciales duplican habitantes y casi no bajan de nivel, pero caen con mucha contaminación o sin electricidad o calle."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Placez quatre zones du même type en carré 2×2 et montez-les toutes au niveau 9 ou plus : elles fusionnent en un grand bâtiment. Les résidentielles doublent leurs habitants et ne baissent plus."
+            "value": "Placez quatre zones du même type en carré 2×2 et montez-les toutes au niveau 9 ou plus : elles fusionnent en un grand bâtiment. Les résidentielles doublent leurs habitants et baissent rarement, mais une forte pollution ou la perte du courant ou de la route les fait tomber."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Setze vier Zonen derselben Art in ein 2×2-Quadrat und bring alle auf L9 oder höher, dann verbinden sie sich zu einem großen Gebäude. Wohnblöcke verdoppeln ihre Einwohner und schrumpfen nicht mehr."
+            "value": "Setze vier Zonen derselben Art in ein 2×2-Quadrat und bring alle auf L9 oder höher, dann verbinden sie sich zu einem großen Gebäude. Wohnblöcke verdoppeln ihre Einwohner und schrumpfen selten, verfallen aber bei starker Verschmutzung oder ohne Strom oder Straße."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Coloque quatro zonas do mesmo tipo em um quadrado 2×2 e leve todas a L9 ou mais: elas se unem em um grande prédio. Residenciais dobram os moradores e não baixam mais de nível."
+            "value": "Coloque quatro zonas do mesmo tipo em um quadrado 2×2 e leve todas a L9 ou mais: elas se unem em um grande prédio. Residenciais dobram os moradores e quase não baixam de nível, mas caem com poluição forte ou sem energia ou rua."
           }
         }
       }
