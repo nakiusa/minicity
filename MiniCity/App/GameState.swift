@@ -187,9 +187,25 @@ final class GameState: ObservableObject {
     /// 一覧の見出しに出す「取った数」。
     @Published var earnedCount = AchievementStore.shared.earnedCount
 
+    /// 評価を頼む合図。ContentView がこれを見て StoreKit の依頼を出す。
+    @Published private(set) var reviewAsks = 0
+
+    /// 人口の節目や最初の L10 のような、気分のいい場面で評価を頼む。
+    /// 頼みすぎないよう前回から60日あける。実際に出すかどうかは iOS が決める（1年に3回まで）。
+    func askForReview() {
+        let key = "lastReviewAsk"
+        let last = UserDefaults.standard.object(forKey: key) as? Date ?? .distantPast
+        guard Date().timeIntervalSince(last) > 60 * 24 * 3600 else { return }
+        UserDefaults.standard.set(Date(), forKey: key)
+        reviewAsks += 1
+    }
+
+    private static let reviewMoments: Set<String> = ["pop.1000", "pop.5000", "pop.10000", "pop.20000", "tower.max"]
+
     private func checkAchievements() {
         let newly = AchievementStore.shared.claimNewlyEarned(in: sim)
         guard let first = newly.first else { return }
+        if newly.contains(where: { GameState.reviewMoments.contains($0.id) }) { askForReview() }
         earnedCount = AchievementStore.shared.earnedCount
         justEarned = first
         GameCenter.report(newly.map(\.id))

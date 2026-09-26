@@ -1,3 +1,4 @@
+import StoreKit
 import SwiftUI
 
 struct ContentView: View {
@@ -14,6 +15,7 @@ struct ContentView: View {
     @State private var showHelp = false
     @State private var showIntro = false
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
 
     var body: some View {
         ZStack {
@@ -133,8 +135,15 @@ struct ContentView: View {
         .sheet(isPresented: $showBudget) {
             BudgetView(game: game, store: store)
         }
-        .sheet(isPresented: $game.showsResult) {
+        .sheet(isPresented: $game.showsResult, onDismiss: {
+            // 成績表を見終えたところは、遊び終えた満足がいちばん大きい場面。
+            game.askForReview()
+        }) {
             ResultView(game: game)
+        }
+        .onChange(of: game.reviewAsks) { _, _ in
+            // 実績の知らせや成績表の閉じる動きと重ならないよう、少し間を置く。
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { requestReview() }
         }
         .statusBarHidden()
         .preferredColorScheme(.dark)
