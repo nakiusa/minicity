@@ -70,6 +70,14 @@ App Store Connect にコピペして使う。
 
 - 2026-09-26：1.6.0「The Railway Opens」を APP_ENHANCEMENTS として推薦（掲載希望 9月29日から、イベントつき）。
 
+## マーケティングURL
+
+https://nakiusa.github.io/minicity/
+
+AdMob は iOS アプリの「開発者のウェブサイト」をこの欄から取り、そのドメインの直下の `app-ads.txt`（https://nakiusa.github.io/app-ads.txt）を確かめる。
+1.6.0 までは空で、AdMob の「アプリの確認」が通らなかった。公開中・審査中の版では書き換えられないので、**次の版（1.6.1）を作ったら9言語すべてに入れる**。
+出したあと、AdMob の「アプリの確認」画面で「アップデートを確認」を押す。
+
 ## サポートURL
 
 https://nakiusa.github.io/minicity/
