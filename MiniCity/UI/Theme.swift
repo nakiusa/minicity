@@ -101,9 +101,13 @@ struct SectionTitle: View {
             Text(String(format: "%02d", number))
                 .font(.system(size: 11, weight: .medium, design: .monospaced))
                 .foregroundStyle(Theme.gold)
+            // 「Spieldauer in Jahren」のような長い見出しでも2行に折らない。
             Text(title)
                 .font(.dot(17))
                 .foregroundStyle(Theme.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+                .layoutPriority(1)
             Rectangle().fill(Theme.rule).frame(height: 1)
             if let trailing {
                 Text(trailing)
