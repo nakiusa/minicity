@@ -12,10 +12,8 @@ struct PanelBackground: ViewModifier {
         content
             .padding(.horizontal, 10)
             .padding(.vertical, 7)
-            .background(
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(panelFill)
-            )
+            .background(RoundedRectangle(cornerRadius: 4).fill(panelFill))
+            .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
     }
 }
 
@@ -39,7 +37,7 @@ struct TopBar: View {
                         Text("000年目 00月", comment: "日付の幅の型紙。いちばん長い月名で").hidden()
                         Text("\(String(sim.year))年目 \(monthNames[sim.month - 1])", comment: "何年目と月。%1$@ が年数、%2$@ が月の名前")
                     }
-                    .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    .font(.dot(15))
                     .monospacedDigit()
                     // 資金が大きな桁になっても、折り返さずに詰めて1行に収める。
                     .lineLimit(1)
@@ -47,15 +45,15 @@ struct TopBar: View {
                     HStack(spacing: 6) {
                         Text("人口 \(sim.residents)")
                             .monospacedDigit()
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.mute)
                         // 期限を決めて始めたときだけ、あと何年あるかを添える。
                         if let left = sim.yearsLeft {
                             Text("残り \(left)年")
                                 .monospacedDigit()
-                                .foregroundStyle(left <= 5 ? Color.orange : Color.secondary)
+                                .foregroundStyle(left <= 5 ? Theme.gold : Theme.mute)
                         }
                     }
-                    .font(.system(size: 11, design: .rounded))
+                    .font(.system(size: 11, design: .monospaced))
                 }
 
                 // 予算画面への入口。ただの数字に見えると押せることに気付けないので、
@@ -65,15 +63,15 @@ struct TopBar: View {
                 } label: {
                     HStack(spacing: 5) {
                         VStack(alignment: .trailing, spacing: 1) {
-                            Text("¥\(sim.funds)")
-                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                            Text("¥\(sim.funds.formatted())")
+                                .font(.dot(17))
                                 .monospacedDigit()
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.7)
-                                .foregroundStyle(sim.funds < 0 ? Color.red : Color.green)
+                                .foregroundStyle(sim.funds < 0 ? Theme.loss : Theme.gain)
                             Text("税率 \(sim.taxRate)%")
-                                .font(.system(size: 10, design: .rounded))
-                                .foregroundStyle(.secondary)
+                                .font(.system(size: 10, design: .monospaced))
+                                .foregroundStyle(Theme.mute)
                         }
                         Image(systemName: "chevron.right")
                             .font(.system(size: 9, weight: .bold))
@@ -81,10 +79,7 @@ struct TopBar: View {
                     }
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .fill(Color.white.opacity(0.14))
-                    )
+                    .overlay(RoundedRectangle(cornerRadius: 3).stroke(Theme.rule, lineWidth: 1.5))
                 }
                 .buttonStyle(.plain)
 
@@ -97,11 +92,10 @@ struct TopBar: View {
                         } label: {
                             Image(systemName: s.symbol)
                                 .font(.system(size: 11, weight: .bold))
+                                .foregroundStyle(game.speed == s ? Theme.skyTop : Theme.ink)
                                 .frame(width: 26, height: 24)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .fill(game.speed == s ? Color.accentColor : Color.white.opacity(0.12))
-                                )
+                                .background(RoundedRectangle(cornerRadius: 3).fill(game.speed == s ? Theme.gold : Color.white.opacity(0.06)))
+                                .overlay(RoundedRectangle(cornerRadius: 3).stroke(game.speed == s ? .clear : Theme.rule, lineWidth: 1))
                         }
                         .buttonStyle(.plain)
                     }
@@ -114,7 +108,7 @@ struct TopBar: View {
                     ForEach(sim.warnings, id: \.self) { w in
                         Label(w, systemImage: "exclamationmark.triangle.fill")
                             .font(.system(size: 10, weight: .medium))
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(Theme.gold)
                     }
                 }
             }
@@ -188,25 +182,34 @@ struct ToolPalette: View {
                         game.tool = tool
                         game.inspected = nil
                     } label: {
+                        let selected = game.tool == tool
                         VStack(spacing: 2) {
-                            Image(systemName: tool.symbol)
-                                .font(.system(size: 15, weight: .semibold))
+                            // ヘルプと同じく、街に置いたときの絵で見せる。絵のない道具（調べる）だけ記号。
+                            Group {
+                                if let art = ToolArt.image(tool) {
+                                    Image(uiImage: art).interpolation(.none).resizable().scaledToFit()
+                                } else {
+                                    Image(systemName: tool.symbol)
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundStyle(selected ? Theme.gold : Theme.ink)
+                                }
+                            }
+                            .frame(width: 24, height: 24)
                             // 「Stromleitung」のような長い名前でも切れないよう、入らなければ詰める。
                             Text(tool.title)
-                                .font(.system(size: 9, weight: .medium))
+                                .font(.dot(10))
                                 .lineLimit(1)
-                                .minimumScaleFactor(0.65)
+                                .minimumScaleFactor(0.6)
                                 .padding(.horizontal, 2)
                             Text(tool.cost == 0 ? " " : "¥\(tool.cost)")
-                                .font(.system(size: 8, design: .rounded))
-                                .foregroundStyle(.white.opacity(0.6))
+                                .font(.system(size: 8, design: .monospaced))
+                                .foregroundStyle(Theme.mute)
                         }
-                        .frame(width: 54, height: 54)
-                        .background(
-                            RoundedRectangle(cornerRadius: 9, style: .continuous)
-                                .fill(game.tool == tool ? Color.accentColor : Color.white.opacity(0.13))
-                        )
-                        .foregroundStyle(.white)
+                        .frame(width: 54, height: 58)
+                        .background(RoundedRectangle(cornerRadius: 3).fill(selected ? Theme.gold.opacity(0.16) : Color.white.opacity(0.04)))
+                        .overlay(RoundedRectangle(cornerRadius: 3).stroke(selected ? Theme.gold : Theme.rule, lineWidth: selected ? 1.5 : 1))
+                        .shadow(color: selected ? Theme.gold.opacity(0.4) : .clear, radius: 5)
+                        .foregroundStyle(selected ? Theme.gold : Theme.ink)
                     }
                     .buttonStyle(.plain)
                     .id(tool)
@@ -220,10 +223,8 @@ struct ToolPalette: View {
             withAnimation { proxy.scrollTo(tool, anchor: .center) }
         }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(panelFill)
-        )
+        .background(RoundedRectangle(cornerRadius: 4).fill(panelFill))
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
     }
 }
 
@@ -239,12 +240,10 @@ struct PanToolButton: View {
         } label: {
             Image(systemName: Tool.pan.symbol)
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(game.tool == .pan ? Theme.skyTop : Theme.ink)
                 .frame(width: 44, height: 44)
-                .background(
-                    RoundedRectangle(cornerRadius: 11, style: .continuous)
-                        .fill(game.tool == .pan ? Color.accentColor : panelFill)
-                )
+                .background(RoundedRectangle(cornerRadius: 4).fill(game.tool == .pan ? Theme.gold : panelFill))
+                .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
         }
         .buttonStyle(.plain)
     }
@@ -266,16 +265,14 @@ struct ZoomControls: View {
                 .frame(width: 130, height: 130)
                 .frame(width: 44, height: 130)
                 .clipped()
-                .tint(.white)
+                .tint(Theme.gold)
             Rectangle()
                 .fill(Color.white.opacity(0.22))
                 .frame(width: 30, height: 1)
             button("minus.magnifyingglass") { game.scene?.zoomStep(zoomIn: false) }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 11, style: .continuous)
-                .fill(panelFill)
-        )
+        .background(RoundedRectangle(cornerRadius: 4).fill(panelFill))
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
     }
 
     private func button(_ symbol: String, action: @escaping () -> Void) -> some View {
@@ -309,7 +306,7 @@ struct OverlayPicker: View {
         } label: {
             HStack(spacing: 4) {
                 Image(systemName: "map.fill").font(.system(size: 11))
-                Text(game.overlay.title).font(.system(size: 11, weight: .medium))
+                Text(game.overlay.title).font(.dot(12))
             }
             .foregroundStyle(.white)
             .panel()
@@ -346,7 +343,7 @@ struct InspectorPanel: View {
                         .font(.system(size: 11, weight: .bold))
                         .foregroundStyle(.white.opacity(0.8))
                         .frame(width: 28, height: 22)
-                        .background(RoundedRectangle(cornerRadius: 6).fill(Color.white.opacity(0.1)))
+                        .overlay(RoundedRectangle(cornerRadius: 3).stroke(Theme.rule, lineWidth: 1))
                 }
                 .buttonStyle(.plain)
             }
@@ -362,7 +359,7 @@ struct InspectorPanel: View {
         }
         .padding(10)
         .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous).fill(panelFill)
+            RoundedRectangle(cornerRadius: 4).fill(panelFill)
         )
         .onChange(of: game.inspected?.x ?? -1 &* 31 &+ (game.inspected?.y ?? -1)) { _, _ in
             // 新しいマスを叩いたということは数字を見たいということなので、開く。
@@ -415,8 +412,8 @@ struct InspectorPanel: View {
             .padding(.horizontal, 8)
             .padding(.vertical, 3)
             .background(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(selected ? Color.accentColor.opacity(0.75) : Color.white.opacity(0.06))
+                RoundedRectangle(cornerRadius: 3)
+                    .fill(selected ? Theme.gold.opacity(0.28) : Color.white.opacity(0.04))
             )
         }
         .buttonStyle(.plain)

@@ -86,11 +86,11 @@ struct ContentView: View {
 
                 if let message = game.message {
                     Text(message)
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.dot(13))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 8)
-                        .background(Capsule().fill(Color.red.opacity(0.85)))
+                        .background(RoundedRectangle(cornerRadius: 3).fill(Theme.loss.opacity(0.9)))
                         .transition(.opacity)
                 }
 
@@ -188,32 +188,32 @@ struct ConfirmBar: View {
     var body: some View {
         HStack(spacing: 10) {
             Text("\(game.pendingTiles)マスに\(game.tool.title)")
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(.white)
+                .font(.dot(14))
+                .foregroundStyle(Theme.ink)
 
             Spacer(minLength: 8)
 
             Button("やめる") { game.cancelPending() }
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.8))
+                .font(.dot(13))
+                .foregroundStyle(Theme.mute)
                 .buttonStyle(.plain)
 
             Button {
                 game.commitPending()
             } label: {
                 Text("決定")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(.black)
-                    .padding(.horizontal, 16)
+                    .font(.dot(14))
+                    .foregroundStyle(Theme.skyTop)
+                    .padding(.horizontal, 18)
                     .padding(.vertical, 7)
-                    .background(Capsule().fill(Color.white))
+                    .background(RoundedRectangle(cornerRadius: 3).fill(Theme.gold))
             }
             .buttonStyle(.plain)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
-        .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
-            .fill(Color.black.opacity(0.78)))
+        .background(RoundedRectangle(cornerRadius: 4).fill(panelFill))
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.gold.opacity(0.5), lineWidth: 1))
         .transition(.move(edge: .bottom).combined(with: .opacity))
     }
 }

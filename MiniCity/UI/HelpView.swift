@@ -190,12 +190,14 @@ struct GuideBar: View {
 
     var body: some View {
         HStack(spacing: 8) {
+            // 手順の番号。順序そのものに意味があるので、ここだけは番号を振る。
             Text("\(step.number)")
-                .font(.system(size: 11, weight: .heavy, design: .rounded))
+                .font(.dot(12))
+                .foregroundStyle(Theme.skyTop)
                 .frame(width: 20, height: 20)
-                .background(Circle().fill(Color.accentColor))
+                .background(RoundedRectangle(cornerRadius: 3).fill(Theme.gold))
             Text(step.title)
-                .font(.system(size: 12, weight: .semibold))
+                .font(.dot(13))
                 .lineLimit(2)
                 .minimumScaleFactor(0.8)
             Spacer(minLength: 4)
@@ -211,7 +213,8 @@ struct GuideBar: View {
         .foregroundStyle(.white)
         .padding(.horizontal, 10)
         .padding(.vertical, 7)
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.72)))
+        .background(RoundedRectangle(cornerRadius: 4).fill(panelFill))
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
         .onTapGesture {
             if let tool = step.tool { game.tool = tool }
         }
@@ -412,7 +415,8 @@ struct GoalBar: View {
         .foregroundStyle(.white)
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.72)))
+        .background(RoundedRectangle(cornerRadius: 4).fill(panelFill))
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
         .onTapGesture(perform: onOpen)
     }
 }
