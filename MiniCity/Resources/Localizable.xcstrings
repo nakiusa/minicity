@@ -859,6 +859,58 @@
         }
       }
     },
+    "1000 年続ける": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the city going for 1000 years"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让城市延续 1000 年"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓城市延續 1000 年"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1000년 동안 도시 유지하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén la ciudad 1000 años"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire vivre la ville 1000 ans"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Stadt 1000 Jahre am Laufen halten"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manter a cidade por 1000 anos"
+          }
+        }
+      }
+    },
     "100年": {
       "localizations": {
         "de": {
@@ -2056,54 +2108,54 @@
         }
       }
     },
-    "60種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。": {
+    "80種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "60 insgesamt. Neben Einwohnern und Geld fragen manche, wie du gebaut hast, etwa Wachstum bei wenig Verschmutzung."
+            "value": "80 insgesamt. Neben Einwohnern und Geld fragen manche, wie du gebaut hast, etwa Wachstum bei wenig Verschmutzung."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "60 in all. Beyond population and money, some ask how you built, like growing while keeping pollution down."
+            "value": "80 in all. Beyond population and money, some ask how you built, like growing while keeping pollution down."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "60 en total. Además de población y dinero, algunos preguntan cómo construiste, como crecer con poca contaminación."
+            "value": "80 en total. Además de población y dinero, algunos preguntan cómo construiste, como crecer con poca contaminación."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "60 au total. Au-delà de la population et de l'argent, certains portent sur votre façon de bâtir, comme grandir en limitant la pollution."
+            "value": "80 au total. Au-delà de la population et de l'argent, certains portent sur votre façon de bâtir, comme grandir en limitant la pollution."
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "60가지. 인구와 자금뿐 아니라 공해를 억제하며 키우는 등 만듦새를 묻는 것도 있습니다."
+            "value": "80가지. 인구와 자금뿐 아니라 공해를 억제하며 키우는 등 만듦새를 묻는 것도 있습니다."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "60 no total. Além de população e dinheiro, alguns perguntam como você construiu, como crescer mantendo a poluição baixa."
+            "value": "80 no total. Além de população e dinheiro, alguns perguntam como você construiu, como crescer mantendo a poluição baixa."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "共60个。除了人口和资金，还有考验建法的，比如在控制污染的同时发展。"
+            "value": "共80个。除了人口和资金，还有考验建法的，比如在控制污染的同时发展。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "共60個。除了人口和資金，還有考驗建法的，比如在控制污染的同時發展。"
+            "value": "共80個。除了人口和資金，還有考驗建法的，比如在控制污染的同時發展。"
           }
         }
       }
@@ -4780,6 +4832,58 @@
         }
       }
     },
+    "三路線": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three Lines"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "三条线路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "三條路線"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "세 노선"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tres líneas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trois lignes"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drei Linien"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Três linhas"
+          }
+        }
+      }
+    },
     "不夜城": {
       "localizations": {
         "en": {
@@ -4828,6 +4932,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "A cidade que nunca dorme"
+          }
+        }
+      }
+    },
+    "不燃都市": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fireproof City"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不燃城市"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不燃城市"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "불연 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad ignífuga"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ville ignifugée"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feuerfeste Stadt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade à prova de fogo"
           }
         }
       }
@@ -4932,6 +5088,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "跨越世紀"
+          }
+        }
+      }
+    },
+    "中核都市": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regional Hub"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中心城市"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中心城市"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "중핵 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad central"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ville-centre"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zentrumsstadt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade polo"
           }
         }
       }
@@ -5764,6 +5972,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "人口 20,000 人"
+          }
+        }
+      }
+    },
+    "人口 30,000 人": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30,000 residents"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "人口 30,000"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "人口 30,000"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "인구 30,000명"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30.000 habitantes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 000 habitants"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30.000 Einwohner"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30.000 moradores"
           }
         }
       }
@@ -6756,6 +7016,110 @@
         }
       }
     },
+    "借入を上限まで借りる": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrow up to the loan limit"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款借到上限"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "借款借到上限"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대출 한도까지 빌리기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pide prestado hasta el límite"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empruntez jusqu'à la limite"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leihe bis zum Kreditlimit"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pegue empréstimo até o limite"
+          }
+        }
+      }
+    },
+    "借金の山": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mountain of Debt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "债台高筑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "債台高築"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "빚더미"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montaña de deudas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montagne de dettes"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schuldenberg"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montanha de dívidas"
+          }
+        }
+      }
+    },
     "停止": {
       "localizations": {
         "de": {
@@ -7168,6 +7532,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "放置 200 格公園"
+          }
+        }
+      }
+    },
+    "公園を 500 マス置く": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place 500 tiles of park"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放置 500 格公园"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放置 500 格公園"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공원 500칸 배치"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca 500 casillas de parque"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placez 500 cases de parc"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setze 500 Felder Park"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque 500 quadrados de parque"
           }
         }
       }
@@ -7952,6 +8368,58 @@
         }
       }
     },
+    "区画を 800 置く": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place 800 zones"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放置 800 个区域"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放置 800 個區域"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "구역 800개 배치"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca 800 zonas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placez 800 zones"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setze 800 Zonen"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque 800 zonas"
+          }
+        }
+      }
+    },
     "区画を L6 まで育てる": {
       "localizations": {
         "de": {
@@ -8208,6 +8676,110 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cidade de 100 mil"
+          }
+        }
+      }
+    },
+    "千万長者": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multimillionaire"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "千万富翁"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "千萬富翁"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "천만장자"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multimillonario"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multimillionnaire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multimillionär"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multimilionário"
+          }
+        }
+      }
+    },
+    "千年都市": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Millennial City"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "千年之城"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "千年之城"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "천년 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad milenaria"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cité millénaire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tausendjährige Stadt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade milenar"
           }
         }
       }
@@ -8785,6 +9357,58 @@
         }
       }
     },
+    "商業の街区を連結する": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link a commercial block"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接一个商业街区"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連結一個商業街區"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "상업 블록을 연결하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une una manzana comercial"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reliez un îlot commercial"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verbinde einen Gewerbeblock"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligue um quarteirão comercial"
+          }
+        }
+      }
+    },
     "商業の雇用": {
       "localizations": {
         "de": {
@@ -8885,6 +9509,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "人口 5,000 人且商業工作多於工業"
+          }
+        }
+      }
+    },
+    "商業ビル": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Office Tower"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "商业大楼"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "商業大樓"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "상업 빌딩"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Torre comercial"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tour commerciale"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geschäftsturm"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Torre comercial"
           }
         }
       }
@@ -9145,6 +9821,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "地圖切換"
+          }
+        }
+      }
+    },
+    "地平線まで": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To the Horizon"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直到地平线"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "直到地平線"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지평선까지"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hasta el horizonte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jusqu'à l'horizon"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bis zum Horizont"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Até o horizonte"
           }
         }
       }
@@ -9510,6 +10238,110 @@
           "stringUnit": {
             "state": "translated",
             "value": "大道"
+          }
+        }
+      }
+    },
+    "大通りの街": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boulevard City"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大道之城"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大道之城"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대로의 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad de avenidas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ville des boulevards"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alleenstadt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade das avenidas"
+          }
+        }
+      }
+    },
+    "大通りを 300 マス敷く": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lay 300 tiles of avenue"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "铺设 300 格大道"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鋪設 300 格大道"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대로 300칸 깔기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiende 300 casillas de avenida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posez 300 cases d'avenue"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lege 300 Felder Allee"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assente 300 quadrados de avenida"
           }
         }
       }
@@ -10242,6 +11074,58 @@
         }
       }
     },
+    "工業の街区を連結する": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link an industrial block"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接一个工业街区"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連結一個工業街區"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공업 블록을 연결하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une una manzana industrial"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reliez un îlot industriel"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verbinde einen Industrieblock"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligue um quarteirão industrial"
+          }
+        }
+      }
+    },
     "工業の雇用": {
       "localizations": {
         "de": {
@@ -10554,6 +11438,58 @@
         }
       }
     },
+    "巨大工場": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Megafactory"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "巨型工厂"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "巨型工廠"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "거대 공장"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Megafábrica"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Méga-usine"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riesenfabrik"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Megafábrica"
+          }
+        }
+      }
+    },
     "巨大建築群": {
       "localizations": {
         "en": {
@@ -10810,6 +11746,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "Superávit anual de ¥20.000 ou mais"
+          }
+        }
+      }
+    },
+    "年収支 ¥50,000 以上の黒字": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yearly surplus of ¥50,000 or more"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年度盈余 ¥50,000 以上"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年度盈餘 ¥50,000 以上"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "연간 흑자 ¥50,000 이상"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Superávit anual de ¥50.000 o más"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excédent annuel d'au moins ¥50 000"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jahresüberschuss von mindestens ¥50.000"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Superávit anual de ¥50.000 ou mais"
           }
         }
       }
@@ -12480,6 +13468,58 @@
         }
       }
     },
+    "最大火災リスク 0 のまま人口 10,000 人": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10,000 residents with max fire risk at 0"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最大火灾风险为 0 时人口达到 10,000"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最大火災風險為 0 時人口達到 10,000"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최대 화재 위험 0으로 인구 10,000명"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10.000 habitantes con riesgo de incendio máximo 0"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 000 habitants avec un risque d'incendie max. de 0"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10.000 Einwohner bei maximaler Brandgefahr 0"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10.000 moradores com risco de incêndio máximo 0"
+          }
+        }
+      }
+    },
     "最大火災リスク 15 未満のまま人口 20,000 人": {
       "localizations": {
         "en": {
@@ -12892,6 +13932,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "森林"
+          }
+        }
+      }
+    },
+    "森の都": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City of Groves"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "森林之都"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "森林之都"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "숲의 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad de arboledas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cité des bosquets"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stadt der Haine"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade dos bosques"
           }
         }
       }
@@ -13468,6 +14560,58 @@
         }
       }
     },
+    "治安維持": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Law and Order"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "维持治安"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "維持治安"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "치안 유지"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ley y orden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'ordre public"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recht und Ordnung"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lei e ordem"
+          }
+        }
+      }
+    },
     "沿道の地価を押し上げる。敷く値段も維持費も高い。": {
       "localizations": {
         "de": {
@@ -13724,6 +14868,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "消防局"
+          }
+        }
+      }
+    },
+    "消防署を 10": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 fire stations"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 个消防局"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 個消防局"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "소방서 10개"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 parques de bomberos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 casernes"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 Feuerwachen"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 quartéis de bombeiros"
           }
         }
       }
@@ -14040,6 +15236,58 @@
         }
       }
     },
+    "火消しの街": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Firefighters' Town"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消防之城"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消防之城"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "소방의 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad de bomberos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ville des pompiers"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stadt der Feuerwehr"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade dos bombeiros"
+          }
+        }
+      }
+    },
     "火災の危険が高まっています": {
       "localizations": {
         "en": {
@@ -14244,6 +15492,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sem dívidas"
+          }
+        }
+      }
+    },
+    "無税の街": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tax-Free Town"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "免税之城"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "免稅之城"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "무세의 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad sin impuestos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ville sans impôts"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steuerfreie Stadt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade sem impostos"
           }
         }
       }
@@ -14820,6 +16120,58 @@
         }
       }
     },
+    "発電所を 20 動かす": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run 20 power plants"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行 20 座发电厂"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "運行 20 座發電廠"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "발전소 20개 가동"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pon en marcha 20 centrales"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faites tourner 20 centrales"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Betreibe 20 Kraftwerke"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque 20 usinas em operação"
+          }
+        }
+      }
+    },
     "発電所を 5 つ動かす": {
       "localizations": {
         "de": {
@@ -15337,6 +16689,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "稅率 %lld%%"
+          }
+        }
+      }
+    },
+    "税率 0% で人口 10,000 人": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10,000 residents at a 0% tax rate"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "税率 0% 时人口达到 10,000"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稅率 0% 時人口達到 10,000"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "세율 0%로 인구 10,000명"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10.000 habitantes con impuesto del 0%"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 000 habitants avec un taux de 0 %"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10.000 Einwohner bei 0 % Steuern"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10.000 moradores com imposto de 0%"
           }
         }
       }
@@ -16017,6 +17421,110 @@
         }
       }
     },
+    "線路で結んだ駅を 2 つ動かす": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run two stations linked by rail"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让铁路相连的 2 个车站运行"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓鐵路相連的 2 個車站運行"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선로로 이은 역 2개를 운행하기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pon en marcha 2 estaciones unidas por vías"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faites circuler 2 gares reliées par la voie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Betreibe 2 per Gleis verbundene Bahnhöfe"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloque 2 estações ligadas por trilhos em operação"
+          }
+        }
+      }
+    },
+    "線路を 200 マス敷く": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lay 200 tiles of rail"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "铺设 200 格铁路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鋪設 200 格鐵路"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선로 200칸 깔기"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiende 200 casillas de vía"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posez 200 cases de voie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lege 200 Felder Gleis"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assente 200 quadrados de trilhos"
+          }
+        }
+      }
+    },
     "線路をなぞって、駅と駅をつなごう": {
       "localizations": {
         "en": {
@@ -16117,6 +17625,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "Arraste para assentar trilhos. Onde cruzam uma rua viram passagem de nível. Ligue estações e os moradores vão de trem, liberando as ruas no caminho."
+          }
+        }
+      }
+    },
+    "繁栄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prosperity"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繁荣"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繁榮"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "번영"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prosperidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prospérité"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wohlstand"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prosperidade"
           }
         }
       }
@@ -17265,6 +18825,58 @@
         }
       }
     },
+    "警察署を 10": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 police stations"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 个警察局"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 個警察局"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "경찰서 10개"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 comisarías"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 postes de police"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 Polizeiwachen"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 delegacias"
+          }
+        }
+      }
+    },
     "財政が赤字です。予算から借りられます": {
       "localizations": {
         "de": {
@@ -17417,6 +19029,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "¥1.000.000 em caixa"
+          }
+        }
+      }
+    },
+    "資金 ¥10,000,000": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¥10,000,000 in funds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "资金 ¥10,000,000"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "資金 ¥10,000,000"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자금 ¥10,000,000"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¥10.000.000 de fondos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¥10 000 000 de fonds"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¥10.000.000 Kapital"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¥10.000.000 em caixa"
           }
         }
       }
@@ -17885,6 +19549,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "回復購買"
+          }
+        }
+      }
+    },
+    "路線網": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rail Network"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "铁路网"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鐵路網"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "노선망"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red ferroviaria"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réseau ferré"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schienennetz"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Malha ferroviária"
           }
         }
       }
@@ -18823,6 +20539,110 @@
           "stringUnit": {
             "state": "translated",
             "value": "Em operação"
+          }
+        }
+      }
+    },
+    "運行中の駅を 10": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 stations in service"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 个运行中的车站"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 個運行中的車站"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "운행 중인 역 10개"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 estaciones en servicio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 gares en service"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 Bahnhöfe in Betrieb"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 estações em operação"
+          }
+        }
+      }
+    },
+    "運行中の駅を 5 つ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 stations in service"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 个运行中的车站"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 個運行中的車站"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "운행 중인 역 5개"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 estaciones en servicio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 gares en service"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 Bahnhöfe in Betrieb"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 estações em operação"
           }
         }
       }
@@ -19972,6 +21792,110 @@
         }
       }
     },
+    "鉄道の街": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Railway Town"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "铁路之城"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鐵路之城"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "철도의 도시"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad ferroviaria"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ville ferroviaire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eisenbahnstadt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cidade ferroviária"
+          }
+        }
+      }
+    },
+    "長い線路": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Long Line"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "长长的铁路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "長長的鐵路"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "긴 선로"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vía larga"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longue voie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lange Strecke"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linha longa"
+          }
+        }
+      }
+    },
     "閉じる": {
       "localizations": {
         "de": {
@@ -20020,6 +21944,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "關閉"
+          }
+        }
+      }
+    },
+    "開業": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opening Day"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开通运营"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開通營運"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "개업"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inauguración"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inauguration"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eröffnung"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inauguração"
           }
         }
       }
@@ -20228,6 +22204,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "有 %lld 個區域未通電"
+          }
+        }
+      }
+    },
+    "電力王国": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Power Kingdom"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "电力王国"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "電力王國"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전력 왕국"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reino eléctrico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Royaume électrique"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kraftwerksreich"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reino da energia"
           }
         }
       }
@@ -20592,6 +22620,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "Estação"
+          }
+        }
+      }
+    },
+    "駅が 2 つ以上ある路線を 3 本": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 lines with two or more stations each"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 条各有 2 个以上车站的线路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 條各有 2 個以上車站的路線"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "역이 2개 이상인 노선 3개"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 líneas con dos o más estaciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 lignes avec au moins deux gares"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 Linien mit je zwei oder mehr Bahnhöfen"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 linhas com duas ou mais estações"
           }
         }
       }

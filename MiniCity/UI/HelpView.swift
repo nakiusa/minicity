@@ -243,7 +243,7 @@ struct HelpView: View {
                     HelpRow(symbol: "square.and.arrow.up", title: "記録を共有する",
                             text: "成績表から、街全体の絵に人口と年数を添えた1枚の画像を作れます。")
                     HelpRow(symbol: "trophy.fill", title: "実績を集める",
-                            text: "60種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。")
+                            text: "80種類。人口や資金だけでなく、公害を抑えたまま育てるなど、作りかたを問うものがあります。")
                 }
 
                 SectionTitle(number: 2, title: "置けるもの")
@@ -347,6 +347,7 @@ enum GoalStep {
         ("pop.20000", { ($0.residents, 20_000) }),
         ("funds.500k", { ($0.funds, 500_000) }),
         ("l10.10", { (count($0, atLeast: 10), 10) }),
+        ("pop.30000", { ($0.residents, 30_000) }),
         ("pop.50000", { ($0.residents, 50_000) }),
         ("funds.1m", { ($0.funds, 1_000_000) }),
         ("l10.50", { (count($0, atLeast: 10), 50) }),
