@@ -313,10 +313,11 @@ private struct ConfirmNewCityOverlay: View {
             VStack(spacing: 14) {
                 VStack(spacing: 6) {
                     Text("いまの都市を捨てますか")
-                        .font(.system(size: 16, weight: .bold))
+                        .font(.dot(18))
+                        .foregroundStyle(Theme.ink)
                     Text("建てたものも地形も消えます。元には戻せません。")
                         .font(.system(size: 13))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.mute)
                         .multilineTextAlignment(.center)
                 }
                 .padding(.top, 4)
@@ -324,12 +325,12 @@ private struct ConfirmNewCityOverlay: View {
                 VStack(spacing: 8) {
                     Button(action: onConfirm) {
                         Text("地形を選ぶ")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(.red)
+                            .font(.dot(15))
+                            .foregroundStyle(Theme.loss)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 11)
-                            .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(Color.white.opacity(0.1)))
+                            .background(RoundedRectangle(cornerRadius: 4).fill(Theme.skyTop))
+                            .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.loss.opacity(0.6), lineWidth: 1.5))
                             // 背景の角丸矩形はデフォルトではタップ判定に含まれない。
                             // 明示しないと文字の実サイズしか反応せず、余白を押すと
                             // 背後の全画面タップ（キャンセル）に流れてしまう。
@@ -339,12 +340,12 @@ private struct ConfirmNewCityOverlay: View {
 
                     Button(action: onCancel) {
                         Text("キャンセル")
-                            .font(.system(size: 15, weight: .medium))
-                            .foregroundStyle(.white)
+                            .font(.dot(15))
+                            .foregroundStyle(Theme.ink)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 11)
-                            .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(Color.white.opacity(0.1)))
+                            .background(RoundedRectangle(cornerRadius: 4).fill(Theme.skyTop))
+                            .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1.5))
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
@@ -352,8 +353,8 @@ private struct ConfirmNewCityOverlay: View {
             }
             .padding(20)
             .frame(maxWidth: 300)
-            .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(white: 0.15)))
+            .background(RoundedRectangle(cornerRadius: 4).fill(Theme.plate.opacity(1)))
+            .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.rule, lineWidth: 1))
             .foregroundStyle(.white)
         }
     }

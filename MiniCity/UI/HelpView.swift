@@ -390,22 +390,22 @@ struct GoalBar: View {
         HStack(spacing: 8) {
             Image(systemName: achievement.symbol)
                 .font(.system(size: 11, weight: .bold))
+                .foregroundStyle(Theme.gold)
                 .frame(width: 20, height: 20)
-                .background(Circle().fill(Color.white.opacity(0.16)))
+                .overlay(RoundedRectangle(cornerRadius: 3).stroke(Theme.gold.opacity(0.7), lineWidth: 1))
             VStack(alignment: .leading, spacing: 1) {
                 Text("目標：\(achievement.title)")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.dot(13))
                     .lineLimit(1)
                 Text(achievement.detail)
                     .font(.system(size: 10))
-                    .foregroundStyle(.white.opacity(0.7))
+                    .foregroundStyle(Theme.mute)
                     .lineLimit(1)
             }
             Spacer(minLength: 4)
             Text("\(min(now, goal).formatted()) / \(goal.formatted())")
-                .font(.system(size: 11, weight: .medium, design: .rounded))
-                .monospacedDigit()
-                .foregroundStyle(.white.opacity(0.85))
+                .font(.system(size: 11, design: .monospaced))
+                .foregroundStyle(Theme.ink)
             Button(action: onDismiss) {
                 Image(systemName: "xmark").font(.system(size: 10, weight: .bold)).opacity(0.6)
                     .padding(4)

@@ -155,10 +155,10 @@ struct DemandIndicator: View {
                 .foregroundStyle(color)
                 .frame(width: 11)
             ZStack {
-                Capsule().fill(Color.white.opacity(0.14))
+                Rectangle().fill(Color.white.opacity(0.10))
                 Rectangle().fill(Color.white.opacity(0.35)).frame(width: 1)
                 // 足りなければ右、余っていれば左へ伸ばす。
-                Capsule()
+                Rectangle()
                     .fill(value >= 0 ? color : color.opacity(0.45))
                     .frame(width: max(2, half))
                     .offset(x: value >= 0 ? half / 2 : -half / 2)
@@ -390,9 +390,9 @@ struct InspectorPanel: View {
                 // 帯の色は地図と同じ配色にして、行と地図が同じものを指していると分かるようにする。
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
-                        Capsule().fill(Color.white.opacity(0.10))
+                        Rectangle().fill(Color.white.opacity(0.08))
                         if let reading {
-                            Capsule()
+                            Rectangle()
                                 .fill(heatSwatch(reading.heat))
                                 .frame(width: max(3, geo.size.width * Double(reading.heat) / 255))
                         }
@@ -402,8 +402,7 @@ struct InspectorPanel: View {
 
                 // 「Powered」「Com energia」のような言葉も入るので、1行に収まらなければ字を詰める。
                 Text(reading.map { "\($0.value)" } ?? note ?? "—")
-                    .font(.system(size: 11, design: .rounded))
-                    .monospacedDigit()
+                    .font(.system(size: 11, design: .monospaced))
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                     .frame(width: 44, alignment: .trailing)
