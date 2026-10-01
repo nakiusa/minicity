@@ -94,7 +94,13 @@ func makeToken() -> String {
     return "\(signing).\(b64(sig.rawRepresentation))"
 }
 
-let token = makeToken()
+/// トークンの寿命は15分（`exp`）。80件の実績を訳と絵まで確かめると20分を超えるので、
+/// 10分たったら作り直す。1本を最後まで使い回していたころは、途中で 401 になって止まった。
+var tokenCache = (value: makeToken(), madeAt: Date())
+var token: String {
+    if Date().timeIntervalSince(tokenCache.madeAt) > 600 { tokenCache = (makeToken(), Date()) }
+    return tokenCache.value
+}
 
 // MARK: - 通信
 
