@@ -115,6 +115,10 @@ final class GameState: ObservableObject {
                 overlay = .pollution
             }
         }
+        // `-screenshotOverlay fire` のように、地図の色分けも起動時に選べる。
+        if let name = UserDefaults.standard.string(forKey: "screenshotOverlay"), let mode = OverlayMode(rawValue: name) {
+            overlay = mode
+        }
     }
 
     /// 遊ぶ期限が来たときに出す成績表。開いているあいだ時間は止まる。

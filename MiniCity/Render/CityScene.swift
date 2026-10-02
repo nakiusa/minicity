@@ -44,7 +44,8 @@ enum OverlayMode: String, CaseIterable, Identifiable {
         case .pollution: let v = sim.pollution.atTile(x, y); return (CoarseMap.display(v), v)
         case .landValue: let v = sim.landValue.atTile(x, y); return (CoarseMap.display(v), v)
         case .crime: let v = sim.crime.atTile(x, y); return (CoarseMap.display(v), v)
-        case .fire: let v = sim.fireRisk.atTile(x, y); return (CoarseMap.display(v), v)
+        // 火災リスクは街なかでも 20〜70 ほどにしかならず、そのまま塗るとほとんど透けて見えない。色だけ3倍の濃さにする。
+        case .fire: let v = sim.fireRisk.atTile(x, y); return (CoarseMap.display(v), min(255, v * OverlayMode.fireHeatScale))
         case .traffic: let v = sim.trafficMap.atTile(x, y); return (CoarseMap.display(v), v)
         // 人口はその区画の住民。住宅地の外は 0。
         case .density:
@@ -64,6 +65,8 @@ enum OverlayMode: String, CaseIterable, Identifiable {
     static func headcountHeat(_ v: Int, full: Int = 980) -> Int {
         min(255, Int((Double(v) / Double(full)).squareRoot() * 255))
     }
+
+    static let fireHeatScale = 3
 
     /// 数で表せない見方に添える短い言葉。
     func note(atX x: Int, y: Int, in sim: Simulation) -> String? {
@@ -539,7 +542,7 @@ final class CityScene: SKScene {
         case .crime:
             canvas = heatCanvas(sim.crime)
         case .fire:
-            canvas = heatCanvas(sim.fireRisk)
+            canvas = heatCanvas(sim.fireRisk, scale: OverlayMode.fireHeatScale)
         case .traffic:
             canvas = heatCanvas(sim.trafficMap)
         case .density, .activity:
@@ -591,11 +594,11 @@ final class CityScene: SKScene {
         return out
     }
 
-    private func heatCanvas(_ map: CoarseMap, divisor: Int = 1) -> PixelCanvas {
+    private func heatCanvas(_ map: CoarseMap, divisor: Int = 1, scale: Int = 1) -> PixelCanvas {
         var canvas = PixelCanvas(width: CoarseMap.width, height: CoarseMap.height)
         for cy in 0..<CoarseMap.height {
             for cx in 0..<CoarseMap.width {
-                let v = min(255, max(0, map[cx, cy] / divisor))
+                let v = min(255, max(0, map[cx, cy] * scale / divisor))
                 canvas.set(cx, cy, CityScene.heatColor(v))
             }
         }
